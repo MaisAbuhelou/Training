@@ -1,0 +1,48 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.m_7el.training.country.fragments.CountryListFragment">
+
+    <RelativeLayout
+        android:id="@+id/rleative"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/download">
+
+        <com.mikhaellopez.circularimageview.CircularImageView xmlns:app="http://schemas.android.com/apk/lib/com.app.chasebank"
+            android:id="@id/profile_image"
+            android:layout_width="104dp"
+            android:layout_height="100dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="32dp"
+            android:src="@drawable/person1"
+            app:civ_border_color="#FFFFFF"
+            app:civ_border_width="2dp"
+            app:civ_shadow="true" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/profile_image"
+            android:layout_alignStart="@+id/profile_image"
+            android:layout_below="@+id/profile_image"
+            android:layout_marginTop="20dp"
+            android:text="Mais Abu Helou"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/rleative"
+        android:scrollbars="vertical" />
+</RelativeLayout>
