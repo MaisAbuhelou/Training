@@ -11,13 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.m_7el.training.ImageUrl;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.net.models.CountryInfo;
 
 import java.util.List;
-
-import static com.bumptech.glide.Glide.*;
 
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -79,7 +76,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 //
 //
 
-        Glide.with(activity).load(ImageUrl.getURL()).into(userViewHolder.comentedimage);
+       PhotoManager.loadImage(activity,userViewHolder.mCountryImage);
 
             userViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -100,14 +97,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private class UserViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
         public TextView region;
-        public ImageView comentedimage;
+        public ImageView mCountryImage;
 
 
         public UserViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.country_name);
             region = (TextView) view.findViewById(R.id.region);
-            comentedimage = (ImageView) view.findViewById(R.id.imageView3);
+            mCountryImage = (ImageView) view.findViewById(R.id.imageView3);
         }
     }
 }
