@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.m_7el.training.R;
-import com.example.m_7el.training.country.utils.RecyclerViewAdapter;
+import com.example.m_7el.training.country.adapters.RecyclerViewAdapter;
 import com.example.m_7el.training.country.utils.SimpleDividerItemDecoration;
 import com.example.m_7el.training.net.models.CountryInfo;
 import com.example.m_7el.training.net.clients.CountryApiClient;

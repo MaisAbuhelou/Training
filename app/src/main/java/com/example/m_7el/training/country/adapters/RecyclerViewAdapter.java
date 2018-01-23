@@ -1,4 +1,4 @@
-package com.example.m_7el.training.country.utils;
+package com.example.m_7el.training.country.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.m_7el.training.R;
+import com.example.m_7el.training.country.utils.PhotoManager;
 import com.example.m_7el.training.net.models.CountryInfo;
 
 import java.util.List;

@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.m_7el.training.country.utils.HomeViewPagerAdapter;
+import com.example.m_7el.training.country.adapters.HomeViewPagerAdapter;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.net.models.CountryInfo;
 

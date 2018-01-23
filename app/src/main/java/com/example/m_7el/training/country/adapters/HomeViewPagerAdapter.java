@@ -1,4 +1,4 @@
-package com.example.m_7el.training.country.utils;
+package com.example.m_7el.training.country.adapters;
 
 
 import android.support.v4.app.Fragment;

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/container1"
-    tools:context="com.example.m_7el.training.country.CountryWeatherActivity">
+    tools:context="com.example.m_7el.training.country.activities.CountryWeatherActivity">
 
 <android.support.v7.widget.Toolbar
     android:layout_width="match_parent"
@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:weightSum="2"
-        tools:context="com.example.m_7el.training.country.CountryWeatherActivity">
+        tools:context="com.example.m_7el.training.country.activities.CountryWeatherActivity">
 
         <FrameLayout
             android:id="@+id/fragment1"

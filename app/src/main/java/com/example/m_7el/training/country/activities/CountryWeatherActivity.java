@@ -1,4 +1,4 @@
-package com.example.m_7el.training.country;
+package com.example.m_7el.training.country.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -10,7 +10,7 @@ import android.view.View;
 import com.example.m_7el.training.country.fragments.CountryInofFragment;
 import com.example.m_7el.training.country.fragments.CountryListFragment;
 import com.example.m_7el.training.R;
-import com.example.m_7el.training.country.utils.RecyclerViewAdapter;
+import com.example.m_7el.training.country.adapters.RecyclerViewAdapter;
 import com.example.m_7el.training.country.fragments.WeatherFragment;
 import com.example.m_7el.training.net.models.CountryInfo;
 import com.example.m_7el.training.net.models.Main;
