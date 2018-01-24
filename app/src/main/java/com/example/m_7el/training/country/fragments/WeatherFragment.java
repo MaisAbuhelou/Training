@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.example.m_7el.training.country.adapters.HomeViewPagerAdapter;
 import com.example.m_7el.training.R;
+import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.net.models.CountryInfo;
 
 
@@ -33,12 +34,13 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogMessages.getMessage("WeatherFragment");
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.w("Fragment", "WeatherFragment  created  " + this.toString());
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_weather, container, false);

@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.adapters.RecyclerViewAdapter;
+import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.SimpleDividerItemDecoration;
 import com.example.m_7el.training.net.models.CountryInfo;
 import com.example.m_7el.training.net.clients.CountryApiClient;
@@ -40,6 +41,8 @@ public class CountryListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogMessages.getMessage("CountryListFragment");
+
     }
 
 
@@ -48,7 +51,6 @@ public class CountryListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.w("Fragment", "CountryListFragment created  " + this.toString());
 
         // Inflate the layout for this fragment
 

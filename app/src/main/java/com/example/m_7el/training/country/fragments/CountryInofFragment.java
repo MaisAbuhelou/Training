@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.m_7el.training.R;
+import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
 import com.example.m_7el.training.net.models.CountryInfo;
 
@@ -33,15 +34,13 @@ public class CountryInofFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       // Log.w("Fragment", "CountryInfoFragment created  " + this.toString());
-
+        LogMessages.getMessage("CountryInfoFragment");
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-     Log.w("Fragment", "CountryInfoFragment created  " + this.toString());
 
         View view = inflater.inflate(R.layout.fragment_counrty_info, container, false);
 

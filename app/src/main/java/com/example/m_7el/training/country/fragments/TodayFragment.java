@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.fragments.WeatherFragment;
+import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.net.models.CountryInfo;
 import com.example.m_7el.training.net.models.Info;
 import com.example.m_7el.training.net.models.Main;
@@ -49,6 +50,7 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogMessages.getMessage("TodayFragment");
 
 
     }
@@ -56,7 +58,6 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.w("Fragment", "TodayFragment created  " + this.toString());
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_weather_layouts, container, false);

@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.m_7el.training.R;
+import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.net.models.CountryInfo;
 import com.example.m_7el.training.net.models.Info;
 import com.example.m_7el.training.net.models.Main;
@@ -50,6 +51,7 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogMessages.getMessage("TomorrowFragment");
 
 
     }
@@ -58,7 +60,6 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Log.w("Fragment", " TomorrowFragment created  " + this.toString());
 
         View view = inflater.inflate(R.layout.fragment_weather_layouts, container, false);
         date =  view.findViewById(R.id.country_date);
