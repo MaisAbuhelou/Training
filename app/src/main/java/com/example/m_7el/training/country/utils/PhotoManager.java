@@ -5,8 +5,9 @@ import android.graphics.Bitmap;
 import android.util.Log;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.m_7el.training.R;
 
 /**
@@ -15,10 +16,10 @@ import com.example.m_7el.training.R;
 
 public class PhotoManager {
      public static  void  loadImage(Context context, final ImageView imageView) {
-         Glide.with(context).
-                 load(ImageUrl.getURL())
-                 .error(R.drawable.ic_launcher_background)
-                 .into(imageView);
+         RequestOptions requestOptions = new RequestOptions();
 
+         Glide.with(context)
+                 .setDefaultRequestOptions(requestOptions)
+                 .load(ImageUrl.getURL()).into(imageView);
      }
 }
