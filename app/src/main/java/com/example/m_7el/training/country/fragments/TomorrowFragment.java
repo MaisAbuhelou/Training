@@ -3,6 +3,7 @@ package com.example.m_7el.training.country.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,8 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        Log.w("Fragment", " TomorrowFragment created  " + this.toString());
+
         View view = inflater.inflate(R.layout.fragment_weather_layouts, container, false);
         date =  view.findViewById(R.id.country_date);
         temp =  view.findViewById(R.id.country_Temp);
