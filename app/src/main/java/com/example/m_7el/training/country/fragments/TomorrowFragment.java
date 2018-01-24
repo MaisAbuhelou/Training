@@ -37,10 +37,9 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
     private Main main;
     private TextView date, humidity, pressure, temp;
     private ImageView mCountryImage;
-    private CountryInfo countryInfo;
     private WeatherFragment.CallBacks mCallback;
     private String tomorrowDate;
-    private String dateSplit;
+
 
     public TomorrowFragment() {
         // Required empty public constructor
@@ -59,27 +58,26 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_weather_layouts, container, false);
-        date = (TextView) view.findViewById(R.id.country_date);
-        temp = (TextView) view.findViewById(R.id.country_Temp);
-        pressure = (TextView) view.findViewById(R.id.pressure);
-        humidity = (TextView) view.findViewById(R.id.humidity);
+        date =  view.findViewById(R.id.country_date);
+        temp =  view.findViewById(R.id.country_Temp);
+        pressure =  view.findViewById(R.id.pressure);
+        humidity =  view.findViewById(R.id.humidity);
         mCountryImage = view.findViewById(R.id.country_image);
 
         return view;
     }
 
     @Override
-    public void onSelectedFragment(CountryInfo countryInfo) {
+    public void onSelectedFragment(CountryInfo mCountryInfo) {
         retrofitInterface = WeatherApiClient2.getClient().create(RetrofitInterface.class);
         Date now = new Date();
-
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
         tomorrowDate = mdformat.format(calendar.getTime());
 
-        Call<Info> call2 = retrofitInterface.getWeatherInfo(countryInfo.getLatlng().get(0), countryInfo.getLatlng().get(1), API_KEY);
+        Call<Info> call2 = retrofitInterface.getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
         call2.enqueue(new Callback<Info>() {
 
 

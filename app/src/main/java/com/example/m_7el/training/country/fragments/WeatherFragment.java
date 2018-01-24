@@ -17,7 +17,7 @@ import com.example.m_7el.training.net.models.CountryInfo;
 public class WeatherFragment extends Fragment {
 
 
-    private CountryInfo countryInfo;
+    private CountryInfo mCountryInfo;
     private TabLayout tabs;
     private ViewPager viewPager;
     private TomorrowFragment tomorrowFragment;
@@ -32,11 +32,6 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        if (getArguments() != null) {
-
-        }
     }
 
     @Override
@@ -51,6 +46,7 @@ public class WeatherFragment extends Fragment {
         tabs = (TabLayout) view.findViewById(R.id.tabLayout);
         todayFragment=new TodayFragment();
         tomorrowFragment=new TomorrowFragment();
+
 
         setData();
 
@@ -72,11 +68,6 @@ public class WeatherFragment extends Fragment {
 
     }
 
-    public void onButtonPressed(CountryInfo countryInfo) {
-        if (mCallback != null) {
-          mCallback.onSelectedFragment(countryInfo);
-        }
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -88,9 +79,8 @@ public class WeatherFragment extends Fragment {
         super.onDetach();
         mCallback = null;
     }
-    public void setWeather(CountryInfo mCountryInfo) {
-        countryInfo = mCountryInfo;
-
+    public void setWeather(CountryInfo countryInfo) {
+        mCountryInfo = countryInfo;
         mCallback.onSelectedFragment(mCountryInfo);
         setData();
 
@@ -98,12 +88,12 @@ public class WeatherFragment extends Fragment {
 
     private void setData() {
         tabs.setupWithViewPager(viewPager);
-        setupViewPager(viewPager, countryInfo);
+        setupViewPager(viewPager, mCountryInfo);
 
     }
 
     public interface  CallBacks{
-        void onSelectedFragment(CountryInfo country);
+        void onSelectedFragment(CountryInfo countryInfo);
 
     }
 

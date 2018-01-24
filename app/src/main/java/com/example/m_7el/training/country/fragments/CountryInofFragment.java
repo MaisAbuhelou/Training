@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.example.m_7el.training.country.utils.ImageUrl;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.utils.PhotoManager;
 import com.example.m_7el.training.net.models.CountryInfo;
@@ -19,13 +17,12 @@ import com.example.m_7el.training.net.models.CountryInfo;
 
 public class CountryInofFragment extends Fragment {
 
-    private Activity activity;
     private TextView mCountyName;
     private TextView mCountyRegion;
     private TextView mCountyPopulation;
     private TextView mCountyCapital;
     private ImageView mCountryImage;
-    private CountryInfo countryInfo;
+    private CountryInfo mCountryInfo;
 
     public CountryInofFragment() {
         // Required empty public constructor
@@ -48,21 +45,14 @@ public class CountryInofFragment extends Fragment {
         mCountyPopulation = (TextView) view.findViewById(R.id.population);
         mCountyCapital = (TextView) view.findViewById(R.id.country_capital);
         mCountryImage = view.findViewById(R.id.country_image);
-//        RequestOptions options = new RequestOptions()
-//                .centerCrop()
-//                .placeholder(R.mipmap.ic_launcher_round)
-//                .error(R.mipmap.ic_launcher_round);
-//
-//
-//
 
-        setData(countryInfo);
+        setData(mCountryInfo);
         return view;
     }
 
     public void setCountry(CountryInfo country) {
-        countryInfo = country;
-        setData(countryInfo);
+        mCountryInfo = country;
+        setData(mCountryInfo);
     }
 
     private void setData(CountryInfo countryInfo) {
@@ -71,8 +61,7 @@ public class CountryInofFragment extends Fragment {
             mCountyRegion.setText(countryInfo.getRegion());
             mCountyPopulation.setText(countryInfo.getPopulation() + "");
             mCountyCapital.setText(countryInfo.getCapital());
-
-            PhotoManager.loadImage(getContext(),mCountryImage);
+            PhotoManager.loadImage(getContext(), mCountryImage);
 
 
         }

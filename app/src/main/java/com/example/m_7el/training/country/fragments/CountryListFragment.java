@@ -24,14 +24,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CountryListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-    private List<CountryInfo> countryInfo;
+
+
+    private List<CountryInfo> mCountryInfo;
     private OnSelectedListener mListener;
     private RetrofitInterface retrofitInterface;
 
@@ -40,24 +35,16 @@ public class CountryListFragment extends Fragment {
     }
 
 
-    // TODO: Rename and change types and number of parameters
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
-//            mParam2 = getArguments().getString(ARG_PARAM2);
-//        }
-
-
     }
 
 
     private void getCountriesInfo() {
 
-
+// get All countries
         retrofitInterface = CountryApiClient.getClient().create(RetrofitInterface.class);
         Call<List<CountryInfo>> call2 = retrofitInterface.getCountyInfo();
         call2.enqueue(new Callback<List<CountryInfo>>() {
@@ -66,12 +53,11 @@ public class CountryListFragment extends Fragment {
             @Override
             public void onResponse(Call<List<CountryInfo>> call, Response<List<CountryInfo>> response) {
 
-                countryInfo = response.body();
-                RecyclerView recyclerView = (RecyclerView) getActivity().findViewById(R.id.recycler_view);
+                mCountryInfo = response.body();
+                RecyclerView recyclerView = getActivity().findViewById(R.id.recycler_view);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-
-                recyclerView.setAdapter(new RecyclerViewAdapter(recyclerView, countryInfo, getActivity()));
+                recyclerView.setAdapter(new RecyclerViewAdapter(recyclerView, mCountryInfo, getActivity()));
 
             }
 
@@ -93,12 +79,7 @@ public class CountryListFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -113,7 +94,6 @@ public class CountryListFragment extends Fragment {
         mListener = null;
     }
 
-    // Container Activity must implement this interface
     public interface OnSelectedListener {
         public void onCountrySelected(int position);
     }
