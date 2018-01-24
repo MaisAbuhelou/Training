@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.utils.PhotoManager;
-import com.example.m_7el.training.net.models.CountryInfo;
+import com.example.m_7el.training.country.models.CountryInfo;
 
 import java.util.List;
 

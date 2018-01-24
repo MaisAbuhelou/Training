@@ -1,7 +1,7 @@
 package com.example.m_7el.training.net.clients;
 
-import com.example.m_7el.training.net.models.CountryInfo;
-import com.example.m_7el.training.net.models.Info;
+import com.example.m_7el.training.country.models.CountryInfo;
+import com.example.m_7el.training.country.models.Info;
 
 import java.util.List;
 

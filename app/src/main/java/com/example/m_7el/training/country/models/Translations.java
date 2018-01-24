@@ -1,5 +1,5 @@
 
-package com.example.m_7el.training.net.models;
+package com.example.m_7el.training.country.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

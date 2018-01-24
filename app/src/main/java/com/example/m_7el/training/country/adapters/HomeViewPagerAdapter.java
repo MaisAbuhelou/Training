@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.example.m_7el.training.country.fragments.TodayFragment;
 import com.example.m_7el.training.country.fragments.TomorrowFragment;
 import com.example.m_7el.training.country.fragments.WeatherFragment;
-import com.example.m_7el.training.net.models.CountryInfo;
+import com.example.m_7el.training.country.models.CountryInfo;
 
 import java.util.ArrayList;
 import java.util.List;

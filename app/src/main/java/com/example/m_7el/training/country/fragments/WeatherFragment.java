@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import android.view.ViewGroup;
 import com.example.m_7el.training.country.adapters.HomeViewPagerAdapter;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.utils.LogMessages;
-import com.example.m_7el.training.net.models.CountryInfo;
+import com.example.m_7el.training.country.models.CountryInfo;
 
 
 public class WeatherFragment extends Fragment {

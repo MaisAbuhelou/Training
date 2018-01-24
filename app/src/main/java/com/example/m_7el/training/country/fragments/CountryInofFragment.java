@@ -1,10 +1,8 @@
 package com.example.m_7el.training.country.fragments;
 
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,7 @@ import android.widget.TextView;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
-import com.example.m_7el.training.net.models.CountryInfo;
+import com.example.m_7el.training.country.models.CountryInfo;
 
 
 public class CountryInofFragment extends Fragment {

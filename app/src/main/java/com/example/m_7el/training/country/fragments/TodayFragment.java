@@ -3,7 +3,6 @@ package com.example.m_7el.training.country.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +10,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.m_7el.training.R;
-import com.example.m_7el.training.country.fragments.WeatherFragment;
 import com.example.m_7el.training.country.utils.LogMessages;
-import com.example.m_7el.training.net.models.CountryInfo;
-import com.example.m_7el.training.net.models.Info;
-import com.example.m_7el.training.net.models.Main;
-import com.example.m_7el.training.net.models.WeatherDetails;
-import com.example.m_7el.training.net.clients.WeatherApiClient2;
+import com.example.m_7el.training.country.models.CountryInfo;
+import com.example.m_7el.training.country.models.Info;
+import com.example.m_7el.training.country.models.Main;
+import com.example.m_7el.training.country.models.WeatherDetails;
+import com.example.m_7el.training.net.clients.WeatherApiClient;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 
 import java.text.SimpleDateFormat;
@@ -74,7 +72,7 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
     @Override
     public void onSelectedFragment(CountryInfo mCountryInfo) {
 
-        retrofitInterface = WeatherApiClient2.getClient().create(RetrofitInterface.class);
+        retrofitInterface = WeatherApiClient.getClient().create(RetrofitInterface.class);
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");

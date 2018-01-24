@@ -1,5 +1,5 @@
 
-package com.example.m_7el.training.net.models;
+package com.example.m_7el.training.country.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;

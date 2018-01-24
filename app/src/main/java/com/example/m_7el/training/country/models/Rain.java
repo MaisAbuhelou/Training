@@ -1,9 +1,9 @@
-package com.example.m_7el.training.net.models;
+package com.example.m_7el.training.country.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Snow {
+public class Rain {
 
     @SerializedName("3h")
     @Expose

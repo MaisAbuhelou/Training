@@ -12,12 +12,7 @@ import com.example.m_7el.training.country.adapters.RecyclerViewAdapter;
 import com.example.m_7el.training.country.fragments.CountryInofFragment;
 import com.example.m_7el.training.country.fragments.CountryListFragment;
 import com.example.m_7el.training.country.fragments.WeatherFragment;
-import com.example.m_7el.training.net.clients.RetrofitInterface;
-import com.example.m_7el.training.net.clients.WeatherApiClient2;
-import com.example.m_7el.training.net.models.CountryInfo;
-import com.example.m_7el.training.net.models.Main;
-
-import java.util.List;
+import com.example.m_7el.training.country.models.CountryInfo;
 
 public class CountryWeatherActivity extends AppCompatActivity implements RecyclerViewAdapter.OnItemClickListener {
 
