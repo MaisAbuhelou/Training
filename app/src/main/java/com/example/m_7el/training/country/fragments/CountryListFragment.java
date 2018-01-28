@@ -1,24 +1,21 @@
 package com.example.m_7el.training.country.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.adapters.RecyclerViewAdapter;
+import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.SimpleDividerItemDecoration;
-import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.net.clients.CountryApiClient;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
-
 import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,14 +24,7 @@ public class CountryListFragment extends Fragment {
 
 
     private List<CountryInfo> mCountryInfo;
-    private OnSelectedListener mListener;
-    private RetrofitInterface retrofitInterface;
-
-    public CountryListFragment() {
-        // Required empty public constructor
-    }
-
-
+    private RecyclerView countriesRecyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,63 +33,42 @@ public class CountryListFragment extends Fragment {
 
     }
 
-
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_country_list, container, false);
+        countriesRecyclerView = view.findViewById(R.id.country_list_recycler_view);
         getCountriesInfo();
 
         return view;
     }
 
-
     private void getCountriesInfo() {
 
-// get All countries
-        retrofitInterface = CountryApiClient.getClient().create(RetrofitInterface.class);
-        Call<List<CountryInfo>> call2 = retrofitInterface.getCountyInfo();
+        // get All countries
+        Call<List<CountryInfo>> call2 = CountryApiClient.getClient().create(RetrofitInterface.class).getCountyInfo();
         call2.enqueue(new Callback<List<CountryInfo>>() {
 
 
             @Override
-            public void onResponse(Call<List<CountryInfo>> call, Response<List<CountryInfo>> response) {
+            public void onResponse(@NonNull Call<List<CountryInfo>> call, @NonNull Response<List<CountryInfo>> response) {
 
                 mCountryInfo = response.body();
-                RecyclerView recyclerView = getActivity().findViewById(R.id.recycler_view);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-                recyclerView.setAdapter(new RecyclerViewAdapter(recyclerView, mCountryInfo, getActivity()));
+                countriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                countriesRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
+                countriesRecyclerView.setAdapter(new RecyclerViewAdapter(countriesRecyclerView, mCountryInfo, getActivity()));
 
             }
 
             @Override
-            public void onFailure(Call<List<CountryInfo>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<CountryInfo>> call, @NonNull Throwable t) {
 
-                t.getMessage();
+                t.getStackTrace();
             }
         });
     }
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
 
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnSelectedListener {
-        public void onCountrySelected(int position);
-    }
 
 }

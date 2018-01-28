@@ -9,12 +9,8 @@ import android.view.View;
 
 import com.example.m_7el.training.R;
 
-/**
- * Created by m_7el on 1/20/2018.
- */
 
-
- public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
+public class SimpleDividerItemDecoration extends RecyclerView.ItemDecoration {
 
     private Drawable mDivider;
 

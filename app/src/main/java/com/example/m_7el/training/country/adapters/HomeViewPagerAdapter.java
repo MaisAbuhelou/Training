@@ -14,28 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/**
- * Created by Mais on 7/27/2017.
- */
-public class HomeViewPagerAdapter extends FragmentPagerAdapter  implements WeatherFragment.CallBacks
-{
+public class HomeViewPagerAdapter extends FragmentPagerAdapter implements WeatherFragment.CallBacks {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
-    private  CountryInfo countryInfo;
-    private TodayFragment todayFragment;
-    private TomorrowFragment tomorrowFragment;
-private  int position;
-    public HomeViewPagerAdapter(FragmentManager manager,CountryInfo countryInfo) {
 
+    public HomeViewPagerAdapter(FragmentManager manager) {
         super(manager);
-        this.countryInfo=countryInfo;
-
-
     }
 
     @Override
     public Fragment getItem(int position) {
-       this. position=position;
+
         return mFragmentList.get(position);
 
     }
@@ -58,9 +47,8 @@ private  int position;
 
     @Override
     public void onSelectedFragment(CountryInfo country) {
-        todayFragment= (TodayFragment) mFragmentList.get(0);
-
-        tomorrowFragment= (TomorrowFragment) mFragmentList.get(1);
+        TodayFragment todayFragment = (TodayFragment) mFragmentList.get(0);
+        TomorrowFragment tomorrowFragment = (TomorrowFragment) mFragmentList.get(1);
         todayFragment.onSelectedFragment(country);
         tomorrowFragment.onSelectedFragment(country);
     }

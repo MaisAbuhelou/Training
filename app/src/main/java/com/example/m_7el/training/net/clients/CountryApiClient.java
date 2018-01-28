@@ -5,9 +5,6 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by m_7el on 1/17/2018.
- */
 
 public class CountryApiClient {
 

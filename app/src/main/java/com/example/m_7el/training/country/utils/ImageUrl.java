@@ -1,8 +1,5 @@
 package com.example.m_7el.training.country.utils;
 
-/**
- * Created by m_7el on 1/21/2018.
- */
 
 public class ImageUrl
 {
