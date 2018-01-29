@@ -17,7 +17,7 @@ public interface RetrofitInterface {
     @GET("https://restcountries.eu/rest/v1/all")
     Call<List<CountryInfo>> getCountyInfo();
 
-    // get Country
+    // get country weather
     @GET("data/2.5/forecast")
     Call<Info> getWeatherInfo(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String key);
 }

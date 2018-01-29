@@ -17,8 +17,6 @@ import com.example.m_7el.training.country.utils.LogMessages;
 
 public class WeatherFragment extends Fragment {
 
-
-    private CountryInfo mCountryInfo;
     private TabLayout tabs;
     private ViewPager viewPager;
     private TomorrowFragment tomorrowFragment;
@@ -52,7 +50,7 @@ public class WeatherFragment extends Fragment {
     }
 
     // Add Fragments to Tabs
-    private void setupViewPager(ViewPager viewPager, CountryInfo country) {
+    private void setupViewPager(ViewPager viewPager) {
 
         HomeViewPagerAdapter adapter = new HomeViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(todayFragment, "Today");
@@ -62,8 +60,8 @@ public class WeatherFragment extends Fragment {
     }
 
     //get data from countries list in activity
-    public void setWeather(CountryInfo countryInfo) {
-        mCountryInfo = countryInfo;
+    public void setWeather(CountryInfo mCountryInfo) {
+
         mCallback.onSelectedFragment(mCountryInfo);
         setData();
 
@@ -71,7 +69,7 @@ public class WeatherFragment extends Fragment {
 
     private void setData() {
         tabs.setupWithViewPager(viewPager);
-        setupViewPager(viewPager, mCountryInfo);
+        setupViewPager(viewPager);
 
     }
 

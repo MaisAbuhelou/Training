@@ -7,6 +7,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 
 public class PhotoManager {
+
      public static  void  loadImage(Context context, final ImageView imageView) {
          RequestOptions requestOptions = new RequestOptions();
 

@@ -79,7 +79,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         private UserViewHolder(View view) {
             super(view);
-            name = view.findViewById(R.id.country_name);
+            name = view.findViewById(R.id.country_date);
             region = view.findViewById(R.id.region);
             mCountryImage = view.findViewById(R.id.imageView3);
         }

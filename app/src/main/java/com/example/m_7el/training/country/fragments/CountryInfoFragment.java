@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
@@ -36,7 +37,7 @@ public class CountryInfoFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_counrty_info, container, false);
 
-        mCountyName =view.findViewById(R.id.country_name);
+        mCountyName = view.findViewById(R.id.country_name);
         mCountyRegion = view.findViewById(R.id.country_region);
         mCountyPopulation = view.findViewById(R.id.population);
         mCountyCapital = view.findViewById(R.id.country_capital);
@@ -56,7 +57,7 @@ public class CountryInfoFragment extends Fragment {
         if (countryInfo != null) {
             mCountyName.setText(countryInfo.getName());
             mCountyRegion.setText(countryInfo.getRegion());
-            mCountyPopulation.setText(countryInfo.getPopulation()+"");
+            mCountyPopulation.setText(countryInfo.getPopulation() + "");
             mCountyCapital.setText(countryInfo.getCapital());
             PhotoManager.loadImage(getContext(), mCountryImage);
 

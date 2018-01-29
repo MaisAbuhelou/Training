@@ -7,9 +7,6 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-/**
- * Created by m_7el on 1/24/2018.
- */
 
 public class LogMessages{
 
