@@ -31,7 +31,6 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
         binding.setCountry(country);
 
 
-          PhotoManager.loadImage(mContext, mCountryImage);
 
     }
 }
