@@ -16,5 +16,6 @@
     <string name="date">Date</string>
     <string name="temp">Temp</string>
     <string name="pressure">Pressure</string>
+    <string name="loading">Loading</string>
     <string name="humidity">Humidity</string>
 </resources>

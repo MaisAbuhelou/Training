@@ -13,11 +13,9 @@ public class WeatherDetails {
     @Expose
     private String dtTxt;
 
-
     public Main getMain() {
         return main;
     }
-
 
     public String getDtTxt() {
         return dtTxt;

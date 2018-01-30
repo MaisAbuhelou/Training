@@ -25,6 +25,13 @@ public class CountryInfo {
     @Expose
     private List<Double> latlng = null;
 
+    @SerializedName("altSpellings")
+    @Expose
+    private List<String> altSpellings = null;
+
+    public List<String> getAltSpellings() {
+        return altSpellings;
+    }
 
     public String getName() {
         return name;

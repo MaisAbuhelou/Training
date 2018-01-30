@@ -20,4 +20,5 @@ public interface RetrofitInterface {
     // get country weather
     @GET("data/2.5/forecast")
     Call<Info> getWeatherInfo(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String key);
+
 }
