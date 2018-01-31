@@ -1,6 +1,7 @@
 package com.example.m_7el.training.country;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.m_7el.training.R;
-import com.example.m_7el.training.country.RecyclerViewAdapter.CountrySelectOnListener;
+import com.example.m_7el.training.country.CountriesRecyclerViewAdapter.CountrySelectOnListener;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.SimpleDividerItemDecoration;
@@ -33,7 +34,7 @@ public class CountryListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogMessages.getMessage("CountryListFragment");
+        LogMessages.getMessage("CountryListFragment" );
 
     }
 
@@ -44,21 +45,26 @@ public class CountryListFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_country_list, container, false);
         countriesRecyclerView = view.findViewById(R.id.country_list_recycler_view);
+        countriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        countriesRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         getCountriesInfo();
 
         return view;
     }
 
     private void getCountriesInfo() {
-
-
         // get All countries
         Call<List<CountryInfo>> call2 = CountryApiClient.getClient().create(RetrofitInterface.class).getCountyInfo();
         call2.enqueue(new Callback<List<CountryInfo>>() {
             @Override
             public void onResponse(@NonNull Call<List<CountryInfo>> call, @NonNull Response<List<CountryInfo>> response) {
                 mCountryInfo = response.body();
-                setRecyclerView();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        setRecyclerView();
+                    }
+                }, 1000);
             }
 
             @Override
@@ -75,10 +81,11 @@ public class CountryListFragment extends Fragment {
     }
 
     private void setRecyclerView() {
-        countriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        countriesRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        countriesRecyclerView.setAdapter(new RecyclerViewAdapter(getActivity(), mCountryInfo, countrySelectionListener));
+        CountriesRecyclerViewAdapter countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(getActivity(), mCountryInfo, countrySelectionListener);
+        //  countriesRecyclerViewAdapter.setmCountries(mCountryInfo);
+        countriesRecyclerViewAdapter.notifyDataSetChanged();
+        countriesRecyclerView.setAdapter(countriesRecyclerViewAdapter);
+
+
     }
-
-
 }

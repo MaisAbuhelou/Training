@@ -20,11 +20,13 @@ public class WeatherFragment extends Fragment {
     private CallBacks mCallback;
     private TodayFragment todayFragment;
     private TomorrowFragment tomorrowFragment;
+    private CountryInfo mCountryInfo;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         LogMessages.getMessage("WeatherFragment");
 
     }
@@ -37,8 +39,15 @@ public class WeatherFragment extends Fragment {
         // Setting ViewPager for each Tabs
         viewPager = view.findViewById(R.id.viewpager);
         tabs = view.findViewById(R.id.tabLayout);
-        todayFragment = new TodayFragment();
-        tomorrowFragment = new TomorrowFragment();   setData();
+
+        if (savedInstanceState == null) {
+            todayFragment = new TodayFragment();
+            tomorrowFragment = new TomorrowFragment();        }
+        if (savedInstanceState != null) {
+
+            mCountryInfo=savedInstanceState.getParcelable("country");
+        }
+        setData();
 
         return view;
     }
@@ -54,12 +63,20 @@ public class WeatherFragment extends Fragment {
     }
 
     //get data from countries list in activity
-    public void setWeather(CountryInfo mCountryInfo) {
-        mCallback.onSelectedFragment(mCountryInfo);
+    public void setWeather(CountryInfo countryInfo) {
+        this.mCountryInfo = countryInfo;
+        mCallback.onSelectedFragment(countryInfo);
         setData();
 
     }
+    @Override
+    public void onSaveInstanceState(@NonNull  Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+        //Save the fragment's state here
+        outState.putParcelable("country",mCountryInfo);
+
+    }
     private void setData() {
         tabs.setupWithViewPager(viewPager);
         setupViewPager(viewPager);

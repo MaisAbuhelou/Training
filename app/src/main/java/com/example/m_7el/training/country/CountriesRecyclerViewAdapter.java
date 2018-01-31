@@ -12,9 +12,9 @@ import com.example.m_7el.training.country.models.CountryInfo;
 import java.util.List;
 
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<CountryViewHolder> {
+public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountryViewHolder> {
 
-    private  Context mContext;
+    private Context mContext;
     private final List<CountryInfo> mCountries;
     private CountrySelectOnListener mListener;
     private CountryInfo country;
@@ -23,7 +23,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<CountryViewHolder>
         void onCountrySelected(CountryInfo countryInfo);
     }
 
-    public RecyclerViewAdapter(Context context, List<CountryInfo> countries,CountrySelectOnListener countrySelecetListener) {
+    public CountriesRecyclerViewAdapter(Context context, List<CountryInfo> countries, CountrySelectOnListener countrySelecetListener) {
         mContext = context;
         mCountries = countries;
         mListener = countrySelecetListener;
@@ -33,21 +33,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<CountryViewHolder>
     public CountryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(mContext).inflate(R.layout.recycler, parent, false);
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onCountrySelected(country);
-            }
-        });
-        return new CountryViewHolder(view);
+
+        return new CountryViewHolder(view, mListener);
 
     }
 
     @Override
     public void onBindViewHolder(CountryViewHolder holder, final int position) {
 
-            country = mCountries.get(position);
-            holder.bind(country,mContext);
+        country = mCountries.get(position);
+        holder.bind(country, mContext);
     }
 
     @Override
@@ -55,7 +50,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<CountryViewHolder>
 
         return mCountries.size();
     }
-
 
 
 }

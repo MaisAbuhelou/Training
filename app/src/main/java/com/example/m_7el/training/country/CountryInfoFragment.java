@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,9 +16,6 @@ import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
-
-import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 
 
 public class CountryInfoFragment extends Fragment {
@@ -33,7 +31,7 @@ public class CountryInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogMessages.getMessage("CountryInfoFragment");
+        LogMessages.getMessage("CountryInfoFragment" );
     }
 
     @Override
@@ -46,8 +44,15 @@ public class CountryInfoFragment extends Fragment {
         mCountyPopulation = view.findViewById(R.id.population);
         mCountyCapital = view.findViewById(R.id.country_capital);
         mCountryImage = view.findViewById(R.id.country_image);
+        if (savedInstanceState == null) {
+            Log.i("state null", "null" );
+        }
+        if (savedInstanceState != null) {
+            // Restore last state for checked position.
+            mCountryInfo = savedInstanceState.getParcelable("country" );
+            setData(mCountryInfo);
+        }
 
-        setData(mCountryInfo);
         return view;
     }
 
@@ -56,22 +61,28 @@ public class CountryInfoFragment extends Fragment {
         setData(mCountryInfo);
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n" )
     private void setData(CountryInfo countryInfo) {
         if (countryInfo != null) {
             mCountyName.setText(countryInfo.getName());
             mCountyRegion.setText(countryInfo.getRegion());
-            mCountyPopulation.setText(countryInfo.getPopulation() + "");
+            mCountyPopulation.setText(countryInfo.getPopulation() + "" );
             mCountyCapital.setText(countryInfo.getCapital());
-            flag=countryInfo.getAltSpellings().get(0);
-
-
-
-                PhotoManager.loadImage(getContext(), mCountryImage);
-
+            flag = countryInfo.getAltSpellings().get(0);
+            PhotoManager.loadImage(getContext(), mCountryImage);
 
 
         }
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        //Save the fragment's state here
+        outState.putParcelable("country", mCountryInfo);
+
     }
 
 }
