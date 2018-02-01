@@ -19,10 +19,7 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter implements Weathe
     }
 
     @Override
-    public Fragment getItem(int position) {
-        return mFragmentList.get(position);
-
-    }
+    public Fragment getItem(int position) { return mFragmentList.get(position); }
 
     @Override
     public int getCount() {

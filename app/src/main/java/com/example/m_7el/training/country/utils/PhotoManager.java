@@ -13,9 +13,6 @@ public class PhotoManager {
 
      public static  void  loadImage(Context context, final ImageView imageView)  {
          RequestOptions requestOptions = new RequestOptions();
-//          String url ="http://www.geognos.com/api/en/countries/flag/PS.png" ;
-//         URI uri = new URI(url.replace("PS", countryFlag));
-
          Glide.with(context)
                  .setDefaultRequestOptions(requestOptions)
                  .load(ImageUrl.getURL()).into(imageView);

@@ -25,9 +25,7 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         LogMessages.getMessage("WeatherFragment");
-
     }
 
     @Override
@@ -38,7 +36,6 @@ public class WeatherFragment extends Fragment {
         // Setting ViewPager for each Tabs
         viewPager = view.findViewById(R.id.viewpager);
         tabs = view.findViewById(R.id.tabLayout);
-
         if (savedInstanceState == null) {
             todayFragment = new TodayFragment();
             tomorrowFragment = new TomorrowFragment();
@@ -51,6 +48,7 @@ public class WeatherFragment extends Fragment {
         setData();
         return view;
     }
+
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         HomeViewPagerAdapter adapter = new HomeViewPagerAdapter(getChildFragmentManager());
@@ -64,7 +62,6 @@ public class WeatherFragment extends Fragment {
     public void setWeather(CountryInfo countryInfo) {
         mCallback.onSelectedFragment(countryInfo);
         setData();
-
     }
 
     @Override
@@ -72,8 +69,8 @@ public class WeatherFragment extends Fragment {
         super.onSaveInstanceState(outState);
         //Save the fragment's state here
         outState.putParcelable("country", mCountryInfo);
-       getChildFragmentManager().putFragment(outState, "todayFragment", todayFragment);
-       getChildFragmentManager().putFragment(outState, "tomorrowFragment", tomorrowFragment);
+        getChildFragmentManager().putFragment(outState, "todayFragment", todayFragment);
+        getChildFragmentManager().putFragment(outState, "tomorrowFragment", tomorrowFragment);
     }
 
     private void setData() {

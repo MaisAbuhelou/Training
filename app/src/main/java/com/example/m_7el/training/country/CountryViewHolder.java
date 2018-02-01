@@ -22,14 +22,13 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
 
     public CountryViewHolder(View view, final CountriesRecyclerViewAdapter.CountrySelectListener countrySelectListener) {
         super(view);
-        mContext= view.getContext();
+        mContext = view.getContext();
         mCountryImage = view.findViewById(R.id.country_imagee);
         binding = DataBindingUtil.bind(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 countrySelectListener.onCountrySelected(mCountry);
-
             }
         });
     }
@@ -38,7 +37,5 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
         mCountry = country;
         binding.setCountry(country);
         PhotoManager.loadImage(mContext, mCountryImage);
-
-
     }
 }
