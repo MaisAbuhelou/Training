@@ -15,7 +15,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-
 public class GetCountryWeather {
     private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
     private  Info weatherInfo;
@@ -23,8 +22,6 @@ public class GetCountryWeather {
     public  Info getWeather(CountryInfo mCountryInfo) {
         Call<Info> call2 = WeatherApiClient.getClient().create(RetrofitInterface.class).getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
         call2.enqueue(new Callback<Info>() {
-
-
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<Info> call, @NonNull Response<Info> response) {

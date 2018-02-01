@@ -8,10 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
-
 
 public class WeatherFragment extends Fragment {
 
@@ -21,7 +21,6 @@ public class WeatherFragment extends Fragment {
     private TodayFragment todayFragment;
     private TomorrowFragment tomorrowFragment;
     private CountryInfo mCountryInfo;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,19 +41,18 @@ public class WeatherFragment extends Fragment {
 
         if (savedInstanceState == null) {
             todayFragment = new TodayFragment();
-            tomorrowFragment = new TomorrowFragment();        }
+            tomorrowFragment = new TomorrowFragment();
+        }
         if (savedInstanceState != null) {
-
-            mCountryInfo=savedInstanceState.getParcelable("country");
+            mCountryInfo = savedInstanceState.getParcelable("country");
+            todayFragment = (TodayFragment) getChildFragmentManager().getFragment(savedInstanceState, "todayFragment");
+            tomorrowFragment = (TomorrowFragment) getChildFragmentManager().getFragment(savedInstanceState, "tomorrowFragment");
         }
         setData();
-
         return view;
     }
-
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
-
         HomeViewPagerAdapter adapter = new HomeViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(todayFragment, "Today");
         adapter.addFragment(tomorrowFragment, "Tomorrow");
@@ -64,23 +62,23 @@ public class WeatherFragment extends Fragment {
 
     //get data from countries list in activity
     public void setWeather(CountryInfo countryInfo) {
-        this.mCountryInfo = countryInfo;
         mCallback.onSelectedFragment(countryInfo);
         setData();
 
     }
+
     @Override
-    public void onSaveInstanceState(@NonNull  Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         //Save the fragment's state here
-        outState.putParcelable("country",mCountryInfo);
-
+        outState.putParcelable("country", mCountryInfo);
+       getChildFragmentManager().putFragment(outState, "todayFragment", todayFragment);
+       getChildFragmentManager().putFragment(outState, "tomorrowFragment", tomorrowFragment);
     }
+
     private void setData() {
         tabs.setupWithViewPager(viewPager);
         setupViewPager(viewPager);
-
     }
 
     public interface CallBacks {

@@ -20,7 +20,6 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter implements Weathe
 
     @Override
     public Fragment getItem(int position) {
-
         return mFragmentList.get(position);
 
     }
@@ -43,9 +42,8 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter implements Weathe
 
     @Override
     public void onSelectedFragment(CountryInfo country) {
-        TodayFragment todayFragment = (TodayFragment) mFragmentList.get(0);
-        TomorrowFragment tomorrowFragment = (TomorrowFragment) mFragmentList.get(1);
-        todayFragment.onSelectedFragment(country);
-        tomorrowFragment.onSelectedFragment(country);
+
+        ((TodayFragment) mFragmentList.get(0)).onSelectedFragment(country);
+        ((TomorrowFragment) mFragmentList.get(1)).onSelectedFragment(country);
     }
 }

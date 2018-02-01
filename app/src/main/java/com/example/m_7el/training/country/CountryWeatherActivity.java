@@ -97,7 +97,6 @@ public class CountryWeatherActivity extends AppCompatActivity
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         //Save the fragment's instance
         getSupportFragmentManager().putFragment(outState, "mCountryInfoFragment", mCountryInfoFragment);
         getSupportFragmentManager().putFragment(outState, "mCountryListFragment", mCountryListFragment);

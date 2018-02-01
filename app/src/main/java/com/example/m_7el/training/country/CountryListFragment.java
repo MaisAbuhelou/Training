@@ -76,16 +76,13 @@ public class CountryListFragment extends Fragment {
     }
 
     public void setCountrySelectionListener(CountrySelectListener countrySelectionListener) {
-
         this.countrySelectionListener = countrySelectionListener;
     }
 
     private void setRecyclerView() {
         CountriesRecyclerViewAdapter countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(countrySelectionListener);
         countriesRecyclerViewAdapter.setCountry(mCountryInfo);
-        countriesRecyclerViewAdapter.notifyDataSetChanged();
         countriesRecyclerView.setAdapter(countriesRecyclerViewAdapter);
-
-
+        countriesRecyclerViewAdapter.notifyDataSetChanged();
     }
 }
