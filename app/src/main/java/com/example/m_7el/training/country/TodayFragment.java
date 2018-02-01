@@ -56,7 +56,7 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
             mCountryInfo = savedInstanceState.getParcelable("country");
             weatherDetails = savedInstanceState.getParcelableArrayList("weather");
             todayDate = savedInstanceState.getString("date");
-            setData();
+            setData(weatherDetails);
         }
         return view;
     }
@@ -72,14 +72,15 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
             Info weatherInfo = GetCountryWeather.getWeather(mCountryInfo);
             if (weatherInfo != null) {
                 List<WeatherDetails> weatherDetails = weatherInfo.getWeatherDetails();
-                this.weatherDetails = weatherDetails;
-                setData();
+                setData(weatherDetails);
             }
         }
     }
 
     @SuppressLint("SetTextI18n")
-    private void setData() {
+    private void setData( List<WeatherDetails>weatherDetails) {
+        this.weatherDetails = weatherDetails;
+
         for (int i = 0; i < weatherDetails.size(); i++) {
             String[] dateSplit = weatherDetails.get(i).getDtTxt().split(" ");
             if (dateSplit[0].equals(todayDate)) {
