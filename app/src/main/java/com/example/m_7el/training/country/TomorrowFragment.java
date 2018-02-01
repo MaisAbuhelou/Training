@@ -39,7 +39,6 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
     private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
     private Info weatherInfo;
     private List<WeatherDetails> weatherDetails;
-    private Main main;
     private TextView date, humidity, pressure, temp;
     private String tomorrowDate;
     private CountryInfo mCountryInfo;
@@ -47,7 +46,7 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogMessages.getMessage("TomorrowFragment" );
+        LogMessages.getMessage("TomorrowFragment");
     }
 
     @Override
@@ -61,13 +60,13 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
         pressure = view.findViewById(R.id.pressure);
         humidity = view.findViewById(R.id.humidity);
         if (savedInstanceState == null) {
-            Log.i("state null", "null" );
+            Log.i("state null", "null");
         }
         if (savedInstanceState != null) {
             // Restore last state for checked position.
-            mCountryInfo = savedInstanceState.getParcelable("country" );
-            weatherDetails = savedInstanceState.getParcelableArrayList("weather" );
-            tomorrowDate = savedInstanceState.getString("date" );
+            mCountryInfo = savedInstanceState.getParcelable("country");
+            weatherDetails = savedInstanceState.getParcelableArrayList("weather");
+            tomorrowDate = savedInstanceState.getString("date");
             setData();
 
         }
@@ -83,13 +82,13 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         calendar.add(Calendar.DAY_OF_YEAR, 1);
-        @SuppressLint("SimpleDateFormat" ) SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd" );
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
         tomorrowDate = mdformat.format(calendar.getTime());
         if (mCountryInfo.getLatlng().size() != 0) {
             Call<Info> call2 = WeatherApiClient.getClient().create(RetrofitInterface.class).getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
             call2.enqueue(new Callback<Info>() {
 
-                @SuppressLint("SetTextI18n" )
+                @SuppressLint("SetTextI18n")
                 @Override
                 public void onResponse(@NonNull Call<Info> call, @NonNull Response<Info> response) {
 
@@ -103,7 +102,6 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
                             setData();
                         }
                     }, 1000);
-
                 }
 
                 @Override
@@ -112,22 +110,19 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
                 }
             });
         }
-
     }
 
 
-    @SuppressLint("SetTextI18n" )
+    @SuppressLint("SetTextI18n")
     private void setData() {
-
-
         for (int i = 0; i < weatherDetails.size(); i++) {
 
-            String[] neww = weatherDetails.get(i).getDtTxt().split(" " );
+            String[] neww = weatherDetails.get(i).getDtTxt().split(" ");
             if (neww[0].equals(tomorrowDate)) {
                 date.setText(tomorrowDate);
-                main = weatherDetails.get(i).getMain();
-                pressure.setText(main.getPressure() + "" );
-                humidity.setText(main.getHumidity() + "" );
+                Main main = weatherDetails.get(i).getMain();
+                pressure.setText(main.getPressure() + "");
+                humidity.setText(main.getHumidity() + "");
                 temp.setText(main.getTempMin() + " - " + main.getTempMax());
                 break;
             }

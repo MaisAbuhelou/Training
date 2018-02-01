@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.m_7el.training.R;
-import com.example.m_7el.training.country.CountriesRecyclerViewAdapter.CountrySelectOnListener;
+import com.example.m_7el.training.country.CountriesRecyclerViewAdapter.CountrySelectListener;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.SimpleDividerItemDecoration;
@@ -29,7 +29,7 @@ public class CountryListFragment extends Fragment {
 
     private List<CountryInfo> mCountryInfo;
     private RecyclerView countriesRecyclerView;
-    private CountrySelectOnListener countrySelectionListener;
+    private CountrySelectListener countrySelectionListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,14 +75,14 @@ public class CountryListFragment extends Fragment {
         });
     }
 
-    public void setCountrySelectionListener(CountrySelectOnListener countrySelectionListener) {
+    public void setCountrySelectionListener(CountrySelectListener countrySelectionListener) {
 
         this.countrySelectionListener = countrySelectionListener;
     }
 
     private void setRecyclerView() {
-        CountriesRecyclerViewAdapter countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(getActivity(), mCountryInfo, countrySelectionListener);
-        //  countriesRecyclerViewAdapter.setmCountries(mCountryInfo);
+        CountriesRecyclerViewAdapter countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(countrySelectionListener);
+        countriesRecyclerViewAdapter.setCountry(mCountryInfo);
         countriesRecyclerViewAdapter.notifyDataSetChanged();
         countriesRecyclerView.setAdapter(countriesRecyclerViewAdapter);
 
