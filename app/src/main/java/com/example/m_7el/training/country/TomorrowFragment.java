@@ -67,8 +67,9 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
             mCountryInfo = savedInstanceState.getParcelable("country");
             weatherDetails = savedInstanceState.getParcelableArrayList("weather");
             tomorrowDate = savedInstanceState.getString("date");
+              setData();
         }
-        setData();
+      
 
         return view;
     }
