@@ -1,6 +1,5 @@
 package com.example.m_7el.training.country;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,25 +13,25 @@ import java.util.List;
 
 public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountryViewHolder> {
 
-    private Context mContext;
-    private final List<CountryInfo> mCountries;
-    private CountrySelectOnListener mListener;
-    private CountryInfo country;
+    private  List<CountryInfo> mCountries;
+    private CountrySelectListener mListener;
 
-    public interface CountrySelectOnListener {
+    public interface CountrySelectListener {
         void onCountrySelected(CountryInfo countryInfo);
     }
 
-    public CountriesRecyclerViewAdapter(Context context, List<CountryInfo> countries, CountrySelectOnListener countrySelecetListener) {
-        mContext = context;
-        mCountries = countries;
+    public void setCountry(List<CountryInfo> country) {
+       this.mCountries = country;
+    }
+
+    public CountriesRecyclerViewAdapter( CountrySelectListener countrySelecetListener) {
         mListener = countrySelecetListener;
     }
 
     @Override
     public CountryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(mContext).inflate(R.layout.recycler, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler, parent, false);
 
         return new CountryViewHolder(view, mListener);
 
@@ -41,8 +40,7 @@ public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountryVi
     @Override
     public void onBindViewHolder(CountryViewHolder holder, final int position) {
 
-        country = mCountries.get(position);
-        holder.bind(country, mContext);
+        holder.bind( mCountries.get(position));
     }
 
     @Override

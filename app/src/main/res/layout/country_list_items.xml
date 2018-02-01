@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{country.name != null ? View.VISIBLE :View.GONE}"/>
+           />
         <ImageView
             android:id="@+id/country_image"
             android:layout_width="wrap_content"

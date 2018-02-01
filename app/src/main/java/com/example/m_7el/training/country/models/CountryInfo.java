@@ -2,19 +2,17 @@
 package com.example.m_7el.training.country.models;
 
 
-import android.databinding.BaseObservable;
+
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class CountryInfo extends BaseObservable implements Parcelable   {
+public class CountryInfo implements Parcelable   {
     @SerializedName("name")
     @Expose
-
     private String name;
     @SerializedName("capital")
     @Expose

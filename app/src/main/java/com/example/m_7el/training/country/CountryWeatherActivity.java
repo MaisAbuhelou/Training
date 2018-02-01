@@ -11,13 +11,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
 
 public class CountryWeatherActivity extends AppCompatActivity
-        implements CountriesRecyclerViewAdapter.CountrySelectOnListener {
+        implements CountriesRecyclerViewAdapter.CountrySelectListener {
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
@@ -33,8 +34,8 @@ public class CountryWeatherActivity extends AppCompatActivity
 
         if (savedInstanceState != null) {
             //Restore the fragment's instance
-            mCountryListFragment = (CountryListFragment)getSupportFragmentManager().getFragment(savedInstanceState, "mCountryListFragment");
-            mCountryInfoFragment = (CountryInfoFragment)getSupportFragmentManager().getFragment(savedInstanceState, "mCountryInfoFragment");
+            mCountryListFragment = (CountryListFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mCountryListFragment");
+            mCountryInfoFragment = (CountryInfoFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mCountryInfoFragment");
             mWeatherInfoFragment = (WeatherFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mWeatherInfoFragment");
         }
 
@@ -71,7 +72,7 @@ public class CountryWeatherActivity extends AppCompatActivity
                 .into(userImage);
     }
 
-      @Override
+    @Override
     public void onBackPressed() {
 
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -92,14 +93,15 @@ public class CountryWeatherActivity extends AppCompatActivity
         mDrawerLayout.closeDrawer(GravityCompat.START);
 
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's instance
-        getSupportFragmentManager().putFragment(outState, "mCountryInfoFragment",mCountryInfoFragment);
-        getSupportFragmentManager().putFragment(outState, "mCountryListFragment",mCountryListFragment);
-        getSupportFragmentManager().putFragment(outState, "mWeatherInfoFragment",mWeatherInfoFragment);
+        getSupportFragmentManager().putFragment(outState, "mCountryInfoFragment", mCountryInfoFragment);
+        getSupportFragmentManager().putFragment(outState, "mCountryListFragment", mCountryListFragment);
+        getSupportFragmentManager().putFragment(outState, "mWeatherInfoFragment", mWeatherInfoFragment);
     }
 
 

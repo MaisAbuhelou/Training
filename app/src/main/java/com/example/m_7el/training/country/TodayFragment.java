@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.models.Info;
@@ -20,10 +21,12 @@ import com.example.m_7el.training.country.models.WeatherDetails;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 import com.example.m_7el.training.net.clients.WeatherApiClient;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,9 +67,9 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
         if (savedInstanceState != null) {
             // Restore last state for checked position.
             mCountryInfo = savedInstanceState.getParcelable("country");
-            weatherDetails=savedInstanceState.getParcelableArrayList("weather");
-            todayDate=savedInstanceState.getString("date");
-            Log.d("ll","null");
+            weatherDetails = savedInstanceState.getParcelableArrayList("weather");
+            todayDate = savedInstanceState.getString("date");
+            Log.d("ll", "null");
             setData();
         }
 
@@ -76,7 +79,6 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
     @Override
     public void onSelectedFragment(CountryInfo mCountryInfo) {
         this.mCountryInfo = mCountryInfo;
-
 
 
         Calendar calendar = Calendar.getInstance();
@@ -95,15 +97,12 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
                     if (weatherInfo != null) {
                         weatherDetails = weatherInfo.getWeatherDetails();
                     }
-
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             setData();
                         }
                     }, 1000);
-
-
 
                 }
 
@@ -132,16 +131,16 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
             }
         }
 
-        }
+    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         //Save the fragment's state here
-        outState.putParcelable("country",  mCountryInfo);
+        outState.putParcelable("country", mCountryInfo);
         outState.putParcelableArrayList("weather", (ArrayList<? extends Parcelable>) weatherDetails);
-        outState.putString("date",todayDate);
+        outState.putString("date", todayDate);
 
     }
 }
