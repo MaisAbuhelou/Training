@@ -70,8 +70,9 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
             weatherDetails = savedInstanceState.getParcelableArrayList("weather");
             todayDate = savedInstanceState.getString("date");
             Log.d("ll", "null");
+              setData();
         }
-        setData();
+      
 
         return view;
     }
