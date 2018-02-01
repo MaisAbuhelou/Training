@@ -77,6 +77,7 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
             Info weatherInfo = GetCountryWeather.getWeather(mCountryInfo);
             if (weatherInfo != null) {
                 List<WeatherDetails> weatherDetails = weatherInfo.getWeatherDetails();
+                this.weatherDetails=weatherDetails;
                 setData(weatherDetails);
             }
         }
@@ -84,7 +85,6 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
 
     @SuppressLint("SetTextI18n")
     private void setData(List<WeatherDetails>weatherDetails) {
-        this.weatherDetails = weatherDetails;
 
         for (int i = 0; i < weatherDetails.size(); i++) {
             String[] neww = weatherDetails.get(i).getDtTxt().split(" ");
@@ -107,6 +107,5 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
         outState.putParcelable("country", mCountryInfo);
         outState.putParcelableArrayList("weather", (ArrayList<? extends Parcelable>) weatherDetails);
         outState.putString("date", tomorrowDate);
-
     }
 }

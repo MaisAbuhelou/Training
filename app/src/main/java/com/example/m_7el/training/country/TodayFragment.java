@@ -72,6 +72,7 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
             Info weatherInfo = GetCountryWeather.getWeather(mCountryInfo);
             if (weatherInfo != null) {
                 List<WeatherDetails> weatherDetails = weatherInfo.getWeatherDetails();
+                this.weatherDetails=weatherDetails;
                 setData(weatherDetails);
             }
         }
@@ -79,7 +80,6 @@ public class TodayFragment extends Fragment implements WeatherFragment.CallBacks
 
     @SuppressLint("SetTextI18n")
     private void setData( List<WeatherDetails>weatherDetails) {
-        this.weatherDetails = weatherDetails;
 
         for (int i = 0; i < weatherDetails.size(); i++) {
             String[] dateSplit = weatherDetails.get(i).getDtTxt().split(" ");
