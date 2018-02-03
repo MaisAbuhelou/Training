@@ -78,7 +78,6 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
     public void SelectedFragment(CountryInfo mCountryInfo) {
         this.mCountryInfo = mCountryInfo;
 
-
         Calendar calendar = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
         todayDate = mdformat.format(calendar.getTime());

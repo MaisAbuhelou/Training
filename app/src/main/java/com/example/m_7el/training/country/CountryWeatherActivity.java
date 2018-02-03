@@ -64,7 +64,7 @@ public class CountryWeatherActivity extends AppCompatActivity
         ImageView userImage = header.findViewById(R.id.user_image);
         name.setText("Mais Abu Helou");
         Glide.with(this)
-                .load(R.drawable.download)
+                .load(R.drawable.profile_image)
                 .apply(RequestOptions.circleCropTransform())
                 .into(userImage);
     }
