@@ -17,6 +17,8 @@ import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
 
+import java.net.URISyntaxException;
+
 
 public class CountryInfoFragment extends Fragment {
 
@@ -69,7 +71,7 @@ public class CountryInfoFragment extends Fragment {
             mCountyPopulation.setText(countryInfo.getPopulation() + "" );
             mCountyCapital.setText(countryInfo.getCapital());
             flag = countryInfo.getAltSpellings().get(0);
-            PhotoManager.loadImage(getContext(), mCountryImage);
+            PhotoManager.loadImage(getContext(), mCountryImage,flag);
 
 
         }

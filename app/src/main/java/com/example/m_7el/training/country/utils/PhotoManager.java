@@ -5,16 +5,20 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.net.MalformedURLException;
 
 
 public class PhotoManager {
 
-     public static  void  loadImage(Context context, final ImageView imageView)  {
+     public static  void  loadImage(Context context, final ImageView imageView, String flag)  {
+
          RequestOptions requestOptions = new RequestOptions();
-         Glide.with(context)
-                 .setDefaultRequestOptions(requestOptions)
-                 .load(ImageUrl.getURL()).into(imageView);
+
+
+             Glide.with(context)
+                     .setDefaultRequestOptions(requestOptions)
+                     .load(ImageUrl.getURL(flag)).into(imageView);
+
+
      }
 }
