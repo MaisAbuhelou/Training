@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.CountriesRecyclerViewAdapter.CountrySelectListener;
 import com.example.m_7el.training.country.models.CountryInfo;
@@ -18,7 +19,9 @@ import com.example.m_7el.training.country.utils.SimpleDividerItemDecoration;
 import com.example.m_7el.training.databinding.FragmentCountryListBinding;
 import com.example.m_7el.training.net.clients.CountryApiClient;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
+
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -32,7 +35,7 @@ public class CountryListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LogMessages.getMessage("CountryListFragment" );
+        LogMessages.getMessage("CountryListFragment");
 
     }
 

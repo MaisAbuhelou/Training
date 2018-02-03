@@ -100,7 +100,8 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
                             setData();
                         }
                     }, 1000);
-        }
+                }
+
                 @Override
                 public void onFailure(@NonNull Call<Info> call, @NonNull Throwable t) {
                     t.getStackTrace();

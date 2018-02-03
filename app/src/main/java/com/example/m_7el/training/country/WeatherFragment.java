@@ -17,7 +17,7 @@ public class WeatherFragment extends Fragment {
 
     private TabLayout tabs;
     private ViewPager viewPager;
-    private SelectedFragmentListener mCallback;
+    private SelectedFragmentListener mSelectedFragment;
     private TodayFragment todayFragment;
     private TomorrowFragment tomorrowFragment;
     private CountryInfo mCountryInfo;
@@ -54,13 +54,13 @@ public class WeatherFragment extends Fragment {
         HomeViewPagerAdapter adapter = new HomeViewPagerAdapter(getChildFragmentManager());
         adapter.addFragment(todayFragment, "Today");
         adapter.addFragment(tomorrowFragment, "Tomorrow");
-        mCallback = adapter;
+        mSelectedFragment = adapter;
         viewPager.setAdapter(adapter);
     }
 
     //get data from countries list in activity
     public void setWeather(CountryInfo countryInfo) {
-        mCallback.SelectedFragment(countryInfo);
+        mSelectedFragment.SelectedFragment(countryInfo);
         setData();
     }
 

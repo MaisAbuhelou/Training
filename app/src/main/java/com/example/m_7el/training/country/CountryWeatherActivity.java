@@ -26,7 +26,6 @@ public class CountryWeatherActivity extends AppCompatActivity
     private WeatherFragment mWeatherInfoFragment;
     private CountryListFragment mCountryListFragment;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,14 +38,12 @@ public class CountryWeatherActivity extends AppCompatActivity
             mWeatherInfoFragment = (WeatherFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mWeatherInfoFragment");
         }
 
-
         setToolbar();
         setNavigation();
         mCountryListFragment = (CountryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_country_list);
         mCountryListFragment.setCountrySelectionListener(this);
         mCountryInfoFragment = (CountryInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_countryInfo);
         mWeatherInfoFragment = (WeatherFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_weather_info);
-
     }
 
     private void setToolbar() {
