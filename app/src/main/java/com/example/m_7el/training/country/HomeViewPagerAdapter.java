@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeViewPagerAdapter extends FragmentPagerAdapter implements WeatherFragment.CallBacks {
+public class HomeViewPagerAdapter extends FragmentPagerAdapter implements WeatherFragment.SelectedFragmentListener {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
@@ -38,9 +38,9 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter implements Weathe
     }
 
     @Override
-    public void onSelectedFragment(CountryInfo country) {
+    public void SelectedFragment(CountryInfo country) {
 
-        ((TodayFragment) mFragmentList.get(0)).onSelectedFragment(country);
-        ((TomorrowFragment) mFragmentList.get(1)).onSelectedFragment(country);
+        ((TodayFragment) mFragmentList.get(0)).SelectedFragment(country);
+        ((TomorrowFragment) mFragmentList.get(1)).SelectedFragment(country);
     }
 }

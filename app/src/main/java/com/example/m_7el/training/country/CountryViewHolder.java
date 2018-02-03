@@ -6,11 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.PhotoManager;
 import com.example.m_7el.training.databinding.RecyclerBinding;
-
 
 public class CountryViewHolder extends RecyclerView.ViewHolder {
 
@@ -18,6 +16,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
     private ImageView mCountryImage;
     private CountryInfo mCountry;
     private Context mContext;
+    private String flag="PS";
 
 
     public CountryViewHolder(View view, final CountriesRecyclerViewAdapter.CountrySelectListener countrySelectListener) {
@@ -35,7 +34,10 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(CountryInfo country) {
         mCountry = country;
+        if ( mCountry.getAltSpellings().size()!=0) {
+             flag = mCountry.getAltSpellings().get(0);
+        }
         binding.setCountry(country);
-        PhotoManager.loadImage(mContext, mCountryImage);
+        PhotoManager.loadImage(mContext, mCountryImage, flag);
     }
 }

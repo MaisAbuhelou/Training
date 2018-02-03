@@ -33,7 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class TomorrowFragment extends Fragment implements WeatherFragment.CallBacks {
+public class TomorrowFragment extends Fragment implements WeatherFragment.SelectedFragmentListener {
 
 
     private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
@@ -75,7 +75,7 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
     }
 
     @Override
-    public void onSelectedFragment(CountryInfo mCountryInfo) {
+    public void SelectedFragment(CountryInfo mCountryInfo) {
         this.mCountryInfo = mCountryInfo;
 
         Date now = new Date();
@@ -116,9 +116,8 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.CallBa
     @SuppressLint("SetTextI18n")
     private void setData() {
         for (int i = 0; i < weatherDetails.size(); i++) {
-
-            String[] neww = weatherDetails.get(i).getDtTxt().split(" ");
-            if (neww[0].equals(tomorrowDate)) {
+            String[] mdate = weatherDetails.get(i).getDtTxt().split(" ");
+            if (mdate[0].equals(tomorrowDate)) {
                 date.setText(tomorrowDate);
                 Main main = weatherDetails.get(i).getMain();
                 pressure.setText(main.getPressure() + "");

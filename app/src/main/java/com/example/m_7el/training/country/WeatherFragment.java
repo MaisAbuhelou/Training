@@ -17,7 +17,7 @@ public class WeatherFragment extends Fragment {
 
     private TabLayout tabs;
     private ViewPager viewPager;
-    private CallBacks mCallback;
+    private SelectedFragmentListener mCallback;
     private TodayFragment todayFragment;
     private TomorrowFragment tomorrowFragment;
     private CountryInfo mCountryInfo;
@@ -60,7 +60,7 @@ public class WeatherFragment extends Fragment {
 
     //get data from countries list in activity
     public void setWeather(CountryInfo countryInfo) {
-        mCallback.onSelectedFragment(countryInfo);
+        mCallback.SelectedFragment(countryInfo);
         setData();
     }
 
@@ -78,8 +78,8 @@ public class WeatherFragment extends Fragment {
         setupViewPager(viewPager);
     }
 
-    public interface CallBacks {
-        void onSelectedFragment(CountryInfo countryInfo);
+    public interface SelectedFragmentListener {
+        void SelectedFragment(CountryInfo countryInfo);
 
     }
 

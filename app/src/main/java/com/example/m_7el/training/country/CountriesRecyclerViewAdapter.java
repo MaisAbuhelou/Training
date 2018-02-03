@@ -22,8 +22,8 @@ public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountryVi
        this.mCountries = country;
     }
 
-    public CountriesRecyclerViewAdapter( CountrySelectListener countrySelecetListener) {
-        mListener = countrySelecetListener;
+    public CountriesRecyclerViewAdapter( CountrySelectListener countrySelectListener) {
+        mListener = countrySelectListener;
     }
 
     @Override
