@@ -1,5 +1,6 @@
 package com.example.m_7el.training.country;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import com.example.m_7el.training.country.CountriesRecyclerViewAdapter.CountrySe
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.SimpleDividerItemDecoration;
+import com.example.m_7el.training.databinding.FragmentCountryListBinding;
 import com.example.m_7el.training.net.clients.CountryApiClient;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 
@@ -42,9 +44,10 @@ public class CountryListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-
-        View view = inflater.inflate(R.layout.fragment_country_list, container, false);
-        countriesRecyclerView = view.findViewById(R.id.country_list_recycler_view);
+        FragmentCountryListBinding binding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_country_list, container, false);
+        View view = binding.getRoot();
+        countriesRecyclerView = binding.countryListRecyclerView;
         countriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         countriesRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
         getCountriesInfo();

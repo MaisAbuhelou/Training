@@ -23,8 +23,8 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
     public CountryViewHolder(View view, final CountriesRecyclerViewAdapter.CountrySelectListener countrySelectListener) {
         super(view);
         mContext = view.getContext();
-        mCountryImage = view.findViewById(R.id.country_imagee);
         binding = DataBindingUtil.bind(view);
+        mCountryImage = binding.countryImagee;
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -1,15 +1,35 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.m_7el.training.country.CountryListFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/country_list_recycler_view"
+        <import type="android.view.View" />
+        <import type="android.support.v4.app.Fragment" />
+
+        <variable
+            name="country"
+            type="com.example.m_7el.training.country.models.CountryInfo" />
+
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:scrollbars="vertical" />
-</RelativeLayout>
+        tools:context="com.example.m_7el.training.country.CountryListFragment">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/country_list_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical" />
+    </RelativeLayout>
+</layout>
+
+

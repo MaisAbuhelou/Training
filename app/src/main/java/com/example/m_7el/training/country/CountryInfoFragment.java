@@ -79,7 +79,6 @@ public class CountryInfoFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-
         //Save the fragment's state here
         outState.putParcelable("country", mCountryInfo);
 
