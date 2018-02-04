@@ -28,12 +28,9 @@ import java.util.List;
 public class TomorrowFragment extends Fragment implements WeatherFragment.SelectedFragmentListener {
 
 
-    private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
-    private Info weatherInfo;
     private List<WeatherDetails> mWeatherDetails;
     private TextView date, humidity, pressure, temp;
     private String tomorrowDate;
-    private Info mWeatherInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,18 +63,14 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
     }
 
     @Override
-    public void SelectedFragment(Info weatherInfo) {
-        this.mWeatherInfo = weatherInfo;
+    public void SelectedFragment(@NonNull Info weatherInfo) {
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
         tomorrowDate = mdformat.format(calendar.getTime());
-
-        if (weatherInfo != null) {
-            mWeatherDetails = weatherInfo.getWeatherDetails();
-        }
+        mWeatherDetails = weatherInfo.getWeatherDetails();
         setData();
     }
 

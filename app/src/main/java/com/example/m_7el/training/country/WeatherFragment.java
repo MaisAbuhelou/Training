@@ -68,6 +68,11 @@ public class WeatherFragment extends Fragment {
         viewPager.setAdapter(adapter);
     }
 
+    private void setData() {
+        tabs.setupWithViewPager(viewPager);
+        setupViewPager(viewPager);
+    }
+
     //get data from countries list in activity
     public void setWeather(CountryInfo countryInfo) {
         mCountryInfo = countryInfo;
@@ -81,7 +86,7 @@ public class WeatherFragment extends Fragment {
 
                     weatherInfo = response.body();
                     mSelectedFragment.SelectedFragment(weatherInfo);
-                    setData();
+
                 }
 
                 @Override
@@ -90,6 +95,7 @@ public class WeatherFragment extends Fragment {
                 }
             });
         }
+        setData();
     }
 
     @Override
@@ -99,11 +105,6 @@ public class WeatherFragment extends Fragment {
         outState.putParcelable("country", mCountryInfo);
         getChildFragmentManager().putFragment(outState, "todayFragment", todayFragment);
         getChildFragmentManager().putFragment(outState, "tomorrowFragment", tomorrowFragment);
-    }
-
-    private void setData() {
-        tabs.setupWithViewPager(viewPager);
-        setupViewPager(viewPager);
     }
 
 

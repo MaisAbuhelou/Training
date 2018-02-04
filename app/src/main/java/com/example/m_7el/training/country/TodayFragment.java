@@ -26,8 +26,6 @@ import java.util.List;
 
 public class TodayFragment extends Fragment implements WeatherFragment.SelectedFragmentListener {
 
-    private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
-    private Info mWeatherInfo;
     private List<WeatherDetails> mWeatherDetails;
     private TextView date, humidity, pressure, temp;
     private String todayDate;
@@ -65,34 +63,29 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
     }
 
     @Override
-    public void SelectedFragment(Info weatherInfo) {
-        mWeatherInfo = weatherInfo;
+    public void SelectedFragment(@NonNull Info weatherInfo) {
+
         Calendar calendar = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
         todayDate = mdformat.format(calendar.getTime());
-
-        if (weatherInfo != null) {
-            mWeatherDetails = weatherInfo.getWeatherDetails();
-        }
+        mWeatherDetails = weatherInfo.getWeatherDetails();
         setData();
-
-
     }
 
     @SuppressLint("SetTextI18n")
     private void setData() {
-        if (mWeatherDetails!=null){
-        for (int i = 0; i < this.mWeatherDetails.size(); i++) {
-            String[] mdate = this.mWeatherDetails.get(i).getDtTxt().split(" ");
-            if (mdate[0].equals(todayDate)) {
-                date.setText(todayDate);
-                Main main = this.mWeatherDetails.get(i).getMain();
-                pressure.setText(main.getPressure() + "");
-                humidity.setText(main.getHumidity() + "");
-                temp.setText(main.getTempMin() + " - " + main.getTempMax());
-                break;
+        if (mWeatherDetails != null) {
+            for (int i = 0; i < this.mWeatherDetails.size(); i++) {
+                String[] mdate = this.mWeatherDetails.get(i).getDtTxt().split(" ");
+                if (mdate[0].equals(todayDate)) {
+                    date.setText(todayDate);
+                    Main main = this.mWeatherDetails.get(i).getMain();
+                    pressure.setText(main.getPressure() + "");
+                    humidity.setText(main.getHumidity() + "");
+                    temp.setText(main.getTempMin() + " - " + main.getTempMax());
+                    break;
+                }
             }
-        }
         }
     }
 
