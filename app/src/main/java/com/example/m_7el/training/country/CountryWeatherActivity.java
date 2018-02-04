@@ -36,6 +36,7 @@ public class CountryWeatherActivity extends AppCompatActivity
             mCountryListFragment = (CountryListFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mCountryListFragment");
             mCountryInfoFragment = (CountryInfoFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mCountryInfoFragment");
             mWeatherInfoFragment = (WeatherFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mWeatherInfoFragment");
+
         }
 
         setToolbar();
@@ -88,7 +89,6 @@ public class CountryWeatherActivity extends AppCompatActivity
             mWeatherInfoFragment.setWeather(countryInfo);
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
-
     }
 
     @Override

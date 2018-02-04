@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,11 +42,8 @@ public class CountryInfoFragment extends Fragment {
         mCountyPopulation = view.findViewById(R.id.population);
         mCountyCapital = view.findViewById(R.id.country_capital);
         mCountryImage = view.findViewById(R.id.country_image);
-        if (savedInstanceState == null) {
-            Log.i("state null", "null");
-        }
+
         if (savedInstanceState != null) {
-            // Restore last state for checked position.
             mCountryInfo = savedInstanceState.getParcelable("country");
             setData(mCountryInfo);
         }
