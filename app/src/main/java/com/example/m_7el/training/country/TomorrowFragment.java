@@ -93,7 +93,6 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
         //Save the fragment's state here
         outState.putParcelableArrayList("weather", (ArrayList<? extends Parcelable>) mWeatherDetails);
         outState.putString("date", tomorrowDate);

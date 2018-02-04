@@ -34,7 +34,6 @@ public class CountryListFragment extends Fragment {
     private RecyclerView countriesRecyclerView;
     private CountrySelectListener mCountrySelectionListener;
     private FragmentCountryListBinding binding;
-    private CountriesRecyclerViewAdapter countriesRecyclerViewAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,7 +103,7 @@ public class CountryListFragment extends Fragment {
     }
 
     private void setRecyclerView() {
-        countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(mCountrySelectionListener);
+        CountriesRecyclerViewAdapter countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(mCountrySelectionListener);
         countriesRecyclerViewAdapter.setCountry(mCountryInfo);
         countriesRecyclerView.setAdapter(countriesRecyclerViewAdapter);
         countriesRecyclerViewAdapter.notifyDataSetChanged();

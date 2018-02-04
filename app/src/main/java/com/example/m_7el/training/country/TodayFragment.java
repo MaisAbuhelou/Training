@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-
 public class TodayFragment extends Fragment implements WeatherFragment.SelectedFragmentListener {
 
     private List<WeatherDetails> mWeatherDetails;
@@ -33,7 +32,6 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         LogMessages.getMessage("TodayFragment");
     }
 

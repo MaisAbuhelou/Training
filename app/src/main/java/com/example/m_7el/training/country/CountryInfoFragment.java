@@ -67,7 +67,6 @@ public class CountryInfoFragment extends Fragment {
             if (countryInfo.getAltSpellings().size() != 0) {
                 flag = countryInfo.getAltSpellings().get(0);
             }
-
             PhotoManager.loadImage(getContext(), mCountryImage, flag);
         }
     }

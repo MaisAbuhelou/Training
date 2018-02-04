@@ -34,13 +34,11 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter implements Weathe
 
     @Override
     public CharSequence getPageTitle(int position) {
-
         return mFragmentTitleList.get(position);
     }
 
     @Override
     public void SelectedFragment(Info weatherInfo) {
-
         ((TodayFragment) mFragmentList.get(0)).SelectedFragment(weatherInfo);
         ((TomorrowFragment) mFragmentList.get(1)).SelectedFragment(weatherInfo);
     }
