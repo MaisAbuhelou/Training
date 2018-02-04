@@ -56,6 +56,7 @@ public class CountryListFragment extends Fragment {
 
         return view;
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -63,12 +64,13 @@ public class CountryListFragment extends Fragment {
         if (savedInstanceState == null) {
             getCountriesInfo();
         }
-        if(savedInstanceState!=null) {
+        if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelableArrayList("country");
             showLoadingView(false);
             setRecyclerView();
         }
     }
+
     public void showLoadingView(boolean show) {
         binding.setLoading(show);
     }
@@ -102,7 +104,7 @@ public class CountryListFragment extends Fragment {
     }
 
     private void setRecyclerView() {
-     countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(mCountrySelectionListener);
+        countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(mCountrySelectionListener);
         countriesRecyclerViewAdapter.setCountry(mCountryInfo);
         countriesRecyclerView.setAdapter(countriesRecyclerViewAdapter);
         countriesRecyclerViewAdapter.notifyDataSetChanged();

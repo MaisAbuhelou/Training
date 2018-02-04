@@ -24,7 +24,6 @@ public class GetCountryWeather {
         Call<Info> call2 = WeatherApiClient.getClient().create(RetrofitInterface.class).getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
         call2.enqueue(new Callback<Info>() {
 
-
             @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(@NonNull Call<Info> call, @NonNull Response<Info> response) {
@@ -38,5 +37,10 @@ public class GetCountryWeather {
             }
         });
     }
+    public interface WeatherListener {
+        void sendWeather (Info weatherInfo);
+
+    }
 }
+
 

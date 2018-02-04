@@ -25,6 +25,7 @@ public class CountryInfoFragment extends Fragment {
     private TextView mCountyCapital;
     private ImageView mCountryImage;
     private CountryInfo mCountryInfo;
+    private String flag = "PS";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,12 +64,13 @@ public class CountryInfoFragment extends Fragment {
             mCountyRegion.setText(countryInfo.getRegion());
             mCountyPopulation.setText(countryInfo.getPopulation() + "");
             mCountyCapital.setText(countryInfo.getCapital());
-            String flag = countryInfo.getAltSpellings().get(0);
-            PhotoManager.loadImage(getContext(), mCountryImage, flag);
+            if (countryInfo.getAltSpellings().size() != 0) {
+                flag = countryInfo.getAltSpellings().get(0);
+            }
 
+            PhotoManager.loadImage(getContext(), mCountryImage, flag);
         }
     }
-
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {

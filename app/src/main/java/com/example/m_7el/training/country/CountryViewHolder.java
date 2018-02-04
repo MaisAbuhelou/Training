@@ -16,7 +16,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
     private ImageView mCountryImage;
     private CountryInfo mCountry;
     private Context mContext;
-    private String flag="PS";
+    private String flag = "PS";
 
 
     public CountryViewHolder(View view, final CountriesRecyclerViewAdapter.CountrySelectListener countrySelectListener) {
@@ -34,8 +34,8 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(CountryInfo country) {
         mCountry = country;
-        if ( mCountry.getAltSpellings().size()!=0) {
-             flag = mCountry.getAltSpellings().get(0);
+        if (mCountry.getAltSpellings().size() != 0) {
+            flag = mCountry.getAltSpellings().get(0);
         }
         binding.setCountry(country);
         PhotoManager.loadImage(mContext, mCountryImage, flag);

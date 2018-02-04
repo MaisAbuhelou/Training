@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import com.example.m_7el.training.country.models.CountryInfo;
+import com.example.m_7el.training.country.models.Info;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +39,9 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter implements Weathe
     }
 
     @Override
-    public void SelectedFragment(CountryInfo country) {
+    public void SelectedFragment(Info weatherInfo) {
 
-        ((TodayFragment) mFragmentList.get(0)).SelectedFragment(country);
-        ((TomorrowFragment) mFragmentList.get(1)).SelectedFragment(country);
+        ((TodayFragment) mFragmentList.get(0)).SelectedFragment(weatherInfo);
+        ((TomorrowFragment) mFragmentList.get(1)).SelectedFragment(weatherInfo);
     }
 }

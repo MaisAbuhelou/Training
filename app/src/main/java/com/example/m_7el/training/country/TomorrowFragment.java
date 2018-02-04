@@ -13,23 +13,16 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.m_7el.training.R;
-import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.models.Info;
 import com.example.m_7el.training.country.models.Main;
 import com.example.m_7el.training.country.models.WeatherDetails;
 import com.example.m_7el.training.country.utils.LogMessages;
-import com.example.m_7el.training.net.clients.RetrofitInterface;
-import com.example.m_7el.training.net.clients.WeatherApiClient;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class TomorrowFragment extends Fragment implements WeatherFragment.SelectedFragmentListener {
@@ -40,7 +33,7 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
     private List<WeatherDetails> mWeatherDetails;
     private TextView date, humidity, pressure, temp;
     private String tomorrowDate;
-    private CountryInfo mCountryInfo;
+    private Info mWeatherInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +56,6 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
         }
         if (savedInstanceState != null) {
             // Restore last state for checked position.
-            mCountryInfo = savedInstanceState.getParcelable("country");
             mWeatherDetails = savedInstanceState.getParcelableArrayList("weather");
             tomorrowDate = savedInstanceState.getString("date");
             setData();
@@ -74,36 +66,19 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
     }
 
     @Override
-    public void SelectedFragment(CountryInfo mCountryInfo) {
-        this.mCountryInfo = mCountryInfo;
-
+    public void SelectedFragment(Info weatherInfo) {
+        this.mWeatherInfo = weatherInfo;
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         calendar.add(Calendar.DAY_OF_YEAR, 1);
         @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
         tomorrowDate = mdformat.format(calendar.getTime());
-        if (mCountryInfo.getLatlng().size() != 0) {
-            Call<Info> call2 = WeatherApiClient.getClient().create(RetrofitInterface.class).getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
-            call2.enqueue(new Callback<Info>() {
 
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onResponse(@NonNull Call<Info> call, @NonNull Response<Info> response) {
-
-                    weatherInfo = response.body();
-                    if (weatherInfo != null) {
-                        mWeatherDetails = weatherInfo.getWeatherDetails();
-                    }
-                    setData();
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<Info> call, @NonNull Throwable t) {
-                    t.getStackTrace();
-                }
-            });
+        if (weatherInfo != null) {
+            mWeatherDetails = weatherInfo.getWeatherDetails();
         }
+        setData();
     }
 
 
@@ -127,7 +102,6 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
         super.onSaveInstanceState(outState);
 
         //Save the fragment's state here
-        outState.putParcelable("country", mCountryInfo);
         outState.putParcelableArrayList("weather", (ArrayList<? extends Parcelable>) mWeatherDetails);
         outState.putString("date", tomorrowDate);
 
