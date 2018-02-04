@@ -3,7 +3,6 @@ package com.example.m_7el.training.country;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -36,7 +35,7 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
 
     private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
     private Info weatherInfo;
-    private List<WeatherDetails> weatherDetails;
+    private List<WeatherDetails> mWeatherDetails;
     private TextView date, humidity, pressure, temp;
     private String todayDate;
     private CountryInfo mCountryInfo;
@@ -65,7 +64,7 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
         if (savedInstanceState != null) {
             // Restore last state for checked position.
             mCountryInfo = savedInstanceState.getParcelable("country");
-            weatherDetails = savedInstanceState.getParcelableArrayList("weather");
+            mWeatherDetails = savedInstanceState.getParcelableArrayList("weather");
             todayDate = savedInstanceState.getString("date");
             Log.d("ll", "null");
             setData();
@@ -91,16 +90,10 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
 
                     weatherInfo = response.body();
                     if (weatherInfo != null) {
-                        weatherDetails = weatherInfo.getWeatherDetails();
+                        mWeatherDetails = weatherInfo.getWeatherDetails();
                     }
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            setData();
-                        }
-                    }, 1000);
+                    setData();
                 }
-
                 @Override
                 public void onFailure(@NonNull Call<Info> call, @NonNull Throwable t) {
                     t.getStackTrace();
@@ -111,11 +104,11 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
 
     @SuppressLint("SetTextI18n")
     private void setData() {
-        for (int i = 0; i < weatherDetails.size(); i++) {
-            String[] mdate = weatherDetails.get(i).getDtTxt().split(" ");
+        for (int i = 0; i < this.mWeatherDetails.size(); i++) {
+            String[] mdate = this.mWeatherDetails.get(i).getDtTxt().split(" ");
             if (mdate[0].equals(todayDate)) {
                 date.setText(todayDate);
-                Main main = weatherDetails.get(i).getMain();
+                Main main = this.mWeatherDetails.get(i).getMain();
                 pressure.setText(main.getPressure() + "");
                 humidity.setText(main.getHumidity() + "");
                 temp.setText(main.getTempMin() + " - " + main.getTempMax());
@@ -130,7 +123,7 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
 
         //Save the fragment's state here
         outState.putParcelable("country", mCountryInfo);
-        outState.putParcelableArrayList("weather", (ArrayList<? extends Parcelable>) weatherDetails);
+        outState.putParcelableArrayList("weather", (ArrayList<? extends Parcelable>) mWeatherDetails);
         outState.putString("date", todayDate);
 
     }

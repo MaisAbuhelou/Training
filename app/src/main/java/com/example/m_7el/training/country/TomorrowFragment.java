@@ -3,7 +3,6 @@ package com.example.m_7el.training.country;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -38,7 +37,7 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
 
     private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
     private Info weatherInfo;
-    private List<WeatherDetails> weatherDetails;
+    private List<WeatherDetails> mWeatherDetails;
     private TextView date, humidity, pressure, temp;
     private String tomorrowDate;
     private CountryInfo mCountryInfo;
@@ -65,7 +64,7 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
         if (savedInstanceState != null) {
             // Restore last state for checked position.
             mCountryInfo = savedInstanceState.getParcelable("country");
-            weatherDetails = savedInstanceState.getParcelableArrayList("weather");
+            mWeatherDetails = savedInstanceState.getParcelableArrayList("weather");
             tomorrowDate = savedInstanceState.getString("date");
             setData();
 
@@ -94,14 +93,9 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
 
                     weatherInfo = response.body();
                     if (weatherInfo != null) {
-                        weatherDetails = weatherInfo.getWeatherDetails();
+                        mWeatherDetails = weatherInfo.getWeatherDetails();
                     }
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            setData();
-                        }
-                    }, 1000);
+                    setData();
                 }
 
                 @Override
@@ -115,11 +109,11 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
 
     @SuppressLint("SetTextI18n")
     private void setData() {
-        for (int i = 0; i < weatherDetails.size(); i++) {
-            String[] mdate = weatherDetails.get(i).getDtTxt().split(" ");
+        for (int i = 0; i < this.mWeatherDetails.size(); i++) {
+            String[] mdate = this.mWeatherDetails.get(i).getDtTxt().split(" ");
             if (mdate[0].equals(tomorrowDate)) {
                 date.setText(tomorrowDate);
-                Main main = weatherDetails.get(i).getMain();
+                Main main = this.mWeatherDetails.get(i).getMain();
                 pressure.setText(main.getPressure() + "");
                 humidity.setText(main.getHumidity() + "");
                 temp.setText(main.getTempMin() + " - " + main.getTempMax());
@@ -134,7 +128,7 @@ public class TomorrowFragment extends Fragment implements WeatherFragment.Select
 
         //Save the fragment's state here
         outState.putParcelable("country", mCountryInfo);
-        outState.putParcelableArrayList("weather", (ArrayList<? extends Parcelable>) weatherDetails);
+        outState.putParcelableArrayList("weather", (ArrayList<? extends Parcelable>) mWeatherDetails);
         outState.putString("date", tomorrowDate);
 
     }

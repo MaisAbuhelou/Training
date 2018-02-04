@@ -3,6 +3,7 @@ package com.example.m_7el.training.country;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import com.example.m_7el.training.databinding.FragmentCountryListBinding;
 import com.example.m_7el.training.net.clients.CountryApiClient;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,8 +32,10 @@ public class CountryListFragment extends Fragment {
 
     private List<CountryInfo> mCountryInfo;
     private RecyclerView countriesRecyclerView;
-    private CountrySelectListener countrySelectionListener;
+    private CountrySelectListener mCountrySelectionListener;
     private FragmentCountryListBinding binding;
+    private CountriesRecyclerViewAdapter countriesRecyclerViewAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,18 +47,29 @@ public class CountryListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-         binding = DataBindingUtil.inflate(inflater,
+        binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_country_list, container, false);
         View view = binding.getRoot();
         countriesRecyclerView = binding.countryListRecyclerView;
         countriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         countriesRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-        getCountriesInfo();
 
         return view;
     }
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-    public void showLoadingView(boolean show){
+        if (savedInstanceState == null) {
+            getCountriesInfo();
+        }
+        if(savedInstanceState!=null) {
+            mCountryInfo = savedInstanceState.getParcelableArrayList("country");
+            showLoadingView(false);
+            setRecyclerView();
+        }
+    }
+    public void showLoadingView(boolean show) {
         binding.setLoading(show);
     }
 
@@ -72,7 +87,7 @@ public class CountryListFragment extends Fragment {
                         setRecyclerView();
                         showLoadingView(false);
                     }
-                }, 5000);
+                }, 2000);
             }
 
             @Override
@@ -82,14 +97,22 @@ public class CountryListFragment extends Fragment {
         });
     }
 
-    public void setCountrySelectionListener(CountrySelectListener countrySelectionListener) {
-        this.countrySelectionListener = countrySelectionListener;
+    public void setCountrySelectionListener(CountrySelectListener mCountrySelectionListener) {
+        this.mCountrySelectionListener = mCountrySelectionListener;
     }
 
     private void setRecyclerView() {
-        CountriesRecyclerViewAdapter countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(countrySelectionListener);
+     countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(mCountrySelectionListener);
         countriesRecyclerViewAdapter.setCountry(mCountryInfo);
         countriesRecyclerView.setAdapter(countriesRecyclerViewAdapter);
         countriesRecyclerViewAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Save the fragment's state here
+        outState.putParcelableArrayList("country", (ArrayList<? extends Parcelable>) mCountryInfo);
+
     }
 }
