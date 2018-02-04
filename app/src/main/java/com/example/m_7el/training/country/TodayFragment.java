@@ -30,7 +30,6 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
     private TextView date, humidity, pressure, temp;
     private String todayDate;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
