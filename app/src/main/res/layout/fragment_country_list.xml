@@ -9,8 +9,8 @@
         <import type="android.support.v4.app.Fragment" />
 
         <variable
-            name="country"
-            type="com.example.m_7el.training.country.models.CountryInfo" />
+            name="loading"
+            type="java.lang.Boolean" />
 
     </data>
 
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            />
+            android:visibility="@{loading ? View.VISIBLE : View.GONE}" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/country_list_recycler_view"

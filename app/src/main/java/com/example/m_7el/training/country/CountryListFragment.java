@@ -31,7 +31,7 @@ public class CountryListFragment extends Fragment {
     private List<CountryInfo> mCountryInfo;
     private RecyclerView countriesRecyclerView;
     private CountrySelectListener countrySelectionListener;
-
+    private FragmentCountryListBinding binding;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +43,7 @@ public class CountryListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        FragmentCountryListBinding binding = DataBindingUtil.inflate(inflater,
+         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_country_list, container, false);
         View view = binding.getRoot();
         countriesRecyclerView = binding.countryListRecyclerView;
@@ -54,8 +54,13 @@ public class CountryListFragment extends Fragment {
         return view;
     }
 
+    public void showLoadingView(boolean show){
+        binding.setLoading(show);
+    }
+
     private void getCountriesInfo() {
         // get All countries
+        showLoadingView(true);
         Call<List<CountryInfo>> call2 = CountryApiClient.getClient().create(RetrofitInterface.class).getCountyInfo();
         call2.enqueue(new Callback<List<CountryInfo>>() {
             @Override
@@ -65,13 +70,13 @@ public class CountryListFragment extends Fragment {
                     @Override
                     public void run() {
                         setRecyclerView();
+                        showLoadingView(false);
                     }
-                }, 1000);
+                }, 5000);
             }
 
             @Override
             public void onFailure(@NonNull Call<List<CountryInfo>> call, @NonNull Throwable t) {
-
                 t.printStackTrace();
             }
         });
