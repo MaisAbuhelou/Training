@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,15 +22,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class TodayFragment extends Fragment implements WeatherFragment.SelectedFragmentListener {
+public class TodayFragment extends Fragment {
 
     private List<WeatherDetails> mWeatherDetails;
     private TextView date, humidity, pressure, temp;
-    private String todayDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         LogMessages.getMessage("TodayFragment");
     }
 
@@ -45,54 +44,46 @@ public class TodayFragment extends Fragment implements WeatherFragment.SelectedF
         temp = view.findViewById(R.id.country_temp);
         pressure = view.findViewById(R.id.pressure);
         humidity = view.findViewById(R.id.humidity);
-        if (savedInstanceState == null) {
-            Log.i("state null", "null");
-        }
-        if (savedInstanceState != null) {
-            // Restore last state for checked position.
+        if (savedInstanceState != null)
             mWeatherDetails = savedInstanceState.getParcelableArrayList("weather");
-            todayDate = savedInstanceState.getString("date");
-            Log.d("ll", "null");
-            setData();
-        }
-
+        showData();
         return view;
     }
 
-    @Override
-    public void SelectedFragment(@NonNull Info weatherInfo) {
-
-        Calendar calendar = Calendar.getInstance();
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
-        todayDate = mdformat.format(calendar.getTime());
-        mWeatherDetails = weatherInfo.getWeatherDetails();
-        setData();
-    }
 
     @SuppressLint("SetTextI18n")
-    private void setData() {
-        if (mWeatherDetails != null) {
-            for (int i = 0; i < this.mWeatherDetails.size(); i++) {
-                String[] mdate = this.mWeatherDetails.get(i).getDtTxt().split(" ");
-                if (mdate[0].equals(todayDate)) {
-                    date.setText(todayDate);
-                    Main main = this.mWeatherDetails.get(i).getMain();
-                    pressure.setText(main.getPressure() + "");
-                    humidity.setText(main.getHumidity() + "");
-                    temp.setText(main.getTempMin() + " - " + main.getTempMax());
-                    break;
-                }
+    private void showData() {
+        Calendar calendar = Calendar.getInstance();
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
+        String todayDate = mdformat.format(calendar.getTime());
+        if (this.mWeatherDetails == null) return;
+        for (int i = 0; i < this.mWeatherDetails.size(); i++) {
+            String[] mdate = this.mWeatherDetails.get(i).getDtTxt().split(" ");
+            if (mdate[0].equals(todayDate)) {
+                date.setText(todayDate);
+                Main main = this.mWeatherDetails.get(i).getMain();
+                pressure.setText(main.getPressure() + "");
+                humidity.setText(main.getHumidity() + "");
+                temp.setText(main.getTempMin() + " - " + main.getTempMax());
+                break;
             }
+        }
+    }
+
+    public void setFragmentData(Info weatherInfo) {
+
+        if (weatherInfo != null) {
+            mWeatherDetails = weatherInfo.getWeatherDetails();
+            if (!isAdded()) return;
+            showData();
         }
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-
-        //Save the fragment's state here
         outState.putParcelableArrayList("weather", (ArrayList<? extends Parcelable>) mWeatherDetails);
-        outState.putString("date", todayDate);
+
 
     }
 }

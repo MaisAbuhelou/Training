@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class HomeViewPagerAdapter extends FragmentPagerAdapter implements WeatherFragment.SelectedFragmentListener {
+public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
     private final List<Fragment> mFragmentList = new ArrayList<>();
     private final List<String> mFragmentTitleList = new ArrayList<>();
 
-    public HomeViewPagerAdapter(FragmentManager manager) {
+    public WeatherViewPagerAdapter(FragmentManager manager) {
         super(manager);
     }
 
@@ -37,9 +37,4 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter implements Weathe
         return mFragmentTitleList.get(position);
     }
 
-    @Override
-    public void SelectedFragment(Info weatherInfo) {
-        ((TodayFragment) mFragmentList.get(0)).SelectedFragment(weatherInfo);
-        ((TomorrowFragment) mFragmentList.get(1)).SelectedFragment(weatherInfo);
-    }
 }

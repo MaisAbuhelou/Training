@@ -30,15 +30,6 @@ public class CountryWeatherActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_weather);
-
-        if (savedInstanceState != null) {
-            //Restore the fragment's instance
-            mCountryListFragment = (CountryListFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mCountryListFragment");
-            mCountryInfoFragment = (CountryInfoFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mCountryInfoFragment");
-            mWeatherInfoFragment = (WeatherFragment) getSupportFragmentManager().getFragment(savedInstanceState, "mWeatherInfoFragment");
-
-        }
-
         setToolbar();
         setNavigation();
         mCountryListFragment = (CountryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_country_list);
@@ -90,14 +81,4 @@ public class CountryWeatherActivity extends AppCompatActivity
         }
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        getSupportFragmentManager().putFragment(outState, "mCountryInfoFragment", mCountryInfoFragment);
-        getSupportFragmentManager().putFragment(outState, "mCountryListFragment", mCountryListFragment);
-        getSupportFragmentManager().putFragment(outState, "mWeatherInfoFragment", mWeatherInfoFragment);
-    }
-
-
 }
