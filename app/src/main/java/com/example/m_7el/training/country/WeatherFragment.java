@@ -26,8 +26,8 @@ public class WeatherFragment extends Fragment {
 
     private TabLayout tabs;
     private ViewPager viewPager;
-    private TodayFragment todayFragment;
-    private TomorrowFragment tomorrowFragment;
+    private DayWeatherFragment todayFragment;
+    private DayWeatherFragment tomorrowFragment;
     private CountryInfo mCountryInfo;
     private Info weatherInfo;
 
@@ -45,8 +45,8 @@ public class WeatherFragment extends Fragment {
         // Setting ViewPager for each Tabs
         viewPager = view.findViewById(R.id.viewpager);
         tabs = view.findViewById(R.id.tabLayout);
-        todayFragment = new TodayFragment();
-        tomorrowFragment = new TomorrowFragment();
+        todayFragment = new DayWeatherFragment();
+        tomorrowFragment = new DayWeatherFragment();
 
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelable("country");
@@ -61,8 +61,8 @@ public class WeatherFragment extends Fragment {
         WeatherViewPagerAdapter adapter = new WeatherViewPagerAdapter(getChildFragmentManager());
         todayFragment.setFragmentData(weatherInfo);
         tomorrowFragment.setFragmentData(weatherInfo);
-        adapter.addFragment(todayFragment, "Today");
-        adapter.addFragment(tomorrowFragment, "Tomorrow");
+        adapter.addFragment(todayFragment, getString(R.string.today));
+        adapter.addFragment(tomorrowFragment, getString(R.string.tomorrow));
         viewPager.setAdapter(adapter);
     }
 

@@ -20,32 +20,38 @@ import com.example.m_7el.training.country.utils.LogMessages;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
-public class TodayFragment extends Fragment {
+public class DayWeatherFragment extends Fragment {
 
     private List<WeatherDetails> mWeatherDetails;
     private TextView date, humidity, pressure, temp;
+    private String myDate;
+    private String todayDate;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        LogMessages.getMessage("TodayFragment");
+        LogMessages.getMessage("DayWeatherFragment");
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_weather_layouts, container, false);
+        View view = inflater.inflate(R.layout.fragment_day_weather, container, false);
 
         date = view.findViewById(R.id.country_date);
         temp = view.findViewById(R.id.country_temp);
         pressure = view.findViewById(R.id.pressure);
         humidity = view.findViewById(R.id.humidity);
-        if (savedInstanceState != null)
+        myDate = getArguments().getString("date");
+
+        if (savedInstanceState != null) {
             mWeatherDetails = savedInstanceState.getParcelableArrayList("weather");
+        }
         showData();
         return view;
     }
@@ -55,13 +61,21 @@ public class TodayFragment extends Fragment {
     private void showData() {
         Calendar calendar = Calendar.getInstance();
         @SuppressLint("SimpleDateFormat") SimpleDateFormat mdformat = new SimpleDateFormat("yyyy-MM-dd");
-        String todayDate = mdformat.format(calendar.getTime());
-        if (this.mWeatherDetails == null) return;
-        for (int i = 0; i < this.mWeatherDetails.size(); i++) {
-            String[] mdate = this.mWeatherDetails.get(i).getDtTxt().split(" ");
+        if (myDate.equals("today")) {
+            todayDate = mdformat.format(calendar.getTime());
+        }
+        if (myDate.equals("tom")) {
+            Date now = new Date();
+            calendar.setTime(now);
+            calendar.add(Calendar.DAY_OF_YEAR, 1);
+            todayDate = mdformat.format(calendar.getTime());
+        }
+        if (mWeatherDetails == null) return;
+        for (int i = 0; i < mWeatherDetails.size(); i++) {
+            String[] mdate = mWeatherDetails.get(i).getDtTxt().split(" ");
             if (mdate[0].equals(todayDate)) {
                 date.setText(todayDate);
-                Main main = this.mWeatherDetails.get(i).getMain();
+                Main main = mWeatherDetails.get(i).getMain();
                 pressure.setText(main.getPressure() + "");
                 humidity.setText(main.getHumidity() + "");
                 temp.setText(main.getTempMin() + " - " + main.getTempMax());
@@ -83,7 +97,5 @@ public class TodayFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelableArrayList("weather", (ArrayList<? extends Parcelable>) mWeatherDetails);
-
-
     }
 }

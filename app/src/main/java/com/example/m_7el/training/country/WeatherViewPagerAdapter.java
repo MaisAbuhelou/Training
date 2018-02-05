@@ -1,6 +1,7 @@
 package com.example.m_7el.training.country;
 
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -20,7 +21,19 @@ public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) { return mFragmentList.get(position); }
+    public Fragment getItem(int position) {
+        switch (position){
+            case 0:
+                Bundle b2 = new Bundle();
+                b2.putString("date","today");
+                (mFragmentList.get(0)).setArguments(b2);
+            case 1:
+                Bundle b3 = new Bundle();
+                b3.putString("date","tom");
+                (mFragmentList.get(1)).setArguments(b3);
+        }
+        return mFragmentList.get(position);
+    }
 
     @Override
     public int getCount() {
