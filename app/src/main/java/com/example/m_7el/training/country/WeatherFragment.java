@@ -26,7 +26,6 @@ public class WeatherFragment extends Fragment {
 
     private TabLayout tabs;
     private ViewPager viewPager;
-    private SelectedFragmentListener mSelectedFragment;
     private TodayFragment todayFragment;
     private TomorrowFragment tomorrowFragment;
     private CountryInfo mCountryInfo;
@@ -46,25 +45,24 @@ public class WeatherFragment extends Fragment {
         // Setting ViewPager for each Tabs
         viewPager = view.findViewById(R.id.viewpager);
         tabs = view.findViewById(R.id.tabLayout);
-        if (savedInstanceState == null) {
-            todayFragment = new TodayFragment();
-            tomorrowFragment = new TomorrowFragment();
-        }
+        todayFragment = new TodayFragment();
+        tomorrowFragment = new TomorrowFragment();
+
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelable("country");
-            todayFragment = (TodayFragment) getChildFragmentManager().getFragment(savedInstanceState, "todayFragment");
-            tomorrowFragment = (TomorrowFragment) getChildFragmentManager().getFragment(savedInstanceState, "tomorrowFragment");
         }
         setData();
         return view;
     }
 
+
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
-        HomeViewPagerAdapter adapter = new HomeViewPagerAdapter(getChildFragmentManager());
+        WeatherViewPagerAdapter adapter = new WeatherViewPagerAdapter(getChildFragmentManager());
+        todayFragment.setFragmentData(weatherInfo);
+        tomorrowFragment.setFragmentData(weatherInfo);
         adapter.addFragment(todayFragment, "Today");
         adapter.addFragment(tomorrowFragment, "Tomorrow");
-        mSelectedFragment = adapter;
         viewPager.setAdapter(adapter);
     }
 
@@ -85,8 +83,7 @@ public class WeatherFragment extends Fragment {
                 public void onResponse(@NonNull Call<Info> call, @NonNull Response<Info> response) {
 
                     weatherInfo = response.body();
-                    mSelectedFragment.SelectedFragment(weatherInfo);
-
+                    setData();
                 }
 
                 @Override
@@ -95,7 +92,6 @@ public class WeatherFragment extends Fragment {
                 }
             });
         }
-        setData();
     }
 
     @Override
@@ -103,14 +99,8 @@ public class WeatherFragment extends Fragment {
         super.onSaveInstanceState(outState);
         //Save the fragment's state here
         outState.putParcelable("country", mCountryInfo);
-        getChildFragmentManager().putFragment(outState, "todayFragment", todayFragment);
-        getChildFragmentManager().putFragment(outState, "tomorrowFragment", tomorrowFragment);
-    }
-
-
-    public interface SelectedFragmentListener {
-        void SelectedFragment(Info weatherInfo);
-
     }
 
 }
+
+
