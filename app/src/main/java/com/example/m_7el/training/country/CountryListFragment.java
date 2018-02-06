@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.CountriesRecyclerViewAdapter.CountrySelectListener;
@@ -34,12 +35,12 @@ public class CountryListFragment extends Fragment {
     private RecyclerView countriesRecyclerView;
     private CountrySelectListener mCountrySelectionListener;
     private FragmentCountryListBinding binding;
+    private Button refresh;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogMessages.getMessage("CountryListFragment");
-
     }
 
     @Override
@@ -49,6 +50,12 @@ public class CountryListFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_country_list, container, false);
         View view = binding.getRoot();
+        binding.setListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getCountriesInfo();
+            }
+        });
         countriesRecyclerView = binding.countryListRecyclerView;
         countriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         countriesRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -60,22 +67,30 @@ public class CountryListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (savedInstanceState == null) {
-            getCountriesInfo();
-        }
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelableArrayList("country");
             showLoadingView(false);
             setRecyclerView();
+            return;
         }
+        getCountriesInfo();
+
     }
 
     public void showLoadingView(boolean show) {
         binding.setLoading(show);
     }
 
+    public void showErrorView(boolean showError) {
+        if (showError) {
+            binding.setError(showError);
+        }
+        binding.setError(showError);
+    }
+
     private void getCountriesInfo() {
         // get All countries
+        showErrorView(false);
         showLoadingView(true);
         Call<List<CountryInfo>> call2 = CountryApiClient.getClient().create(RetrofitInterface.class).getCountyInfo();
         call2.enqueue(new Callback<List<CountryInfo>>() {
@@ -93,6 +108,8 @@ public class CountryListFragment extends Fragment {
 
             @Override
             public void onFailure(@NonNull Call<List<CountryInfo>> call, @NonNull Throwable t) {
+                showLoadingView(false);
+                showErrorView(true);
                 t.printStackTrace();
             }
         });
@@ -116,4 +133,6 @@ public class CountryListFragment extends Fragment {
         outState.putParcelableArrayList("country", (ArrayList<? extends Parcelable>) mCountryInfo);
 
     }
+
+
 }

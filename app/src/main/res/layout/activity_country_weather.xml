@@ -13,7 +13,7 @@
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
@@ -22,8 +22,8 @@
         <fragment
             android:id="@+id/fragment_country_list"
             android:name="com.example.m_7el.training.country.CountryListFragment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_marginTop="@dimen/nav_header_height"
             tools:layout="@layout/fragment_country_list"/>
 

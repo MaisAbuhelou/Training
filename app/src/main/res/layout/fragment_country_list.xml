@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -12,9 +13,16 @@
             name="loading"
             type="java.lang.Boolean" />
 
+        <variable
+            name="error"
+            type="java.lang.Boolean" />
+
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
     </data>
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.example.m_7el.training.country.CountryListFragment">
@@ -22,15 +30,26 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:visibility="@{loading ? View.VISIBLE : View.GONE}" />
+            android:layout_gravity="center"
+            android:visibility="@{loading &amp;&amp; !error ? View.VISIBLE : View.GONE}" />
+
+        <ImageButton
+            android:id="@+id/refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:onClick="@{listener::onClick}"
+            android:src="@drawable/ic_refresh_black_24dp"
+            android:visibility="@{error &amp;&amp; !loading ?  View.VISIBLE : View.GONE}" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/country_list_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical" />
-    </RelativeLayout>
+            android:scrollbars="vertical"
+            android:visibility="@{loading &amp;&amp; error ? View.GONE : View.VISIBLE}" />
+    </FrameLayout>
 </layout>
 
 

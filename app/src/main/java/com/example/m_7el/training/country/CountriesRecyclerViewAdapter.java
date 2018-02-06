@@ -42,7 +42,8 @@ public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountryVi
 
     @Override
     public int getItemCount() {
-        return mCountries.size();
+
+        return mCountries==null ? 0 : mCountries.size();
     }
 
 
