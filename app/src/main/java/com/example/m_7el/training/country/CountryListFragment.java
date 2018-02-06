@@ -29,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CountryListFragment extends Fragment {
+public class CountryListFragment extends Fragment implements View.OnClickListener {
 
     private List<CountryInfo> mCountryInfo;
     private RecyclerView countriesRecyclerView;
@@ -50,12 +50,8 @@ public class CountryListFragment extends Fragment {
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_country_list, container, false);
         View view = binding.getRoot();
-        binding.setListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getCountriesInfo();
-            }
-        });
+        (binding.refresh).setOnClickListener(this);
+
         countriesRecyclerView = binding.countryListRecyclerView;
         countriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         countriesRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -75,22 +71,21 @@ public class CountryListFragment extends Fragment {
         }
         getCountriesInfo();
 
+
     }
 
     public void showLoadingView(boolean show) {
         binding.setLoading(show);
     }
 
-    public void showErrorView(boolean showError) {
-        if (showError) {
-            binding.setError(showError);
-        }
-        binding.setError(showError);
+    public void refreshView() {
+        binding.setError(true);
+        binding.setListener(this);
     }
 
     private void getCountriesInfo() {
         // get All countries
-        showErrorView(false);
+        binding.setError(false);
         showLoadingView(true);
         Call<List<CountryInfo>> call2 = CountryApiClient.getClient().create(RetrofitInterface.class).getCountyInfo();
         call2.enqueue(new Callback<List<CountryInfo>>() {
@@ -109,7 +104,7 @@ public class CountryListFragment extends Fragment {
             @Override
             public void onFailure(@NonNull Call<List<CountryInfo>> call, @NonNull Throwable t) {
                 showLoadingView(false);
-                showErrorView(true);
+                refreshView();
                 t.printStackTrace();
             }
         });
@@ -134,5 +129,8 @@ public class CountryListFragment extends Fragment {
 
     }
 
-
+    @Override
+    public void onClick(View v) {
+        getCountriesInfo();
+    }
 }

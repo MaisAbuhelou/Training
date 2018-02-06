@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/boarder"
     tools:context="com.example.m_7el.training.country.CountryInfoFragment">
 
     <TextView
@@ -103,4 +104,3 @@
         android:contentDescription="@string/image"
         android:src="@mipmap/ic_launcher" />
 </RelativeLayout>
-

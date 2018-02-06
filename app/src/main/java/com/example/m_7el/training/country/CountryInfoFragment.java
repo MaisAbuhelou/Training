@@ -36,7 +36,7 @@ public class CountryInfoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_counrty_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_country_info, container, false);
 
         mCountyName = view.findViewById(R.id.country_name);
         mCountyRegion = view.findViewById(R.id.country_region);

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.m_7el.training.country.DayWeatherFragment">
+    tools:context="com.example.m_7el.training.country.CountryInfoFragment">
 
     <TextView
         android:id="@+id/textView2"
@@ -11,20 +11,20 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="42dp"
-        android:layout_marginStart="42dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/date"
+        android:text="@string/name"
         android:textColor="@android:color/black" />
 
     <TextView
-        android:id="@+id/country_date"
+        android:id="@+id/country_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/textView6"
-        android:layout_alignLeft="@+id/humidity"
-        android:layout_alignStart="@+id/humidity"
-        android:text="@string/date" />
+        android:layout_alignLeft="@+id/country_capital"
+        android:layout_alignStart="@+id/country_capital"
+        android:text="@string/name" />
 
     <TextView
         android:id="@+id/textView6"
@@ -34,17 +34,18 @@
         android:layout_alignStart="@+id/textView2"
         android:layout_below="@+id/textView2"
         android:layout_marginTop="34dp"
-        android:text="@string/temp"
+        android:text="@string/capital"
         android:textColor="@android:color/black" />
 
     <TextView
-        android:id="@+id/country_temp"
+        android:id="@+id/country_capital"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView9"
-        android:layout_alignLeft="@+id/country_date"
-        android:layout_alignStart="@+id/country_date"
-        android:text="@string/temp" />
+        android:layout_alignBaseline="@+id/textView6"
+        android:layout_alignBottom="@+id/textView6"
+        android:layout_alignLeft="@+id/country_region"
+        android:layout_alignStart="@+id/country_region"
+        android:text="@string/capital" />
 
     <TextView
         android:id="@+id/textView9"
@@ -54,18 +55,17 @@
         android:layout_alignStart="@+id/textView6"
         android:layout_below="@+id/textView6"
         android:layout_marginTop="34dp"
-        android:text="@string/pressure"
+        android:text="@string/region"
         android:textColor="@android:color/black" />
 
     <TextView
-        android:id="@+id/pressure"
+        android:id="@+id/country_region"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView9"
-        android:layout_alignBottom="@+id/textView9"
-        android:layout_alignLeft="@+id/country_temp"
-        android:layout_alignStart="@+id/country_temp"
-        android:text="@string/pressure" />
+        android:layout_above="@+id/textView11"
+        android:layout_alignLeft="@+id/population"
+        android:layout_alignStart="@+id/population"
+        android:text="@string/region" />
 
     <TextView
         android:id="@+id/textView11"
@@ -75,11 +75,11 @@
         android:layout_alignStart="@+id/textView9"
         android:layout_below="@+id/textView9"
         android:layout_marginTop="27dp"
-        android:text="@string/humidity"
+        android:text="@string/population"
         android:textColor="@android:color/black" />
 
     <TextView
-        android:id="@+id/humidity"
+        android:id="@+id/population"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView11"
@@ -88,7 +88,16 @@
         android:layout_marginStart="24dp"
         android:layout_toEndOf="@+id/textView11"
         android:layout_toRightOf="@+id/textView11"
-        android:text="@string/humidity" />
+        android:text="@string/population" />
 
+    <ImageView
+        android:id="@+id/country_image"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_alignLeft="@+id/textView11"
+        android:layout_alignStart="@+id/textView11"
+        android:layout_below="@+id/textView11"
+        android:layout_marginTop="13dp"
+        android:contentDescription="@string/image"
+        android:src="@mipmap/ic_launcher" />
 </RelativeLayout>
-
