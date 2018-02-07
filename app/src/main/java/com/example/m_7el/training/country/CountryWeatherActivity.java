@@ -45,9 +45,6 @@ public class CountryWeatherActivity extends AppCompatActivity
         mWeatherInfoFragment = (WeatherFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_weather_info);
     }
 
-
-
-
     private void setToolbar() {
         mToolbar = findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
