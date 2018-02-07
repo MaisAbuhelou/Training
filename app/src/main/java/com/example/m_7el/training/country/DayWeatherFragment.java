@@ -50,8 +50,8 @@ public class DayWeatherFragment extends Fragment implements WeatherFragment.Sele
         humidity = view.findViewById(R.id.humidity);
         if (savedInstanceState != null) {
             Log.d("ssss", "sd");
-//            mWeatherDetails = savedInstanceState.getParcelableArrayList("weather");
-//            dayDate = savedInstanceState.getString("dayDate");
+            mWeatherDetails = savedInstanceState.getParcelableArrayList("weather");
+            dayDate = savedInstanceState.getString("dayDate");
         }
         return view;
     }
@@ -84,7 +84,7 @@ public class DayWeatherFragment extends Fragment implements WeatherFragment.Sele
                 calendar.add(Calendar.DAY_OF_YEAR, 1);
                 dayDate = mdformat.format(calendar.getTime());
             }
-            if (!isVisible()) return;
+            if (!isAdded()) return;
             showData();
         }
     }
