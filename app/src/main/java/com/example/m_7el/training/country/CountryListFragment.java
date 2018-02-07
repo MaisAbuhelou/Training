@@ -29,13 +29,11 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CountryListFragment extends Fragment implements View.OnClickListener {
-
+public class CountryListFragment extends Fragment implements View.OnClickListener{
     private List<CountryInfo> mCountryInfo;
     private RecyclerView countriesRecyclerView;
     private CountrySelectListener mCountrySelectionListener;
     private FragmentCountryListBinding binding;
-    private Button refresh;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,8 +48,7 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
         binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_country_list, container, false);
         View view = binding.getRoot();
-        (binding.refresh).setOnClickListener(this);
-
+        binding.setListener(this);
         countriesRecyclerView = binding.countryListRecyclerView;
         countriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         countriesRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -78,9 +75,8 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
         binding.setLoading(show);
     }
 
-    public void refreshView() {
-        binding.setError(true);
-        binding.setListener(this);
+    public void refresh() {
+        binding.refresh.setOnClickListener(this);
     }
 
     private void getCountriesInfo() {
@@ -104,7 +100,7 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
             @Override
             public void onFailure(@NonNull Call<List<CountryInfo>> call, @NonNull Throwable t) {
                 showLoadingView(false);
-                refreshView();
+                binding.setError(true);
                 t.printStackTrace();
             }
         });
@@ -129,8 +125,11 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
 
     }
 
+
     @Override
     public void onClick(View v) {
+
         getCountriesInfo();
     }
+
 }

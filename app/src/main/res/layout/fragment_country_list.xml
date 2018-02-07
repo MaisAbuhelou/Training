@@ -34,14 +34,13 @@
             android:layout_gravity="center"
             android:visibility="@{loading &amp;&amp; !error ? View.VISIBLE : View.GONE}" />
 
-        <ImageButton
+        <Button
             android:id="@+id/refresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@android:color/transparent"
             android:onClick="@{listener::onClick}"
-            android:src="@drawable/ic_refresh_black_24dp"
+            android:background="@drawable/ic_refresh_black_24dp"
             android:visibility="@{error &amp;&amp; !loading ?  View.VISIBLE : View.GONE}" />
 
         <android.support.v7.widget.RecyclerView

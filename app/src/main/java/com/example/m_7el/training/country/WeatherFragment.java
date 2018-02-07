@@ -29,7 +29,7 @@ public class WeatherFragment extends Fragment {
     private DayWeatherFragment todayFragment;
     private DayWeatherFragment tomorrowFragment;
     private CountryInfo mCountryInfo;
-    private Info weatherInfo;
+    private Info mWeatherInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -59,8 +59,8 @@ public class WeatherFragment extends Fragment {
     // Add Fragments to Tabs
     private void setupViewPager(ViewPager viewPager) {
         WeatherViewPagerAdapter adapter = new WeatherViewPagerAdapter(getChildFragmentManager());
-        todayFragment.setFragmentData(weatherInfo);
-        tomorrowFragment.setFragmentData(weatherInfo);
+        todayFragment.setFragmentData(mWeatherInfo);
+        tomorrowFragment.setFragmentData(mWeatherInfo);
         adapter.addFragment(todayFragment, getString(R.string.today));
         adapter.addFragment(tomorrowFragment, getString(R.string.tomorrow));
         viewPager.setAdapter(adapter);
@@ -82,7 +82,8 @@ public class WeatherFragment extends Fragment {
                 @Override
                 public void onResponse(@NonNull Call<Info> call, @NonNull Response<Info> response) {
 
-                    weatherInfo = response.body();
+                    Info weatherInfo = response.body();
+                    mWeatherInfo=weatherInfo;
                     setData();
                 }
 
