@@ -53,7 +53,8 @@ public class WeatherFragment extends Fragment {
 
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelable("country");
-        }
+                  }
+
         setupViewPager();
 
         return view;
