@@ -50,12 +50,11 @@ public class WeatherFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
         viewPager = view.findViewById(R.id.viewpager);
         tabs = view.findViewById(R.id.tabLayout);
-        if (savedInstanceState == null)
-            setupViewPager();
+
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelable("country");
-            setupViewPager();
         }
+        setupViewPager();
 
         return view;
     }

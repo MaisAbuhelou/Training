@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.view.ViewGroup;
 
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.WeatherInfo;
@@ -13,18 +13,20 @@ import com.example.m_7el.training.country.models.WeatherInfo;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
-
-public class WeatherViewPagerAdapter extends FragmentStatePagerAdapter {
+public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
     private final static String EXTRA_DATE = WeatherDayInfoFragment.class + "_DATE_EXTRA";
-
+    private final FragmentManager mManager;
     private Context mContext;
     private WeatherDayInfoListener mTodayWeatherInfoListener;
     private WeatherDayInfoListener mTomorrowWeatherInfoListener;
-    private WeatherDayInfoFragment fragment;
+    private ArrayList<WeatherDayInfoFragment> mFragmentsLists = new ArrayList<>();
+    private WeatherInfo mWeatherInfo;
+    private boolean check;
+
     WeatherViewPagerAdapter(Context context, FragmentManager manager) {
         super(manager);
+        mManager = manager;
         mContext = context;
     }
 
@@ -32,22 +34,22 @@ public class WeatherViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         Calendar calendar = Calendar.getInstance();
         Bundle args = new Bundle();
-        fragment = new WeatherDayInfoFragment();
         if (position == 0) {
+            WeatherDayInfoFragment todayFragment = new WeatherDayInfoFragment();
             args.putSerializable(EXTRA_DATE, calendar);
-            fragment.setArguments(args);
-            mTodayWeatherInfoListener = fragment;
-
-            return fragment;
+            todayFragment.setArguments(args);
+            mTodayWeatherInfoListener = todayFragment;
+            return todayFragment;
         }
         if (position == 1) {
+            WeatherDayInfoFragment tomorrowFragment = new WeatherDayInfoFragment();
             calendar.setTime(new Date());
             calendar.add(Calendar.DAY_OF_YEAR, 1);
             args.putSerializable(EXTRA_DATE, calendar);
-            fragment.setArguments(args);
-            mTomorrowWeatherInfoListener = fragment;
+            tomorrowFragment.setArguments(args);
+            mTomorrowWeatherInfoListener = tomorrowFragment;
+            return tomorrowFragment;
 
-            return fragment;
         }
         return null;
     }
@@ -57,7 +59,6 @@ public class WeatherViewPagerAdapter extends FragmentStatePagerAdapter {
         return 2;
     }
 
-
     @Override
     public CharSequence getPageTitle(int position) {
 
@@ -65,27 +66,33 @@ public class WeatherViewPagerAdapter extends FragmentStatePagerAdapter {
             return mContext.getString(R.string.today);
         } else {
             return mContext.getString(R.string.tomorrow);
-
         }
     }
 
-    void setTodayWeatherInfo(WeatherInfo weatherInfo) {
-        if (mTodayWeatherInfoListener == null){
-            fragment= (WeatherDayInfoFragment) getItem(0);
-            mTodayWeatherInfoListener = fragment;
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        assert (0 <= position && position < mFragmentsLists.size());
+        mManager.beginTransaction().
+                remove(mFragmentsLists.get(position)).
+                commit();
     }
 
+    @Override
+    public Fragment instantiateItem(ViewGroup container, int position) {
+
+        Fragment fragment = getItem(position);
+        mManager.beginTransaction()
+                .add(container.getId(), fragment)
+                .commit();
+        return fragment;
+    }
+
+    void setTodayWeatherInfo(WeatherInfo weatherInfo) {
         mTodayWeatherInfoListener.weatherDayInfo(weatherInfo);
     }
 
     void setTomorrowWeatherInfo(WeatherInfo weatherInfo) {
-        if (mTomorrowWeatherInfoListener == null){
-            fragment= (WeatherDayInfoFragment) getItem(1);
-
-            mTomorrowWeatherInfoListener = fragment;
-
-        }
-        mTomorrowWeatherInfoListener.weatherDayInfo(weatherInfo);
+          mTomorrowWeatherInfoListener.weatherDayInfo(weatherInfo);
 
     }
 }

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,21 +49,17 @@ public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoLi
             Calendar calendar = (Calendar) getArguments().getSerializable(EXTRA_DATE);
             mDateTextView.setText(dateFormat.format(calendar.getTime()));
         }
-        if (savedInstanceState!=null){
-            mWeatherInfo=savedInstanceState.getParcelable("weather");
-            weatherDayInfo(mWeatherInfo);
-        }
+
         return view;
     }
 
-
-    @SuppressLint("DefaultLocale")
     @Override
-    public void weatherDayInfo(WeatherInfo weatherInfo) {
+    public void weatherDayInfo( WeatherInfo weatherInfo) {
+        if (weatherInfo==null)return;
         mWeatherInfo=weatherInfo;
-        mPressure.setText(String.valueOf(weatherInfo.getPressure()));
-        mHumidity.setText(String.valueOf(weatherInfo.getHumidity()));
-        mTemp.setText(String.format("%f - %f ", weatherInfo.getTempMin(), weatherInfo.getTempMax()));
+        mPressure.setText(String.valueOf(mWeatherInfo.getPressure()));
+        mHumidity.setText(String.valueOf(mWeatherInfo.getHumidity()));
+        mTemp.setText(String.format(Locale.ENGLISH,"%f - %f ", mWeatherInfo.getTempMin(), mWeatherInfo.getTempMax()));
 
     }
 
