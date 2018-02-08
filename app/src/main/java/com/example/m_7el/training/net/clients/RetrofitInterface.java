@@ -1,7 +1,7 @@
 package com.example.m_7el.training.net.clients;
 
 import com.example.m_7el.training.country.models.CountryInfo;
-import com.example.m_7el.training.country.models.Info;
+import com.example.m_7el.training.country.models.WeatherData;
 
 import java.util.List;
 
@@ -19,6 +19,6 @@ public interface RetrofitInterface {
 
     // get country weather
     @GET("data/2.5/forecast")
-    Call<Info> getWeatherInfo(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String key);
+    Call<WeatherData> getWeatherInfo(@Query("lat") double lat, @Query("lon") double lon, @Query("appid") String key);
 
 }

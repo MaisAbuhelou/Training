@@ -11,7 +11,7 @@ public class  WeatherDetails implements Parcelable {
 
     @SerializedName("main")
     @Expose
-    private Main main;
+    private WeatherInfo weatherInfo;
     @SerializedName("dt_txt")
     @Expose
     private String dtTxt;
@@ -33,8 +33,8 @@ public class  WeatherDetails implements Parcelable {
         }
     };
 
-    public Main getMain() {
-        return main;
+    public WeatherInfo getWeatherInfo() {
+        return weatherInfo;
     }
 
     public String getDtTxt() {

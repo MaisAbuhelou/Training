@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Info {
+public class WeatherData {
 
 
     @SerializedName("list")

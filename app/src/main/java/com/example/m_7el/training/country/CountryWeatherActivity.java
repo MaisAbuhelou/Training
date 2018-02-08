@@ -84,7 +84,7 @@ public class CountryWeatherActivity extends AppCompatActivity
             mCountryInfoFragment.setCountry(countryInfo);
         }
         if (mWeatherInfoFragment != null) {
-            mWeatherInfoFragment.setWeather(countryInfo);
+            mWeatherInfoFragment.setCountry(countryInfo);
         }
         if (orientation == Configuration.ORIENTATION_PORTRAIT)
             mDrawerLayout.closeDrawer(GravityCompat.START);
