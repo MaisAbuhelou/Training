@@ -10,12 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.models.WeatherData;
-import com.example.m_7el.training.country.models.WeatherInfo;
 import com.example.m_7el.training.country.models.WeatherDetails;
+import com.example.m_7el.training.country.models.WeatherInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 import com.example.m_7el.training.net.clients.WeatherApiClient;
@@ -35,8 +36,10 @@ public class WeatherFragment extends Fragment {
     private TabLayout tabs;
     private ViewPager viewPager;
     private CountryInfo mCountryInfo;
-    WeatherData mWeatherInfo;
+    WeatherInfo todayWeatherInfo;
+    WeatherInfo tomorrowWeatherInfo;
     private WeatherViewPagerAdapter mPagerAdapter;
+    private WeatherData mWeatherInfo;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,10 +55,14 @@ public class WeatherFragment extends Fragment {
         tabs = view.findViewById(R.id.tabLayout);
 
         if (savedInstanceState != null) {
-            mCountryInfo = savedInstanceState.getParcelable("country");
-                  }
-
-        setupViewPager();
+            tomorrowWeatherInfo = savedInstanceState.getParcelable("tomorrowWeather");
+            todayWeatherInfo = savedInstanceState.getParcelable("todayWeather");
+            setupViewPager();
+            mPagerAdapter.setTomorrowWeatherInfo(tomorrowWeatherInfo);
+            mPagerAdapter.setTodayWeatherInfo(todayWeatherInfo);
+        }
+        if (savedInstanceState == null)
+            setupViewPager();
 
         return view;
     }
@@ -89,6 +96,8 @@ public class WeatherFragment extends Fragment {
                 @Override
                 public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
                     t.getStackTrace();
+                    Toast.makeText(getContext(),"error loading",Toast.LENGTH_LONG);
+                    setCountry(mCountryInfo);
                 }
             });
         }
@@ -104,6 +113,7 @@ public class WeatherFragment extends Fragment {
         for (WeatherDetails details : mWeatherDetails) {
             String todayDate = details.getDtTxt().split(" ")[0];
             if (todayDate.equalsIgnoreCase(String.valueOf(today))) {
+                todayWeatherInfo = details.getWeatherInfo();
                 return details.getWeatherInfo();
             }
         }
@@ -122,6 +132,7 @@ public class WeatherFragment extends Fragment {
         for (WeatherDetails details : mWeatherDetails) {
             String tomorrowDate = details.getDtTxt().split(" ")[0];
             if (tomorrowDate.equalsIgnoreCase(String.valueOf(tomorrow))) {
+                tomorrowWeatherInfo = details.getWeatherInfo();
                 return details.getWeatherInfo();
             }
         }
@@ -132,7 +143,8 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("country", mCountryInfo);
+        outState.putParcelable("todayWeather", todayWeatherInfo);
+        outState.putParcelable("tomorrowWeather", tomorrowWeatherInfo);
     }
 
 }
