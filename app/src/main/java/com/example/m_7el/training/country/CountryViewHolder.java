@@ -27,7 +27,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                countrySelectListener.onCountrySelected(mCountry);
+                countrySelectListener.SelectedCountry(mCountry);
             }
         });
     }
