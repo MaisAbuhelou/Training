@@ -2,97 +2,93 @@ package com.example.m_7el.training.country;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.WeatherInfo;
+import com.example.m_7el.training.country.utils.DateUtil;
+import com.example.m_7el.training.country.utils.LogMessages;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 
-public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
+
+public class WeatherViewPagerAdapter extends PagerAdapter {
     private final static String EXTRA_DATE = WeatherDayInfoFragment.class + "_DATE_EXTRA";
-    private final FragmentManager mManager;
+    private final static int TODAY_INDEX = 0;
+    private final static int TOMORROW_INDEX = 1;
+    private final static int PAGES_COUNT = 2;
+
     private Context mContext;
-    private WeatherDayInfoListener mTodayWeatherInfoListener;
-    private WeatherDayInfoListener mTomorrowWeatherInfoListener;
-    private ArrayList<WeatherDayInfoFragment> mFragmentsLists = new ArrayList<>();
+    private FragmentManager fragmentManager;
+    private List<WeatherDayInfoFragment> mFragmentList;
 
     WeatherViewPagerAdapter(Context context, FragmentManager manager) {
-        super(manager);
-        mManager = manager;
         mContext = context;
+        fragmentManager = manager;
+        mFragmentList = new ArrayList<>();
     }
 
     @Override
-    public Fragment getItem(int position) {
-        Calendar calendar = Calendar.getInstance();
-        Bundle args = new Bundle();
-            if (position == 0) {
-                WeatherDayInfoFragment todayFragment = new WeatherDayInfoFragment();
-                args.putSerializable(EXTRA_DATE, calendar);
-                todayFragment.setArguments(args);
-                mTodayWeatherInfoListener = todayFragment;
-                mFragmentsLists.add(todayFragment);
-                return todayFragment;
-            }
-            if (position == 1) {
-                WeatherDayInfoFragment tomorrowFragment = new WeatherDayInfoFragment();
-                calendar.setTime(new Date());
-                calendar.add(Calendar.DAY_OF_YEAR, 1);
-                args.putSerializable(EXTRA_DATE, calendar);
-                tomorrowFragment.setArguments(args);
-                mTomorrowWeatherInfoListener = tomorrowFragment;
-                mFragmentsLists.add(tomorrowFragment);
-                return tomorrowFragment;
-            }
-
-        return null;
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        if (position < 0 || position >= mFragmentList.size()) return;
+        fragmentManager.beginTransaction()
+                .remove(fragmentManager.findFragmentByTag("fragment:" + position))
+                .commit();
+        mFragmentList.remove(position);
+        LogMessages.getMessage("destroyItem: " + position);
     }
 
+    @NonNull
+    @Override
+    public Fragment instantiateItem(@NonNull ViewGroup container, int position) {
+        Fragment fragment = getItem(position);
+        fragmentManager.beginTransaction()
+                .add(container.getId(), fragment, "fragment:" + position)
+                .commit();
+        LogMessages.getMessage("instantiateItem: " + position);
+        return fragment;
+    }
+
+    @NonNull
+    private Fragment getItem(int position) {
+        if (mFragmentList.isEmpty() || mFragmentList.size() < PAGES_COUNT) {
+            Bundle args = new Bundle();
+            WeatherDayInfoFragment mFragment = new WeatherDayInfoFragment();
+            args.putSerializable(EXTRA_DATE, position == 0 ? DateUtil.getToday() : DateUtil.getTomorrow());
+            mFragment.setArguments(args);
+            mFragmentList.add(mFragment);
+        }
+        return mFragmentList.get(position);
+    }
 
     @Override
     public int getCount() {
-        return 2;
+        return PAGES_COUNT;
+    }
+
+    @Override
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+        return ((Fragment) object).getView() == view;
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-
-        if (position == 0) {
-            return mContext.getString(R.string.today);
-        } else {
-            return mContext.getString(R.string.tomorrow);
-        }
-    }
-
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        assert (0 <= position && position < mFragmentsLists.size());
-        mManager.beginTransaction()
-                .detach(mFragmentsLists.get(position)).
-                commit();
-    }
-
-    @Override
-    public Fragment instantiateItem(ViewGroup container, int position) {
-        Fragment fragment=getItem(position);
-        mManager.beginTransaction()
-                .add(container.getId(), fragment)
-                .commit();
-        return fragment;
+        return position == TODAY_INDEX ? mContext.getString(R.string.today) : mContext.getString(R.string.tomorrow);
     }
 
     void setTodayWeatherInfo(WeatherInfo weatherInfo) {
+        WeatherDayInfoListener mTodayWeatherInfoListener = (WeatherDayInfoFragment) getItem(TODAY_INDEX);
         mTodayWeatherInfoListener.weatherDayInfo(weatherInfo);
     }
 
     void setTomorrowWeatherInfo(WeatherInfo weatherInfo) {
+        WeatherDayInfoListener mTomorrowWeatherInfoListener = (WeatherDayInfoFragment) getItem(TOMORROW_INDEX);
         mTomorrowWeatherInfoListener.weatherDayInfo(weatherInfo);
-
     }
 }

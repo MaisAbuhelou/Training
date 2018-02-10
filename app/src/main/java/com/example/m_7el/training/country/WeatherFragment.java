@@ -17,13 +17,13 @@ import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.models.WeatherData;
 import com.example.m_7el.training.country.models.WeatherDetails;
 import com.example.m_7el.training.country.models.WeatherInfo;
+import com.example.m_7el.training.country.utils.DateUtil;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 import com.example.m_7el.training.net.clients.WeatherApiClient;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -40,6 +40,8 @@ public class WeatherFragment extends Fragment {
     WeatherInfo tomorrowWeatherInfo;
     private WeatherViewPagerAdapter mPagerAdapter;
     private WeatherData mWeatherInfo;
+    private SimpleDateFormat dateFormat;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,20 +55,51 @@ public class WeatherFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
         viewPager = view.findViewById(R.id.viewpager);
         tabs = view.findViewById(R.id.tabLayout);
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         if (savedInstanceState != null) {
-            tomorrowWeatherInfo = savedInstanceState.getParcelable("tomorrowWeather");
-            todayWeatherInfo = savedInstanceState.getParcelable("todayWeather");
-            setupViewPager();
-            mPagerAdapter.setTomorrowWeatherInfo(tomorrowWeatherInfo);
-            mPagerAdapter.setTodayWeatherInfo(todayWeatherInfo);
+            mCountryInfo = savedInstanceState.getParcelable("country");
         }
-        if (savedInstanceState == null)
-            setupViewPager();
+        if (mCountryInfo != null) {
+            GetCountryWeather();
+        }
+        setupViewPager();
 
         return view;
     }
 
+
+    @Nullable
+    public WeatherInfo mTodayWeather() {
+        List<WeatherDetails> mWeatherDetails = mWeatherInfo.getWeatherDetails();
+        Calendar calendar = DateUtil.getToday();
+        String today = dateFormat.format(calendar.getTime());
+        for (WeatherDetails details : mWeatherDetails) {
+            String todayDate = details.getDtTxt().split(" ")[0];
+            if (todayDate.equalsIgnoreCase(String.valueOf(today))) {
+                todayWeatherInfo = details.getWeatherInfo();
+                return details.getWeatherInfo();
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    public WeatherInfo mTomorrowWeather() {
+        List<WeatherDetails> mWeatherDetails = mWeatherInfo.getWeatherDetails();
+        Calendar calendar = DateUtil.getTomorrow();
+        String tomorrow = dateFormat.format(calendar.getTime());
+
+        for (WeatherDetails details : mWeatherDetails) {
+            String tomorrowDate = details.getDtTxt().split(" ")[0];
+            if (tomorrowDate.equalsIgnoreCase(String.valueOf(tomorrow))) {
+                tomorrowWeatherInfo = details.getWeatherInfo();
+                return details.getWeatherInfo();
+            }
+        }
+        return null;
+
+    }
 
     // Add Fragments to Tabs
     private void setupViewPager() {
@@ -76,9 +109,15 @@ public class WeatherFragment extends Fragment {
     }
 
 
-    //get data from countries list in activity
+    //get countryData  from activity
     public void setCountry(final CountryInfo countryInfo) {
         mCountryInfo = countryInfo;
+        GetCountryWeather();
+
+    }
+
+    // get weather for the selected country
+    private void GetCountryWeather() {
         if (mCountryInfo.getLatlng().size() != 0) {
             Call<WeatherData> call2 = WeatherApiClient.getClient().create(RetrofitInterface.class).getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
             call2.enqueue(new Callback<WeatherData>() {
@@ -96,55 +135,19 @@ public class WeatherFragment extends Fragment {
                 @Override
                 public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
                     t.getStackTrace();
-                    Toast.makeText(getContext(),"error loading",Toast.LENGTH_LONG);
+                    Toast.makeText(getContext(), "error loading", Toast.LENGTH_LONG);
                     setCountry(mCountryInfo);
                 }
             });
         }
     }
 
-    @Nullable
-    public WeatherInfo mTodayWeather() {
-        List<WeatherDetails> mWeatherDetails = mWeatherInfo.getWeatherDetails();
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        String today = dateFormat.format(calendar.getTime());
-
-        for (WeatherDetails details : mWeatherDetails) {
-            String todayDate = details.getDtTxt().split(" ")[0];
-            if (todayDate.equalsIgnoreCase(String.valueOf(today))) {
-                todayWeatherInfo = details.getWeatherInfo();
-                return details.getWeatherInfo();
-            }
-        }
-        return null;
-    }
-
-    @Nullable
-    public WeatherInfo mTomorrowWeather() {
-        List<WeatherDetails> mWeatherDetails = mWeatherInfo.getWeatherDetails();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        String tomorrow = dateFormat.format(calendar.getTime());
-
-        for (WeatherDetails details : mWeatherDetails) {
-            String tomorrowDate = details.getDtTxt().split(" ")[0];
-            if (tomorrowDate.equalsIgnoreCase(String.valueOf(tomorrow))) {
-                tomorrowWeatherInfo = details.getWeatherInfo();
-                return details.getWeatherInfo();
-            }
-        }
-        return null;
-
-    }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("todayWeather", todayWeatherInfo);
-        outState.putParcelable("tomorrowWeather", tomorrowWeatherInfo);
+        outState.putParcelable("country", mCountryInfo);
+
     }
 
 }

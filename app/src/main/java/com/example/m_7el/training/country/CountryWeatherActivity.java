@@ -3,6 +3,7 @@ package com.example.m_7el.training.country;
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +28,7 @@ public class CountryWeatherActivity extends AppCompatActivity
     private WeatherFragment mWeatherInfoFragment;
     private CountryListFragment mCountryListFragment;
     private int orientation;
+    private CountryInfo mCountryInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +45,10 @@ public class CountryWeatherActivity extends AppCompatActivity
         mCountryListFragment.setCountrySelectionListener(this);
         mCountryInfoFragment = (CountryInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_countryInfo);
         mWeatherInfoFragment = (WeatherFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_weather_info);
+        if (savedInstanceState!=null){
+            mCountryInfo=savedInstanceState.getParcelable("country");
+            SelectedCountry(mCountryInfo);
+        }
     }
 
     private void setToolbar() {
@@ -79,7 +85,8 @@ public class CountryWeatherActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCountrySelected(CountryInfo countryInfo) {
+    public void SelectedCountry(CountryInfo countryInfo) {
+        mCountryInfo=countryInfo;
         if (mCountryInfoFragment != null) {
             mCountryInfoFragment.setCountry(countryInfo);
         }
@@ -90,5 +97,9 @@ public class CountryWeatherActivity extends AppCompatActivity
             mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelable("country", mCountryInfo);
+    }
 }
