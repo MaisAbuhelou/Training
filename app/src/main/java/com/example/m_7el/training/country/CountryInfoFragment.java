@@ -11,13 +11,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.m_7el.training.BaseFragment;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
 
 
-public class CountryInfoFragment extends Fragment {
+public class CountryInfoFragment extends BaseFragment {
 
     private TextView mCountyName;
     private TextView mCountyRegion;

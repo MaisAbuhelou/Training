@@ -10,18 +10,19 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
+import com.example.m_7el.training.BaseFragment;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.models.WeatherData;
-import com.example.m_7el.training.country.models.WeatherDetails;
 import com.example.m_7el.training.country.models.WeatherInfo;
+import com.example.m_7el.training.country.models.WeatherDetails;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 import com.example.m_7el.training.net.clients.WeatherApiClient;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,15 +32,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WeatherFragment extends Fragment {
+public class WeatherFragment extends BaseFragment {
     private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
     private TabLayout tabs;
     private ViewPager viewPager;
     private CountryInfo mCountryInfo;
-    WeatherInfo todayWeatherInfo;
-    WeatherInfo tomorrowWeatherInfo;
-    private WeatherViewPagerAdapter mPagerAdapter;
     private WeatherData mWeatherInfo;
+    private WeatherViewPagerAdapter mPagerAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,62 +48,63 @@ public class WeatherFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
         viewPager = view.findViewById(R.id.viewpager);
         tabs = view.findViewById(R.id.tabLayout);
 
         if (savedInstanceState != null) {
-            tomorrowWeatherInfo = savedInstanceState.getParcelable("tomorrowWeather");
-            todayWeatherInfo = savedInstanceState.getParcelable("todayWeather");
-            setupViewPager();
-            mPagerAdapter.setTomorrowWeatherInfo(tomorrowWeatherInfo);
-            mPagerAdapter.setTodayWeatherInfo(todayWeatherInfo);
+            mCountryInfo = savedInstanceState.getParcelable("country");
         }
-        if (savedInstanceState == null)
-            setupViewPager();
-
+        if (mCountryInfo != null) {
+            loadContent();
+        }
+        setupViewPager();
         return view;
     }
 
-
     // Add Fragments to Tabs
     private void setupViewPager() {
+
         mPagerAdapter = new WeatherViewPagerAdapter(getContext(), getFragmentManager());
+        if (mTodayWeather() != null) {
+            mPagerAdapter.setTodayWeatherInfo(mTodayWeather());
+        }
+        if (mTomorrowWeather() != null) {
+            mPagerAdapter.setTomorrowWeatherInfo(mTomorrowWeather());
+        }
         viewPager.setAdapter(mPagerAdapter);
         tabs.setupWithViewPager(viewPager);
     }
 
-
     //get data from countries list in activity
     public void setCountry(final CountryInfo countryInfo) {
         mCountryInfo = countryInfo;
-        if (mCountryInfo.getLatlng().size() != 0) {
-            Call<WeatherData> call2 = WeatherApiClient.getClient().create(RetrofitInterface.class).getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
-            call2.enqueue(new Callback<WeatherData>() {
+        loadContent();
+    }
 
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
+    private void loadContent() {
+        if (mCountryInfo.getLatlng().size() == 0) return;
+        Call<WeatherData> call2 = WeatherApiClient
+                .getClient()
+                .create(RetrofitInterface.class)
+                .getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
+        call2.enqueue(new Callback<WeatherData>() {
+            @Override
+            public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
+                mWeatherInfo = response.body();
+                setupViewPager();
+            }
 
-                    mWeatherInfo = response.body();
-                    mPagerAdapter.setTodayWeatherInfo(mTodayWeather());
-                    mPagerAdapter.setTomorrowWeatherInfo(mTomorrowWeather());
-
-                }
-
-                @Override
-                public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
-                    t.getStackTrace();
-                    Toast.makeText(getContext(),"error loading",Toast.LENGTH_LONG);
-                    setCountry(mCountryInfo);
-                }
-            });
-        }
+            @Override
+            public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
+                LogMessages.getMessage(Arrays.toString(t.getStackTrace()));
+            }
+        });
     }
 
     @Nullable
     public WeatherInfo mTodayWeather() {
+        if (mWeatherInfo == null) return null;
         List<WeatherDetails> mWeatherDetails = mWeatherInfo.getWeatherDetails();
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
@@ -113,7 +113,6 @@ public class WeatherFragment extends Fragment {
         for (WeatherDetails details : mWeatherDetails) {
             String todayDate = details.getDtTxt().split(" ")[0];
             if (todayDate.equalsIgnoreCase(String.valueOf(today))) {
-                todayWeatherInfo = details.getWeatherInfo();
                 return details.getWeatherInfo();
             }
         }
@@ -122,6 +121,7 @@ public class WeatherFragment extends Fragment {
 
     @Nullable
     public WeatherInfo mTomorrowWeather() {
+        if (mWeatherInfo == null) return null;
         List<WeatherDetails> mWeatherDetails = mWeatherInfo.getWeatherDetails();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
@@ -132,19 +132,16 @@ public class WeatherFragment extends Fragment {
         for (WeatherDetails details : mWeatherDetails) {
             String tomorrowDate = details.getDtTxt().split(" ")[0];
             if (tomorrowDate.equalsIgnoreCase(String.valueOf(tomorrow))) {
-                tomorrowWeatherInfo = details.getWeatherInfo();
                 return details.getWeatherInfo();
             }
         }
         return null;
-
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("todayWeather", todayWeatherInfo);
-        outState.putParcelable("tomorrowWeather", tomorrowWeatherInfo);
+        outState.putParcelable("country", mCountryInfo);
     }
 
 }
