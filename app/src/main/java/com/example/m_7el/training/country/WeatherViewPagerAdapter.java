@@ -24,22 +24,22 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
     private final static int TOMORROW_INDEX = 1;
     private final static int PAGES_COUNT = 2;
     private Context mContext;
-    private FragmentManager mfragmentManager;
+    private FragmentManager mFragmentManager;
     private List<WeatherDayInfoFragment> mFragmentList;
     private int count=0;
     private boolean checkFirst;
 
     WeatherViewPagerAdapter(Context context, FragmentManager manager) {
         mContext = context;
-        mfragmentManager = manager;
+        mFragmentManager = manager;
         mFragmentList = new ArrayList<>();
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         if (position < 0 || position >= mFragmentList.size()) return;
-        mfragmentManager.beginTransaction().
-                remove(mfragmentManager.findFragmentByTag("fragment:" + position))
+        mFragmentManager.beginTransaction().
+                remove(mFragmentManager.findFragmentByTag("fragment:" + position))
                 .commit();
         mFragmentList.remove(position);
         LogMessages.getMessage("destroyItem: " + position);
@@ -49,7 +49,7 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
     @Override
     public Fragment instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = getItem(position);
-        mfragmentManager.beginTransaction()
+        mFragmentManager.beginTransaction()
                 .add(container.getId(), fragment, "fragment:" + position)
                 .commit();
         LogMessages.getMessage("instantiateItem: " + position);

@@ -20,11 +20,9 @@ import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 import com.example.m_7el.training.net.clients.WeatherApiClient;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -40,7 +38,6 @@ public class WeatherFragment extends Fragment {
     private WeatherData mWeatherInfo;
     private WeatherViewPagerAdapter mPagerAdapter;
     private SimpleDateFormat dateFormat;
-    private int mCurrentPosition = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -81,15 +78,6 @@ public class WeatherFragment extends Fragment {
         viewPager.setAdapter(mPagerAdapter);
         tabs.setupWithViewPager(viewPager);
     }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        viewPager.setCurrentItem(mCurrentPosition);
-    }
-
-
 
     //get data from countries list in activity
     public void setCountry(final CountryInfo countryInfo) {
@@ -156,6 +144,11 @@ public class WeatherFragment extends Fragment {
         outState.putParcelable("country", mCountryInfo);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewPager.setCurrentItem(0);
+    }
 }
 
 
