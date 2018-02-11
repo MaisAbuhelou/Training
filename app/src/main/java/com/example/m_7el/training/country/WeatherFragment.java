@@ -20,9 +20,11 @@ import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 import com.example.m_7el.training.net.clients.WeatherApiClient;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,6 +40,7 @@ public class WeatherFragment extends Fragment {
     private WeatherData mWeatherInfo;
     private WeatherViewPagerAdapter mPagerAdapter;
     private SimpleDateFormat dateFormat;
+    private int mCurrentPosition = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +55,7 @@ public class WeatherFragment extends Fragment {
         tabs = view.findViewById(R.id.tabLayout);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
+
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelable("country");
         }
@@ -59,8 +63,10 @@ public class WeatherFragment extends Fragment {
             getWeather();
         }
         setViewPagerData();
+
         return view;
     }
+
     // Add Fragments to Tabs
     private void setViewPagerData() {
 
@@ -76,11 +82,21 @@ public class WeatherFragment extends Fragment {
         tabs.setupWithViewPager(viewPager);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        viewPager.setCurrentItem(mCurrentPosition);
+    }
+
+
+
     //get data from countries list in activity
     public void setCountry(final CountryInfo countryInfo) {
         mCountryInfo = countryInfo;
         getWeather();
     }
+
 
     private void getWeather() {
         if (mCountryInfo.getLatlng().size() == 0) return;
