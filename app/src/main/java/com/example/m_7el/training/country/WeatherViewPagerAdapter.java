@@ -26,6 +26,8 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
     private Context mContext;
     private FragmentManager mfragmentManager;
     private List<WeatherDayInfoFragment> mFragmentList;
+    private int count=0;
+    private boolean checkFirst;
 
     WeatherViewPagerAdapter(Context context, FragmentManager manager) {
         mContext = context;
@@ -56,14 +58,30 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
 
     @NonNull
     private Fragment getItem(int position) {
-        if (mFragmentList.size() != PAGES_COUNT) {
-            Bundle args = new Bundle();
-            WeatherDayInfoFragment mFragment = new WeatherDayInfoFragment();
-            args.putSerializable(EXTRA_DATE, position == 0 ? DateUtil.getToday() : DateUtil.getTomorrow());
-            mFragment.setArguments(args);
-            mFragmentList.add(mFragment);
+        Bundle args = new Bundle();
+        WeatherDayInfoFragment mFragment = new WeatherDayInfoFragment();
+        if (position==TOMORROW_INDEX && count==0){
+          position=0;
         }
+        if (position==TODAY_INDEX &&count==1){
+            position=1;
+        }
+        if (mFragmentList.size() != PAGES_COUNT && !checkFirst ) {
+         getFragment(position);
+        }
+        count++;
+
+        return   mFragmentList.get(position);
+    }
+
+    private Fragment getFragment(int position) {
+        Bundle args = new Bundle();
+        WeatherDayInfoFragment mFragment = new WeatherDayInfoFragment();
+        args.putSerializable(EXTRA_DATE, position == 0 ? DateUtil.getToday() : DateUtil.getTomorrow());
+        mFragment.setArguments(args);
+        mFragmentList.add(mFragment);
         return mFragmentList.get(position);
+
     }
 
 
