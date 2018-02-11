@@ -36,12 +36,14 @@ public class WeatherFragment extends Fragment {
     private ViewPager viewPager;
     private CountryInfo mCountryInfo;
     private WeatherData mWeatherInfo;
-    private WeatherViewPagerAdapter mPagerAdapter;
     private SimpleDateFormat dateFormat;
+   private  WeatherViewPagerAdapter mPagerAdapter;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPagerAdapter = new WeatherViewPagerAdapter(getContext(), getChildFragmentManager());
         LogMessages.getMessage("WeatherFragment");
     }
 
@@ -64,17 +66,9 @@ public class WeatherFragment extends Fragment {
         return view;
     }
 
+
     // Add Fragments to Tabs
     private void setViewPagerData() {
-
-        mPagerAdapter = new WeatherViewPagerAdapter(getContext(), getFragmentManager());
-        if (mTodayWeather() != null) {
-            mPagerAdapter.setTodayWeatherInfo(mTodayWeather());
-        }
-        if (mTomorrowWeather() != null) {
-            mPagerAdapter.setTomorrowWeatherInfo(mTomorrowWeather());
-        }
-
         viewPager.setAdapter(mPagerAdapter);
         tabs.setupWithViewPager(viewPager);
     }
@@ -96,7 +90,12 @@ public class WeatherFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
                 mWeatherInfo = response.body();
-                setViewPagerData();
+                if (mTodayWeather() != null) {
+                    mPagerAdapter.setTodayWeatherInfo(mTodayWeather());
+                }
+                if (mTomorrowWeather() != null) {
+                    mPagerAdapter.setTomorrowWeatherInfo(mTomorrowWeather());
+                }
             }
 
             @Override
@@ -144,10 +143,12 @@ public class WeatherFragment extends Fragment {
         outState.putParcelable("country", mCountryInfo);
     }
 
+
+
     @Override
     public void onResume() {
         super.onResume();
-        viewPager.setCurrentItem(0);
+       viewPager.setCurrentItem(0);
     }
 }
 

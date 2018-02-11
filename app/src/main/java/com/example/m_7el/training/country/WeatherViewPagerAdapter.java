@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -26,8 +27,10 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
     private Context mContext;
     private FragmentManager mFragmentManager;
     private List<WeatherDayInfoFragment> mFragmentList;
-    private int count=0;
+    private int count = 0;
     private boolean checkFirst;
+    private WeatherDayInfoListener mTodayWeatherInfoListener;
+    private WeatherDayInfoListener mTomorrowWeatherInfoListener;
 
     WeatherViewPagerAdapter(Context context, FragmentManager manager) {
         mContext = context;
@@ -52,21 +55,21 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
         mFragmentManager.beginTransaction()
                 .add(container.getId(), fragment, "fragment:" + position)
                 .commit();
-        LogMessages.getMessage("instantiateItem: " + position);
+        LogMessages.getMessage("instantiateItem: " + position + " size: " + mFragmentList.size());
         return fragment;
     }
 
     @NonNull
     private Fragment getItem(int position) {
-
-    if  (mFragmentList.size() != PAGES_COUNT  ) {
+        if (mFragmentList.size() != PAGES_COUNT) {
             Bundle args = new Bundle();
             WeatherDayInfoFragment mFragment = new WeatherDayInfoFragment();
             args.putSerializable(EXTRA_DATE, position == 0 ? DateUtil.getToday() : DateUtil.getTomorrow());
             mFragment.setArguments(args);
             mFragmentList.add(mFragment);
+            Log.d("newFragmentAdded", "new fragment added");
         }
-        return   mFragmentList.get(position);
+        return mFragmentList.get(position);
     }
 
     @Override
@@ -85,12 +88,12 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
     }
 
     void setTodayWeatherInfo(WeatherInfo weatherInfo) {
-        WeatherDayInfoListener mTodayWeatherInfoListener = (WeatherDayInfoFragment) getItem(TODAY_INDEX);
+        WeatherDayInfoListener mTodayWeatherInfoListener = (WeatherDayInfoListener) getItem(TODAY_INDEX);
         mTodayWeatherInfoListener.weatherDayInfo(weatherInfo);
     }
 
     void setTomorrowWeatherInfo(WeatherInfo weatherInfo) {
-        WeatherDayInfoListener mTomorrowWeatherInfoListener = (WeatherDayInfoFragment) getItem(TOMORROW_INDEX);
+       WeatherDayInfoListener mTomorrowWeatherInfoListener = (WeatherDayInfoListener) getItem(TOMORROW_INDEX);
         mTomorrowWeatherInfoListener.weatherDayInfo(weatherInfo);
     }
 }
