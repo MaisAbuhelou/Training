@@ -3,12 +3,12 @@ package com.example.m_7el.training.country;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.m_7el.training.BaseFragment;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.WeatherInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class WeatherDayInfoFragment extends BaseFragment implements WeatherDayInfoListener {
+public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoListener {
     private final static String EXTRA_DATE = WeatherDayInfoFragment.class + "_DATE_EXTRA";
 
     private TextView mHumidity;
@@ -55,7 +55,7 @@ public class WeatherDayInfoFragment extends BaseFragment implements WeatherDayIn
     @Override
     public void weatherDayInfo(WeatherInfo weatherInfo) {
         mWeatherInfo = weatherInfo;
-        if (mWeatherInfo == null || !isFragmentVisible) return;
+        if (mWeatherInfo == null || !isAdded()) return;
         mPressure.setText(String.valueOf(weatherInfo.getPressure()));
         mHumidity.setText(String.valueOf(weatherInfo.getHumidity()));
         mTemp.setText(String.format(Locale.ENGLISH, "%f - %f ", weatherInfo.getTempMin(), weatherInfo.getTempMax()));

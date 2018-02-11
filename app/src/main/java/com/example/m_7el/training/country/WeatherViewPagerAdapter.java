@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.example.m_7el.training.country.utils.LogMessages;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.LogManager;
 
 
 public class WeatherViewPagerAdapter extends PagerAdapter {
@@ -25,24 +23,22 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
     private final static int TODAY_INDEX = 0;
     private final static int TOMORROW_INDEX = 1;
     private final static int PAGES_COUNT = 2;
-
     private Context mContext;
-    //    private WeatherDayInfoFragment fragment;
-    private FragmentManager fragmentManager;
+    private FragmentManager mfragmentManager;
     private List<WeatherDayInfoFragment> mFragmentList;
 
     WeatherViewPagerAdapter(Context context, FragmentManager manager) {
         mContext = context;
-        fragmentManager = manager;
+        mfragmentManager = manager;
         mFragmentList = new ArrayList<>();
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         if (position < 0 || position >= mFragmentList.size()) return;
-        FragmentTransaction trans = fragmentManager.beginTransaction();
-        trans.remove(fragmentManager.findFragmentByTag("fragment:" + position));
-        trans.commit();
+        mfragmentManager.beginTransaction().
+                remove(mfragmentManager.findFragmentByTag("fragment:" + position))
+                .commit();
         mFragmentList.remove(position);
         LogMessages.getMessage("destroyItem: " + position);
     }
@@ -51,16 +47,16 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
     @Override
     public Fragment instantiateItem(@NonNull ViewGroup container, int position) {
         Fragment fragment = getItem(position);
-        FragmentTransaction trans = fragmentManager.beginTransaction();
-        trans.add(container.getId(), fragment, "fragment:" + position);
-        trans.commit();
+        mfragmentManager.beginTransaction()
+                .add(container.getId(), fragment, "fragment:" + position)
+                .commit();
         LogMessages.getMessage("instantiateItem: " + position);
         return fragment;
     }
 
     @NonNull
     private Fragment getItem(int position) {
-        if (mFragmentList.isEmpty() || mFragmentList.size() < PAGES_COUNT) {
+        if (mFragmentList.size() != PAGES_COUNT) {
             Bundle args = new Bundle();
             WeatherDayInfoFragment mFragment = new WeatherDayInfoFragment();
             args.putSerializable(EXTRA_DATE, position == 0 ? DateUtil.getToday() : DateUtil.getTomorrow());
@@ -69,6 +65,7 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
         }
         return mFragmentList.get(position);
     }
+
 
     @Override
     public int getCount() {

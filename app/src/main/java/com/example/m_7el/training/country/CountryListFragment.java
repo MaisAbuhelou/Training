@@ -11,7 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+
 
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.CountriesRecyclerViewAdapter.CountrySelectListener;
@@ -62,9 +62,11 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
 
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelableArrayList("country");
+            if (mCountryInfo!=null){
             showLoadingView(false);
             setRecyclerView();
             return;
+        }
         }
         getCountriesInfo();
 
@@ -73,10 +75,6 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
 
     public void showLoadingView(boolean show) {
         binding.setLoading(show);
-    }
-
-    public void refresh() {
-        binding.refresh.setOnClickListener(this);
     }
 
     private void getCountriesInfo() {
@@ -128,7 +126,6 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-
         getCountriesInfo();
     }
 
