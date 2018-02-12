@@ -10,6 +10,8 @@ import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.PhotoManager;
 import com.example.m_7el.training.databinding.RecyclerBinding;
 
+import javax.inject.Inject;
+
 public class CountryViewHolder extends RecyclerView.ViewHolder {
 
     private RecyclerBinding binding;
@@ -17,6 +19,8 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
     private CountryInfo mCountry;
     private Context mContext;
     private String flag = "PS";
+    @Inject
+    PhotoManager photoManager;
 
 
     public CountryViewHolder(View view, final CountriesRecyclerViewAdapter.CountrySelectListener countrySelectListener) {
@@ -24,6 +28,8 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
         mContext = view.getContext();
         binding = DataBindingUtil.bind(view);
         mCountryImage = binding.countryImagee;
+       MyApp.getApp().getMyComponent().inject(this);
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -38,6 +44,6 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
             flag = mCountry.getAltSpellings().get(0);
         }
         binding.setCountry(country);
-        PhotoManager.loadImage(mContext, mCountryImage, flag);
+      photoManager.loadImage(mContext, mCountryImage, flag);
     }
 }

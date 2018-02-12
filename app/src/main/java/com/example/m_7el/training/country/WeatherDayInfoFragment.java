@@ -12,10 +12,13 @@ import android.widget.TextView;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.WeatherInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
+import com.example.m_7el.training.country.utils.PhotoManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoListener {
     private final static String EXTRA_DATE = WeatherDayInfoFragment.class + "_DATE_EXTRA";
@@ -24,6 +27,7 @@ public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoLi
     private TextView mPressure;
     private TextView mTemp;
     private WeatherInfo mWeatherInfo;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

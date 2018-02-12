@@ -16,6 +16,8 @@ import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
 
+import javax.inject.Inject;
+
 
 public class CountryInfoFragment extends Fragment {
 
@@ -26,6 +28,9 @@ public class CountryInfoFragment extends Fragment {
     private ImageView mCountryImage;
     private CountryInfo mCountryInfo;
     private String flag = "PS";
+
+    @Inject
+    PhotoManager photoManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +48,7 @@ public class CountryInfoFragment extends Fragment {
         mCountyPopulation = view.findViewById(R.id.population);
         mCountyCapital = view.findViewById(R.id.country_capital);
         mCountryImage = view.findViewById(R.id.country_image);
-
+     MyApp.getApp().getMyComponent().inject(this);
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelable("country");
             setData(mCountryInfo);
@@ -66,8 +71,11 @@ public class CountryInfoFragment extends Fragment {
             mCountyCapital.setText(countryInfo.getCapital());
             if (countryInfo.getAltSpellings().size() != 0) {
                 flag = countryInfo.getAltSpellings().get(0);
+
             }
-            PhotoManager.loadImage(getContext(), mCountryImage, flag);
+            photoManager.loadImage(getActivity(), mCountryImage, flag);
+
+
         }
     }
 

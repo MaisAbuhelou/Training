@@ -9,11 +9,12 @@ import com.bumptech.glide.request.RequestOptions;
 
 public class PhotoManager {
 
-    public static void loadImage(Context context, final ImageView imageView, String flag) {
+    public void loadImage(Context mContext , ImageView imageView, String flag) {
 
         RequestOptions requestOptions = new RequestOptions();
-        Glide.with(context)
+        Glide.with(mContext)
                 .setDefaultRequestOptions(requestOptions)
                 .load(ImageUrl.getURL(flag)).into(imageView);
+
     }
 }
