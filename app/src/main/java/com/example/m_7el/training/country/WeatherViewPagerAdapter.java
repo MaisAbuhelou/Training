@@ -20,7 +20,6 @@ import java.util.List;
 
 
 public class WeatherViewPagerAdapter extends PagerAdapter {
-    private final static String EXTRA_DATE = WeatherDayInfoFragment.class + "_DATE_EXTRA";
     private final static int TODAY_INDEX = 0;
     private final static int TOMORROW_INDEX = 1;
     private final static int PAGES_COUNT = 2;
@@ -64,7 +63,7 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
         if (mFragmentList.size() != PAGES_COUNT) {
             Bundle args = new Bundle();
             WeatherDayInfoFragment mFragment = new WeatherDayInfoFragment();
-            args.putSerializable(EXTRA_DATE, position == 0 ? DateUtil.getToday() : DateUtil.getTomorrow());
+            args.putSerializable(WeatherDayInfoFragment.EXTRA_DATE, position == 0 ? DateUtil.getToday() : DateUtil.getTomorrow());
             mFragment.setArguments(args);
             mFragmentList.add(mFragment);
             Log.d("newFragmentAdded", "new fragment added");

@@ -21,7 +21,7 @@ import java.util.Locale;
 import javax.inject.Inject;
 
 public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoListener {
-    private final static String EXTRA_DATE = WeatherDayInfoFragment.class + "_DATE_EXTRA";
+    public final static String EXTRA_DATE = WeatherDayInfoFragment.class + "_DATE_EXTRA";
 
     private TextView mHumidity;
     private TextView mPressure;

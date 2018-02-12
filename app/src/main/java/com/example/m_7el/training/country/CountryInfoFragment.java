@@ -40,7 +40,6 @@ public class CountryInfoFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_country_info, container, false);
 
         mCountyName = view.findViewById(R.id.country_name);
@@ -48,7 +47,8 @@ public class CountryInfoFragment extends Fragment {
         mCountyPopulation = view.findViewById(R.id.population);
         mCountyCapital = view.findViewById(R.id.country_capital);
         mCountryImage = view.findViewById(R.id.country_image);
-     MyApp.getApp().getMyComponent().inject(this);
+                MyApp.getApp().getMyComponent().inject(this);
+
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelable("country");
             setData(mCountryInfo);
