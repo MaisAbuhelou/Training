@@ -37,7 +37,7 @@ public class WeatherFragment extends Fragment {
     private CountryInfo mCountryInfo;
     private WeatherData mWeatherInfo;
     private SimpleDateFormat dateFormat;
-   private  WeatherViewPagerAdapter mPagerAdapter;
+    private WeatherViewPagerAdapter mPagerAdapter;
 
 
     @Override
@@ -109,7 +109,7 @@ public class WeatherFragment extends Fragment {
     public WeatherInfo mTodayWeather() {
         if (mWeatherInfo == null) return null;
         List<WeatherDetails> mWeatherDetails = mWeatherInfo.getWeatherDetails();
-        Calendar calendar = DateUtil.getTomorrow();
+        Calendar calendar = DateUtil.getToday();
         String today = dateFormat.format(calendar.getTime());
 
         for (WeatherDetails details : mWeatherDetails) {
@@ -144,11 +144,10 @@ public class WeatherFragment extends Fragment {
     }
 
 
-
     @Override
     public void onResume() {
         super.onResume();
-       viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(0);
     }
 }
 
