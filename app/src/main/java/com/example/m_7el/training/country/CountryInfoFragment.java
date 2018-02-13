@@ -47,7 +47,7 @@ public class CountryInfoFragment extends Fragment {
         mCountyPopulation = view.findViewById(R.id.population);
         mCountyCapital = view.findViewById(R.id.country_capital);
         mCountryImage = view.findViewById(R.id.country_image);
-                MyApp.getApp().getMyComponent().inject(this);
+        ((MyApp) getActivity().getApplicationContext()).getMyComponent().inject(this);
 
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelable("country");

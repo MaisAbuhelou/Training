@@ -28,7 +28,7 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
         mContext = view.getContext();
         binding = DataBindingUtil.bind(view);
         mCountryImage = binding.countryImagee;
-       MyApp.getApp().getMyComponent().inject(this);
+        ((MyApp) mContext.getApplicationContext()).getMyComponent().inject(this);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
