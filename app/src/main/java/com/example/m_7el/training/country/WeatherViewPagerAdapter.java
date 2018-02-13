@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.m_7el.training.R;
@@ -19,19 +18,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class WeatherViewPagerAdapter extends PagerAdapter {
+public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
     private final static int TODAY_INDEX = 0;
     private final static int TOMORROW_INDEX = 1;
     private final static int PAGES_COUNT = 2;
     private Context mContext;
     private FragmentManager mFragmentManager;
     private List<WeatherDayInfoFragment> mFragmentList;
-    private int count = 0;
-    private boolean checkFirst;
-    private WeatherDayInfoListener mTodayWeatherInfoListener;
-    private WeatherDayInfoListener mTomorrowWeatherInfoListener;
 
     WeatherViewPagerAdapter(Context context, FragmentManager manager) {
+        super(manager);
         mContext = context;
         mFragmentManager = manager;
         mFragmentList = new ArrayList<>();
@@ -58,8 +54,8 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
         return fragment;
     }
 
-    @NonNull
-    private Fragment getItem(int position) {
+    @Override
+    public Fragment getItem(int position) {
         if (mFragmentList.size() != PAGES_COUNT) {
             Bundle args = new Bundle();
             WeatherDayInfoFragment mFragment = new WeatherDayInfoFragment();
@@ -77,11 +73,6 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
     }
 
     @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return ((Fragment) object).getView() == view;
-    }
-
-    @Override
     public CharSequence getPageTitle(int position) {
         return position == TODAY_INDEX ? mContext.getString(R.string.today) : mContext.getString(R.string.tomorrow);
     }
@@ -92,7 +83,7 @@ public class WeatherViewPagerAdapter extends PagerAdapter {
     }
 
     void setTomorrowWeatherInfo(WeatherInfo weatherInfo) {
-       WeatherDayInfoListener mTomorrowWeatherInfoListener = (WeatherDayInfoListener) getItem(TOMORROW_INDEX);
+        WeatherDayInfoListener mTomorrowWeatherInfoListener = (WeatherDayInfoListener) getItem(TOMORROW_INDEX);
         mTomorrowWeatherInfoListener.weatherDayInfo(weatherInfo);
     }
 }

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,6 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPagerAdapter = new WeatherViewPagerAdapter(getContext(), getChildFragmentManager());
         LogMessages.getMessage("WeatherFragment");
     }
 
@@ -53,7 +53,7 @@ public class WeatherFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewpager);
         tabs = view.findViewById(R.id.tabLayout);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
+        mPagerAdapter = new WeatherViewPagerAdapter(getContext(), getChildFragmentManager());
 
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelable("country");
@@ -62,6 +62,7 @@ public class WeatherFragment extends Fragment {
             getWeather();
         }
         setViewPagerData();
+
 
         return view;
     }
