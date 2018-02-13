@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.m_7el.training.R;
+import com.example.m_7el.training.country.di.MyApp;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;

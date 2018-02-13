@@ -1,4 +1,4 @@
-package com.example.m_7el.training.country;
+package com.example.m_7el.training.country.di;
 
 import android.app.Application;
 

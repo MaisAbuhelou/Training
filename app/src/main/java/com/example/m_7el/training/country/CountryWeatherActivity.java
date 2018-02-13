@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
 
+
 public class CountryWeatherActivity extends AppCompatActivity
         implements CountriesRecyclerViewAdapter.CountrySelectListener {
 
@@ -25,7 +26,6 @@ public class CountryWeatherActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     private CountryInfoFragment mCountryInfoFragment;
     private WeatherFragment mWeatherInfoFragment;
-    private CountryListFragment mCountryListFragment;
     private int orientation;
 
     @Override
@@ -39,7 +39,7 @@ public class CountryWeatherActivity extends AppCompatActivity
             setNavigation();
         }
 
-        mCountryListFragment = (CountryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_country_list);
+        CountryListFragment mCountryListFragment = (CountryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_country_list);
         mCountryListFragment.setCountrySelectionListener(this);
         mCountryInfoFragment = (CountryInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_countryInfo);
         mWeatherInfoFragment = (WeatherFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_weather_info);

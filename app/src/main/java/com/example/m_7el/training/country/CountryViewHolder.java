@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.m_7el.training.country.di.MyApp;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.PhotoManager;
 import com.example.m_7el.training.databinding.RecyclerBinding;

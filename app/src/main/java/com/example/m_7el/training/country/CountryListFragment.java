@@ -118,12 +118,9 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        //Save the fragment's state here
         outState.putParcelableArrayList("country", (ArrayList<? extends Parcelable>) mCountryInfo);
 
     }
-
-
     @Override
     public void onClick(View v) {
         getCountriesInfo();

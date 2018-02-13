@@ -1,25 +1,28 @@
 package com.example.m_7el.training.country;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.m_7el.training.R;
+import com.example.m_7el.training.country.models.WeatherEvent;
 import com.example.m_7el.training.country.models.WeatherInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
-import com.example.m_7el.training.country.utils.PhotoManager;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoListener {
     public final static String EXTRA_DATE = WeatherDayInfoFragment.class + "_DATE_EXTRA";
@@ -28,12 +31,28 @@ public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoLi
     private TextView mPressure;
     private TextView mTemp;
     private WeatherInfo mWeatherInfo;
+    private List<WeatherInfo> list = new ArrayList<>();
+    public int day = 0;
 
-
+    public void setDay(int day) {
+        this.day = day;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogMessages.getMessage("WeatherDayInfoFragment");
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -51,15 +70,17 @@ public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoLi
             mDateTextView.setText(dateFormat.format(calendar.getTime()));
         }
         if (savedInstanceState != null) {
-            mWeatherInfo = savedInstanceState.getParcelable("weather");
+            day = savedInstanceState.getInt("day");
+            list.add((WeatherInfo) savedInstanceState.getParcelable("todayWeatherInfo"));
+            list.add((WeatherInfo) savedInstanceState.getParcelable("tomorrowWeatherInfo"));
         }
-        weatherDayInfo(mWeatherInfo);
+        for (int i = 0; i < list.size(); i++)
+            weatherDayInfo(list.get(i));
         return view;
     }
 
     @Override
     public void weatherDayInfo(WeatherInfo weatherInfo) {
-        mWeatherInfo = weatherInfo;
         if (mWeatherInfo == null || !isAdded()) return;
         mPressure.setText(String.valueOf(weatherInfo.getPressure()));
         mHumidity.setText(String.valueOf(weatherInfo.getHumidity()));
@@ -67,9 +88,23 @@ public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoLi
 
     }
 
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable("weather", mWeatherInfo);
+        if (list != null && !list.isEmpty()) {
+            outState.putInt("day", day);
+            outState.putParcelable("todayWeatherInfo", list.get(0));
+            outState.putParcelable("tomorrowWeatherInfo", list.get(1));
+        }
     }
+
+
+    @Subscribe
+    public void updateData(WeatherEvent event) {
+        list = event.getData();
+        mWeatherInfo = list.get(day);
+        weatherDayInfo(mWeatherInfo);
+    }
+
 }
