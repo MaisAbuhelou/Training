@@ -17,7 +17,6 @@ import com.example.m_7el.training.country.utils.LogMessages;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
     private final static int TODAY_INDEX = 0;
     private final static int TOMORROW_INDEX = 1;
