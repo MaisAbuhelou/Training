@@ -23,24 +23,14 @@ public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
     private final static int PAGES_COUNT = 2;
     private Context mContext;
     private FragmentManager mFragmentManager;
-    private List<WeatherDayInfoFragment> mFragmentList;
+    private List<WeatherDayInfoFragment> mFragmentList=new ArrayList<>();
 
     WeatherViewPagerAdapter(Context context, FragmentManager manager) {
         super(manager);
         mContext = context;
         mFragmentManager = manager;
-        mFragmentList = new ArrayList<>();
     }
 
-    @Override
-    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        if (position < 0 || position >= mFragmentList.size()) return;
-        mFragmentManager.beginTransaction().
-                remove(mFragmentManager.findFragmentByTag("fragment:" + position))
-                .commit();
-        mFragmentList.remove(position);
-        LogMessages.getMessage("destroyItem: " + position);
-    }
 
     @NonNull
     @Override
@@ -78,11 +68,17 @@ public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
 
     void setTodayWeatherInfo(WeatherInfo weatherInfo) {
         WeatherDayInfoListener mTodayWeatherInfoListener = (WeatherDayInfoListener) getItem(TODAY_INDEX);
+        if (mTodayWeatherInfoListener == null) {
+            mTodayWeatherInfoListener = (WeatherDayInfoListener) mFragmentManager.getFragments().get(TODAY_INDEX);
+        }
         mTodayWeatherInfoListener.weatherDayInfo(weatherInfo);
     }
 
     void setTomorrowWeatherInfo(WeatherInfo weatherInfo) {
         WeatherDayInfoListener mTomorrowWeatherInfoListener = (WeatherDayInfoListener) getItem(TOMORROW_INDEX);
+        if (mTomorrowWeatherInfoListener == null) {
+            mTomorrowWeatherInfoListener = (WeatherDayInfoListener) mFragmentManager.getFragments().get(TOMORROW_INDEX);
+        }
         mTomorrowWeatherInfoListener.weatherDayInfo(weatherInfo);
     }
 }

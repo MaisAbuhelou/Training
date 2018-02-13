@@ -32,7 +32,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="@{loading &amp;&amp; !error ? View.VISIBLE : View.GONE}" />
+            android:visibility="@{safeUnbox(loading) &amp;&amp; safeUnbox(!error) ? View.VISIBLE : View.GONE}" />
 
         <Button
             android:id="@+id/refresh"
@@ -41,14 +41,14 @@
             android:layout_gravity="center"
             android:onClick="@{listener::onClick}"
             android:background="@drawable/ic_refresh_black_24dp"
-            android:visibility="@{error &amp;&amp; !loading ?  View.VISIBLE : View.GONE}" />
+            android:visibility="@{safeUnbox(error) &amp;&amp; safeUnbox(!loading) ?  View.VISIBLE : View.GONE}" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/country_list_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical"
-            android:visibility="@{loading &amp;&amp; error ? View.GONE : View.VISIBLE}" />
+            android:visibility="@{safeUnbox(loading) &amp;&amp; safeUnbox(error) ? View.GONE : View.VISIBLE}" />
     </FrameLayout>
 </layout>
 
