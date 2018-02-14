@@ -27,14 +27,12 @@ public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountryVi
     public CountriesRecyclerViewAdapter(CountrySelectListener countrySelectListener) {
         mListener = countrySelectListener;
     }
-
     @Override
     public CountryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler, parent, false);
         return new CountryViewHolder(view, mListener);
     }
-
     @Override
     public void onBindViewHolder(CountryViewHolder holder, final int position) {
         holder.bind(mCountries.get(position));
@@ -42,7 +40,6 @@ public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountryVi
 
     @Override
     public int getItemCount() {
-
         return mCountries==null ? 0 : mCountries.size();
     }
 

@@ -54,8 +54,6 @@ public class WeatherFragment extends Fragment {
         viewPager = view.findViewById(R.id.viewpager);
         tabs = view.findViewById(R.id.tabLayout);
         dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
-
-
         if (savedInstanceState != null) {
             mCountryInfo = savedInstanceState.getParcelable("country");
         }
@@ -67,13 +65,11 @@ public class WeatherFragment extends Fragment {
         return view;
     }
 
-
     // Add Fragments to Tabs
     private void setViewPagerData() {
         viewPager.setAdapter(mPagerAdapter);
         tabs.setupWithViewPager(viewPager);
     }
-
     //get data from countries list in activity
     public void setCountry(final CountryInfo countryInfo) {
         mCountryInfo = countryInfo;

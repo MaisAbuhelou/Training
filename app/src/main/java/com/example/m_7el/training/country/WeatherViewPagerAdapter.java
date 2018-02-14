@@ -29,7 +29,6 @@ public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
         mFragmentList = new ArrayList<>();
     }
-
     @Override
     @NonNull
     public Fragment getItem(int position) {
@@ -49,12 +48,10 @@ public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
         return PAGES_COUNT;
     }
 
-
     @Override
     public CharSequence getPageTitle(int position) {
         return position == TODAY_INDEX ? mContext.getString(R.string.today) : mContext.getString(R.string.tomorrow);
     }
-
     void setDayWeather(List<WeatherInfo> weatherInfo) {
         for (int i = 0; i < weatherInfo.size(); i++) {
             EventBus.getDefault().post(new WeatherEvent()

@@ -69,8 +69,6 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
         }
         }
         getCountriesInfo();
-
-
     }
 
     public void showLoadingView(boolean show) {

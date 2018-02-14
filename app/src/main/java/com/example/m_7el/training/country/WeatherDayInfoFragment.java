@@ -85,9 +85,7 @@ public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoLi
         mPressure.setText(String.valueOf(weatherInfo.getPressure()));
         mHumidity.setText(String.valueOf(weatherInfo.getHumidity()));
         mTemp.setText(String.format(Locale.ENGLISH, "%f - %f ", weatherInfo.getTempMin(), weatherInfo.getTempMax()));
-
     }
-
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -98,13 +96,10 @@ public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoLi
             outState.putParcelable("tomorrowWeatherInfo", list.get(1));
         }
     }
-
-
     @Subscribe
     public void updateData(WeatherEvent event) {
         list = event.getData();
         mWeatherInfo = list.get(day);
         weatherDayInfo(mWeatherInfo);
     }
-
 }
