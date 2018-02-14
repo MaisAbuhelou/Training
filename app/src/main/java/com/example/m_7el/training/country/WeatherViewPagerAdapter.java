@@ -19,44 +19,23 @@ import java.util.List;
 
 
 public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
-    private final static int TODAY_INDEX = 0;
-    private final static int PAGES_COUNT = 2;
-    private Context mContext;
-    private List<WeatherDayInfoFragment> mFragmentList;
 
-    WeatherViewPagerAdapter(Context context, FragmentManager manager) {
+    private int mPageCounts;
+
+    WeatherViewPagerAdapter( FragmentManager manager,int pageCounts) {
         super(manager);
-        mContext = context;
-        mFragmentList = new ArrayList<>();
+        mPageCounts=pageCounts;
     }
     @Override
     @NonNull
     public Fragment getItem(int position) {
-        if (mFragmentList.isEmpty() || mFragmentList.size() != PAGES_COUNT || mFragmentList.get(position) == null) {
-            Bundle args = new Bundle();
-            WeatherDayInfoFragment mFragment = new WeatherDayInfoFragment();
-            args.putSerializable(WeatherDayInfoFragment.EXTRA_DATE, position == 0 ? DateUtil.getToday() : DateUtil.getTomorrow());
-            mFragment.setArguments(args);
-            mFragment.setDay(position);
-            mFragmentList.add(mFragment);
-        }
-        return mFragmentList.get(position);
+
+        return new WeatherDayInfoFragment();
     }
 
     @Override
     public int getCount() {
-        return PAGES_COUNT;
+        return mPageCounts;
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        return position == TODAY_INDEX ? mContext.getString(R.string.today) : mContext.getString(R.string.tomorrow);
-    }
-    void setDayWeather(List<WeatherInfo> weatherInfo) {
-        for (int i = 0; i < weatherInfo.size(); i++) {
-            EventBus.getDefault().postSticky(new WeatherEvent()
-                    .setData(weatherInfo)
-                    .setType(i));
-        }
-    }
 }

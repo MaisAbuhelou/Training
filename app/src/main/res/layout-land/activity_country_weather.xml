@@ -5,6 +5,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -24,7 +29,7 @@
             android:name="com.example.m_7el.training.country.CountryListFragment"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight=".8"
             tools:layout="@layout/fragment_country_list" />
 
         <fragment
@@ -35,13 +40,31 @@
             android:layout_weight="1"
             tools:layout="@layout/fragment_country_info" />
 
-        <fragment
-            android:id="@+id/fragment_weather_info"
-            android:name="com.example.m_7el.training.country.WeatherFragment"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            tools:layout="@layout/fragment_weather" />
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <fragment
+                android:id="@+id/fragment_weather_today"
+                android:name="com.example.m_7el.training.country.WeatherFragment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:layout="@layout/fragment_day_weather" />
+
+            <fragment
+                android:id="@+id/fragment_weather_tomorrow"
+                android:name="com.example.m_7el.training.country.WeatherFragment"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                tools:layout="@layout/fragment_day_weather" />
+
+        </LinearLayout>
     </LinearLayout>
+
 
 </LinearLayout>

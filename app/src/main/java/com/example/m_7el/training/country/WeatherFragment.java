@@ -43,7 +43,7 @@ public class WeatherFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPagerAdapter = new WeatherViewPagerAdapter(getContext(), getChildFragmentManager());
+        mPagerAdapter = new WeatherViewPagerAdapter( getChildFragmentManager());
         LogMessages.getMessage("WeatherFragment");
     }
     @Override
@@ -92,7 +92,6 @@ public class WeatherFragment extends Fragment {
                 if (setTomorrowWeather() != null) {
                     mWeatherInfo.add(setTomorrowWeather());
                 }
-                mPagerAdapter.setDayWeather(mWeatherInfo);
 
             }
 
