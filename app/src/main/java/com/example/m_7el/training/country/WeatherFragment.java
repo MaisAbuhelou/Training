@@ -40,14 +40,12 @@ public class WeatherFragment extends Fragment {
     private SimpleDateFormat dateFormat;
    private  WeatherViewPagerAdapter mPagerAdapter;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mPagerAdapter = new WeatherViewPagerAdapter(getContext(), getChildFragmentManager());
         LogMessages.getMessage("WeatherFragment");
     }
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_weather, container, false);
@@ -87,7 +85,6 @@ public class WeatherFragment extends Fragment {
             @Override
             public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
                 mWeatherInfo = response.body();
-//                mPagerAdapter.setWeatherData(mWeatherInfo);
                 List<WeatherInfo> mWeatherInfo = new ArrayList<>();
                 if (setTodayWeather() != null) {
                     mWeatherInfo.add(setTodayWeather());

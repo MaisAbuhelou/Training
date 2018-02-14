@@ -54,7 +54,7 @@ public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
     }
     void setDayWeather(List<WeatherInfo> weatherInfo) {
         for (int i = 0; i < weatherInfo.size(); i++) {
-            EventBus.getDefault().post(new WeatherEvent()
+            EventBus.getDefault().postSticky(new WeatherEvent()
                     .setData(weatherInfo)
                     .setType(i));
         }

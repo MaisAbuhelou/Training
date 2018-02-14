@@ -19,24 +19,23 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoListener {
+public class WeatherDayInfoFragment extends Fragment {
     public final static String EXTRA_DATE = WeatherDayInfoFragment.class + "_DATE_EXTRA";
 
     private TextView mHumidity;
     private TextView mPressure;
     private TextView mTemp;
     private WeatherInfo mWeatherInfo;
-    private List<WeatherInfo> list = new ArrayList<>();
     public int day = 0;
 
     public void setDay(int day) {
         this.day = day;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,17 +68,13 @@ public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoLi
             Calendar calendar = (Calendar) getArguments().getSerializable(EXTRA_DATE);
             mDateTextView.setText(dateFormat.format(calendar.getTime()));
         }
-        if (savedInstanceState != null) {
+        if (savedInstanceState != null)
             day = savedInstanceState.getInt("day");
-            list.add((WeatherInfo) savedInstanceState.getParcelable("todayWeatherInfo"));
-            list.add((WeatherInfo) savedInstanceState.getParcelable("tomorrowWeatherInfo"));
-        }
-        for (int i = 0; i < list.size(); i++)
-            weatherDayInfo(list.get(i));
+
         return view;
     }
 
-    @Override
+
     public void weatherDayInfo(WeatherInfo weatherInfo) {
         if (mWeatherInfo == null || !isAdded()) return;
         mPressure.setText(String.valueOf(weatherInfo.getPressure()));
@@ -90,15 +85,12 @@ public class WeatherDayInfoFragment extends Fragment implements WeatherDayInfoLi
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (list != null && !list.isEmpty()) {
-            outState.putInt("day", day);
-            outState.putParcelable("todayWeatherInfo", list.get(0));
-            outState.putParcelable("tomorrowWeatherInfo", list.get(1));
-        }
+        outState.putInt("day", day);
     }
+
     @Subscribe
     public void updateData(WeatherEvent event) {
-        list = event.getData();
+        List<WeatherInfo> list = event.getData();
         mWeatherInfo = list.get(day);
         weatherDayInfo(mWeatherInfo);
     }
