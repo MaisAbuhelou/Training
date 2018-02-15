@@ -35,6 +35,8 @@ public class CountryWeatherActivity extends AppCompatActivity
     private DrawerLayout mDrawerLayout;
     private List<CountryInfo> mCountryInfo;
     private CountryListFragment mCountryListFragment;
+    private WeatherViewPagerAdapter mPagerAdapter;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +86,10 @@ public class CountryWeatherActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCountrySelected(CountryInfo countryInfo) {
-//     if (mCountryInfoFragment != null) {
-//            mCountryInfoFragment.setCountry(countryInfo);
-//        }
+    public void onCountrySelected(int position) {
+        mPagerAdapter.getItem(position);
+        viewPager.setAdapter(mPagerAdapter);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
 
     }
 
@@ -101,8 +103,8 @@ public class CountryWeatherActivity extends AppCompatActivity
                 mCountryInfo = response.body();
 
                 mCountryListFragment.setRecyclerView(mCountryInfo);
-                ViewPager viewPager = findViewById(R.id.viewpager);
-                WeatherViewPagerAdapter mPagerAdapter = new WeatherViewPagerAdapter(getSupportFragmentManager(), mCountryInfo);
+               viewPager = findViewById(R.id.viewpager);
+                 mPagerAdapter = new WeatherViewPagerAdapter(getSupportFragmentManager(), mCountryInfo);
                 viewPager.setAdapter(mPagerAdapter);
 
             }

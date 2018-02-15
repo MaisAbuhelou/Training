@@ -17,7 +17,7 @@ public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountryVi
     private CountrySelectListener mListener;
 
     public interface CountrySelectListener {
-        void onCountrySelected(CountryInfo countryInfo);
+        void onCountrySelected(int position);
     }
 
     public void setCountry(List<CountryInfo> country) {
