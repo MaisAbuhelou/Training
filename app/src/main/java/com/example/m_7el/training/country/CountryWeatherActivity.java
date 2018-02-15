@@ -1,9 +1,7 @@
 package com.example.m_7el.training.country;
 
 import android.annotation.SuppressLint;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -35,8 +33,6 @@ public class CountryWeatherActivity extends AppCompatActivity
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
-    private CountryInfoFragment mCountryInfoFragment;
-    private int orientation;
     private List<CountryInfo> mCountryInfo;
     private CountryListFragment mCountryListFragment;
 
@@ -44,20 +40,14 @@ public class CountryWeatherActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_weather);
+
         setToolbar();
-        orientation = this.getResources().getConfiguration().orientation;
 
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            setNavigation();
-        }
-
-        getCountriesInfo();
+        setNavigation();
         mCountryListFragment = (CountryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_country_list);
         mCountryListFragment.setCountrySelectionListener(this);
-        mCountryInfoFragment=(CountryInfoFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_countryInfo);
-        ViewPager viewPager = findViewById(R.id.viewpager);
-        WeatherViewPagerAdapter mPagerAdapter = new WeatherViewPagerAdapter(getSupportFragmentManager(), mCountryInfoFragment, mCountryInfo, mCountryInfo.size());
-        viewPager.setAdapter(mPagerAdapter);
+        getCountriesInfo();
+
     }
 
     private void setToolbar() {
@@ -95,15 +85,13 @@ public class CountryWeatherActivity extends AppCompatActivity
 
     @Override
     public void onCountrySelected(CountryInfo countryInfo) {
-        if (mCountryInfoFragment != null) {
-            mCountryInfoFragment.setCountry(countryInfo);
-        }
+//     if (mCountryInfoFragment != null) {
+//            mCountryInfoFragment.setCountry(countryInfo);
+//        }
 
-        if (orientation == Configuration.ORIENTATION_PORTRAIT)
-            mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
-    // get countries
+    //    // get countries
     private void getCountriesInfo() {
 
         Call<List<CountryInfo>> call2 = CountryApiClient.getClient().create(RetrofitInterface.class).getCountyInfo();
@@ -111,12 +99,12 @@ public class CountryWeatherActivity extends AppCompatActivity
             @Override
             public void onResponse(@NonNull Call<List<CountryInfo>> call, @NonNull Response<List<CountryInfo>> response) {
                 mCountryInfo = response.body();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        mCountryListFragment.setRecyclerView(mCountryInfo);
-                    }
-                }, 2000);
+
+                mCountryListFragment.setRecyclerView(mCountryInfo);
+                ViewPager viewPager = findViewById(R.id.viewpager);
+                WeatherViewPagerAdapter mPagerAdapter = new WeatherViewPagerAdapter(getSupportFragmentManager(), mCountryInfo);
+                viewPager.setAdapter(mPagerAdapter);
+
             }
 
             @Override

@@ -1,19 +1,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.m_7el.training.country.CountryInfoFragment">
+    android:background="@drawable/boarder">
+
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="64dp"
         android:text="@string/name"
         android:textColor="@android:color/black" />
 
@@ -102,24 +98,32 @@
         android:src="@mipmap/ic_launcher" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="64dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="48dp"
+        android:layout_toEndOf="@+id/country_name"
+        android:layout_toRightOf="@+id/country_name"
         android:orientation="horizontal"
         android:weightSum="2">
 
         <fragment
-            android:id="@+id/fragment_weather_today"
+            android:id="@+id/today_weather"
+            layout="@layout/fragment_day_weather"
             android:layout_width="0dp"
+            android:background="@drawable/boarder"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_day_weather" />
+           class="com.example.m_7el.training.country.WeatherDayInfoFragment"
+            android:layout_weight="1" />
 
         <fragment
-            android:id="@+id/fragment_weather_tomorrow"
+            android:id="@+id/tomorrow_weather"
+            layout="@layout/fragment_day_weather"
+            android:background="@drawable/boarder"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_day_weather" />
+           class="com.example.m_7el.training.country.WeatherDayInfoFragment"
+            android:layout_weight="1" />
     </LinearLayout>
 </RelativeLayout>

@@ -14,30 +14,28 @@ import java.util.List;
 public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
 
     private final List<CountryInfo> mCountryInfo;
-    private final CountryInfoFragment mCountryInfoFragment;
-    private int mPageCounts;
 
-    WeatherViewPagerAdapter(FragmentManager manager, CountryInfoFragment countryInfoFragment, List<CountryInfo> countryInfo, int pageCounts) {
+
+    WeatherViewPagerAdapter(FragmentManager manager, List<CountryInfo> countryInfo) {
         super(manager);
-        mPageCounts = pageCounts;
         mCountryInfo = countryInfo;
-        mCountryInfoFragment =countryInfoFragment;
     }
-
 
     @Override
     @NonNull
     public Fragment getItem(int position) {
-        Bundle args = new Bundle();
-        args.putParcelable("mCountry", mCountryInfo.get(position));
-        mCountryInfoFragment.setCountry(mCountryInfo.get(position));
+        Bundle args=new Bundle();
+        CountryInfoFragment mCountryInfoFragment=new CountryInfoFragment();
+        if (mCountryInfo!=null)
+        args.putParcelable("mCountry",mCountryInfo.get(position));
+        mCountryInfoFragment.setArguments(args);
         return mCountryInfoFragment;
 
     }
 
     @Override
     public int getCount() {
-        return mPageCounts;
+        return mCountryInfo==null? 1:mCountryInfo.size() ;
     }
 
 }
