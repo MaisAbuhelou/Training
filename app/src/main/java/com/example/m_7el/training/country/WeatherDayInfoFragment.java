@@ -1,9 +1,9 @@
 package com.example.m_7el.training.country;
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,47 +11,42 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.m_7el.training.R;
-import com.example.m_7el.training.country.models.WeatherEvent;
+import com.example.m_7el.training.country.models.CountryInfo;
+import com.example.m_7el.training.country.models.WeatherData;
+import com.example.m_7el.training.country.models.WeatherDetails;
 import com.example.m_7el.training.country.models.WeatherInfo;
+import com.example.m_7el.training.country.utils.DateUtil;
 import com.example.m_7el.training.country.utils.LogMessages;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
+import com.example.m_7el.training.net.clients.RetrofitInterface;
+import com.example.m_7el.training.net.clients.WeatherApiClient;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class WeatherDayInfoFragment extends Fragment {
     public final static String EXTRA_DATE = WeatherDayInfoFragment.class + "_DATE_EXTRA";
+    private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
 
     private TextView mHumidity;
     private TextView mPressure;
     private TextView mTemp;
-    private WeatherInfo mWeatherInfo;
-    public int day = 0;
+    private WeatherData mWeatherInfo;
+    private SimpleDateFormat dateFormat;
+    private CountryInfo mCountryInfo;
 
-    public void setDay(int day) {
-        this.day = day;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LogMessages.getMessage("WeatherDayInfoFragment");
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -62,17 +57,16 @@ public class WeatherDayInfoFragment extends Fragment {
         mTemp = view.findViewById(R.id.country_temp);
         mPressure = view.findViewById(R.id.pressure);
         mHumidity = view.findViewById(R.id.humidity);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
 
         if (getArguments() != null) {
             Calendar calendar = (Calendar) getArguments().getSerializable(EXTRA_DATE);
             mDateTextView.setText(dateFormat.format(calendar.getTime()));
         }
-        if (savedInstanceState != null)
-            day = savedInstanceState.getInt("day");
 
         return view;
     }
+
 
 
     public void weatherDayInfo(WeatherInfo weatherInfo) {
@@ -82,16 +76,73 @@ public class WeatherDayInfoFragment extends Fragment {
         mTemp.setText(String.format(Locale.ENGLISH, "%f - %f ", weatherInfo.getTempMin(), weatherInfo.getTempMax()));
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("day", day);
+
+    //get data from countries list in activity
+    public void setCountry(final CountryInfo countryInfo) {
+        mCountryInfo = countryInfo;
+        getWeather();
     }
 
-    @Subscribe
-    public void updateData(WeatherEvent event) {
-        List<WeatherInfo> list = event.getData();
-        mWeatherInfo = list.get(day);
-        weatherDayInfo(mWeatherInfo);
+
+    private void getWeather() {
+        if (mCountryInfo.getLatlng().size() == 0) return;
+        Call<WeatherData> call2 = WeatherApiClient
+                .getClient()
+                .create(RetrofitInterface.class)
+                .getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
+        call2.enqueue(new Callback<WeatherData>() {
+            @Override
+            public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
+                mWeatherInfo = response.body();
+                List<WeatherInfo> mWeatherInfo = new ArrayList<>();
+                if (setTodayWeather() != null) {
+                    weatherDayInfo(setTodayWeather());
+                }
+                if (setTomorrowWeather() != null) {
+                    weatherDayInfo(setTodayWeather());
+
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
+                LogMessages.getMessage(Arrays.toString(t.getStackTrace()));
+            }
+        });
     }
+
+    @Nullable
+    public WeatherInfo setTodayWeather() {
+        if (mWeatherInfo == null) return null;
+        List<WeatherDetails> mWeatherDetails = mWeatherInfo.getWeatherDetails();
+        Calendar calendar = DateUtil.getToday();
+        String today = dateFormat.format(calendar.getTime());
+
+        for (WeatherDetails details : mWeatherDetails) {
+            String todayDate = details.getDtTxt().split(" ")[0];
+            if (todayDate.equalsIgnoreCase(String.valueOf(today))) {
+                return details.getWeatherInfo();
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    public WeatherInfo setTomorrowWeather() {
+        if (mWeatherInfo == null) return null;
+        List<WeatherDetails> mWeatherDetails = mWeatherInfo.getWeatherDetails();
+        Calendar calendar = DateUtil.getTomorrow();
+        String tomorrow = dateFormat.format(calendar.getTime());
+
+        for (WeatherDetails details : mWeatherDetails) {
+            String tomorrowDate = details.getDtTxt().split(" ")[0];
+            if (tomorrowDate.equalsIgnoreCase(String.valueOf(tomorrow))) {
+                return details.getWeatherInfo();
+            }
+        }
+        return null;
+    }
+
+
+
 }

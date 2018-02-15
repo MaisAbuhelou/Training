@@ -104,3 +104,4 @@
         android:contentDescription="@string/image"
         android:src="@mipmap/ic_launcher" />
 </RelativeLayout>
+

@@ -21,29 +21,7 @@
         android:layout_weight="1"
         tools:layout="@layout/fragment_country_info" />
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal"
-        android:weightSum="2">
 
-        <fragment
-            android:id="@+id/fragment_weather_today"
-            android:name="com.example.m_7el.training.country.WeatherFragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_day_weather" />
-
-        <fragment
-            android:id="@+id/fragment_weather_tomorrow"
-            android:name="com.example.m_7el.training.country.WeatherFragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            tools:layout="@layout/fragment_day_weather" />
-    </LinearLayout>
 
 
 </LinearLayout>

@@ -54,10 +54,10 @@ public class CountryWeatherActivity extends AppCompatActivity
         getCountriesInfo();
         mCountryListFragment = (CountryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_country_list);
         mCountryListFragment.setCountrySelectionListener(this);
-        mCountryInfoFragment = (CountryInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_countryInfo);
-        ViewPager viewPager =findViewById(R.id.viewpager);
-        WeatherViewPagerAdapter mPagerAdapter =new WeatherViewPagerAdapter(getSupportFragmentManager(),mCountryInfo.size());
-
+        mCountryInfoFragment=(CountryInfoFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_countryInfo);
+        ViewPager viewPager = findViewById(R.id.viewpager);
+        WeatherViewPagerAdapter mPagerAdapter = new WeatherViewPagerAdapter(getSupportFragmentManager(), mCountryInfoFragment, mCountryInfo, mCountryInfo.size());
+        viewPager.setAdapter(mPagerAdapter);
     }
 
     private void setToolbar() {
@@ -102,7 +102,8 @@ public class CountryWeatherActivity extends AppCompatActivity
         if (orientation == Configuration.ORIENTATION_PORTRAIT)
             mDrawerLayout.closeDrawer(GravityCompat.START);
     }
-// get countries
+
+    // get countries
     private void getCountriesInfo() {
 
         Call<List<CountryInfo>> call2 = CountryApiClient.getClient().create(RetrofitInterface.class).getCountyInfo();

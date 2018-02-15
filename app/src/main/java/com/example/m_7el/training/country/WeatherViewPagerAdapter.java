@@ -1,36 +1,38 @@
 package com.example.m_7el.training.country;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.m_7el.training.R;
-import com.example.m_7el.training.country.models.WeatherEvent;
-import com.example.m_7el.training.country.models.WeatherInfo;
-import com.example.m_7el.training.country.utils.DateUtil;
+import com.example.m_7el.training.country.models.CountryInfo;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
 
+    private final List<CountryInfo> mCountryInfo;
+    private final CountryInfoFragment mCountryInfoFragment;
     private int mPageCounts;
 
-    WeatherViewPagerAdapter( FragmentManager manager,int pageCounts) {
+    WeatherViewPagerAdapter(FragmentManager manager, CountryInfoFragment countryInfoFragment, List<CountryInfo> countryInfo, int pageCounts) {
         super(manager);
-        mPageCounts=pageCounts;
+        mPageCounts = pageCounts;
+        mCountryInfo = countryInfo;
+        mCountryInfoFragment =countryInfoFragment;
     }
+
+
     @Override
     @NonNull
     public Fragment getItem(int position) {
+        Bundle args = new Bundle();
+        args.putParcelable("mCountry", mCountryInfo.get(position));
+        mCountryInfoFragment.setCountry(mCountryInfo.get(position));
+        return mCountryInfoFragment;
 
-        return new WeatherDayInfoFragment();
     }
 
     @Override
