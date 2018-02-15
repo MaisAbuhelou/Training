@@ -87,8 +87,7 @@ public class CountryWeatherActivity extends AppCompatActivity
 
     @Override
     public void onCountrySelected(int position) {
-        mPagerAdapter.getItem(position);
-        viewPager.setAdapter(mPagerAdapter);
+        viewPager.setCurrentItem(position);
         mDrawerLayout.closeDrawer(GravityCompat.START);
 
     }
