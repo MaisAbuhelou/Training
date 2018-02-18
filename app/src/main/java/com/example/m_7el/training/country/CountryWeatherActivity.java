@@ -1,6 +1,7 @@
 package com.example.m_7el.training.country;
 
 import android.annotation.SuppressLint;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
+import com.example.m_7el.training.databinding.ActivityCountryWeatherBinding;
 import com.example.m_7el.training.net.clients.CountryApiClient;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 
@@ -31,27 +33,31 @@ import retrofit2.Response;
 
 
 public class CountryWeatherActivity extends AppCompatActivity
-        implements CountriesRecyclerViewAdapter.CountrySelectListener {
+        implements CountriesRecyclerViewAdapter.CountrySelectListener, View.OnClickListener {
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private CountryListFragment mCountryListFragment;
     private ViewPager viewPager;
     private List<CountryInfo> mCountryInfo;
+    private ActivityCountryWeatherBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_country_weather);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_country_weather);
         setToolbar();
         setNavigation();
-        viewPager = findViewById(R.id.viewpager);
+        binding.setListener(this);
+        viewPager = binding.viewpager;
         mCountryListFragment = (CountryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_country_list);
         mCountryListFragment.setCountrySelectionListener(this);
         if (savedInstanceState == null)
             getCountriesInfo();
 
         if (savedInstanceState != null) {
+            binding.setLoading(false);
+            binding.setError(false);
             mCountryInfo = savedInstanceState.getParcelableArrayList("country");
             mCountryListFragment.setRecyclerView(mCountryInfo);
             setUpViewPager();
@@ -65,12 +71,12 @@ public class CountryWeatherActivity extends AppCompatActivity
 
     @SuppressLint("SetTextI18n")
     private void setNavigation() {
-        mDrawerLayout = findViewById(R.id.drawer_layout);
+        mDrawerLayout =binding.drawerLayout;
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-        NavigationView mNavigationView = findViewById(R.id.nav_view);
+        NavigationView mNavigationView = binding.navView;
         View header = mNavigationView.getHeaderView(0);
         TextView name = header.findViewById(R.id.name);
         ImageView userImage = header.findViewById(R.id.user_image);
@@ -100,19 +106,24 @@ public class CountryWeatherActivity extends AppCompatActivity
 
     // get countries
     private void getCountriesInfo() {
-
+        binding.setLoading(true);
+        binding.setError(false);
         Call<List<CountryInfo>> call2 = CountryApiClient.getClient().create(RetrofitInterface.class).getCountyInfo();
         call2.enqueue(new Callback<List<CountryInfo>>() {
             @Override
             public void onResponse(@NonNull Call<List<CountryInfo>> call, @NonNull Response<List<CountryInfo>> response) {
+
                 mCountryInfo = response.body();
                 mCountryListFragment.setRecyclerView(mCountryInfo);
                 setUpViewPager();
+                binding.setLoading(false);
+
             }
 
             @Override
             public void onFailure(@NonNull Call<List<CountryInfo>> call, @NonNull Throwable t) {
-
+                binding.setLoading(false);
+                binding.setError(true);
                 t.printStackTrace();
             }
         });
@@ -130,4 +141,8 @@ public class CountryWeatherActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onClick(View v) {
+        getCountriesInfo();
+    }
 }

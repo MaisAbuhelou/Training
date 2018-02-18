@@ -1,130 +1,168 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/boarder">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <data>
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_marginLeft="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/toolbar"
-        android:layout_marginTop="64dp"
-        android:text="@string/name"
-        android:textColor="@android:color/black" />
+        <import type="android.view.View" />
 
-    <TextView
-        android:id="@+id/country_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView6"
-        android:layout_alignLeft="@+id/country_capital"
-        android:layout_alignStart="@+id/country_capital"
-        android:text="@string/name" />
+        <import type="android.support.v4.app.Fragment" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
-        android:layout_below="@+id/textView2"
-        android:layout_marginTop="34dp"
-        android:text="@string/capital"
-        android:textColor="@android:color/black" />
+        <variable
+            name="loading"
+            type="java.lang.Boolean" />
 
-    <TextView
-        android:id="@+id/country_capital"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView6"
-        android:layout_alignBottom="@+id/textView6"
-        android:layout_alignLeft="@+id/country_region"
-        android:layout_alignStart="@+id/country_region"
-        android:text="@string/capital" />
+        <variable
+            name="error"
+            type="java.lang.Boolean" />
 
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView6"
-        android:layout_alignStart="@+id/textView6"
-        android:layout_below="@+id/textView6"
-        android:layout_marginTop="34dp"
-        android:text="@string/region"
-        android:textColor="@android:color/black" />
+        <variable
+            name="listener"
+            type="android.view.View.OnClickListener" />
+    </data>
 
-    <TextView
-        android:id="@+id/country_region"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView11"
-        android:layout_alignLeft="@+id/population"
-        android:layout_alignStart="@+id/population"
-        android:text="@string/region" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView9"
-        android:layout_alignStart="@+id/textView9"
-        android:layout_below="@+id/textView9"
-        android:layout_marginTop="27dp"
-        android:text="@string/population"
-        android:textColor="@android:color/black" />
-
-    <TextView
-        android:id="@+id/population"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView11"
-        android:layout_alignBottom="@+id/textView11"
-        android:layout_marginLeft="24dp"
-        android:layout_marginStart="24dp"
-        android:layout_toEndOf="@+id/textView11"
-        android:layout_toRightOf="@+id/textView11"
-        android:text="@string/population" />
-
-    <ImageView
-        android:id="@+id/country_image"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_alignLeft="@+id/textView11"
-        android:layout_alignStart="@+id/textView11"
-        android:layout_below="@+id/textView11"
-        android:layout_marginTop="13dp"
-        android:contentDescription="@string/image"
-        android:src="@mipmap/ic_launcher" />
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="64dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="48dp"
-        android:layout_toEndOf="@+id/country_name"
-        android:layout_toRightOf="@+id/country_name"
-        android:orientation="horizontal"
-        android:weightSum="2">
+        android:layout_height="match_parent">
 
-        <fragment
-            android:id="@+id/today_weather"
-            class="com.example.m_7el.training.country.WeatherInfoFragment"
-            layout="@layout/fragment_day_weather"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/boarder" />
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{safeUnbox(loading) &amp;&amp; safeUnbox(!error) ? View.VISIBLE : View.GONE}" />
 
-        <fragment
-            android:id="@+id/tomorrow_weather"
-            class="com.example.m_7el.training.country.WeatherInfoFragment"
-            layout="@layout/fragment_day_weather"
-            android:layout_width="0dp"
+        <Button
+            android:id="@+id/refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_refresh_black_24dp"
+            android:onClick="@{listener::onClick}"
+            android:visibility="@{safeUnbox(error) &amp;&amp; safeUnbox(!loading) ?  View.VISIBLE : View.GONE}" />
+
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="64dp"
+            android:text="@string/name"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/country_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView6"
+            android:layout_alignLeft="@+id/country_capital"
+            android:layout_alignStart="@+id/country_capital"
+            android:text="@string/name" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_alignStart="@+id/textView2"
+            android:layout_below="@+id/textView2"
+            android:layout_marginTop="34dp"
+            android:text="@string/capital"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/country_capital"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView6"
+            android:layout_alignBottom="@+id/textView6"
+            android:layout_alignLeft="@+id/country_region"
+            android:layout_alignStart="@+id/country_region"
+            android:text="@string/capital" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView6"
+            android:layout_alignStart="@+id/textView6"
+            android:layout_below="@+id/textView6"
+            android:layout_marginTop="34dp"
+            android:text="@string/region"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/country_region"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView11"
+            android:layout_alignLeft="@+id/population"
+            android:layout_alignStart="@+id/population"
+            android:text="@string/region" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView9"
+            android:layout_alignStart="@+id/textView9"
+            android:layout_below="@+id/textView9"
+            android:layout_marginTop="27dp"
+            android:text="@string/population"
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/population"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/textView11"
+            android:layout_alignBottom="@+id/textView11"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_toEndOf="@+id/textView11"
+            android:layout_toRightOf="@+id/textView11"
+            android:text="@string/population" />
+
+        <ImageView
+            android:id="@+id/country_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignLeft="@+id/textView11"
+            android:layout_alignStart="@+id/textView11"
+            android:layout_below="@+id/textView11"
+            android:layout_marginTop="13dp"
+            android:contentDescription="@string/image"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/boarder" />
-    </LinearLayout>
-</RelativeLayout>
+            android:layout_marginLeft="64dp"
+            android:layout_marginStart="64dp"
+            android:layout_marginTop="48dp"
+            android:layout_toEndOf="@+id/country_name"
+            android:layout_toRightOf="@+id/country_name"
+            android:orientation="horizontal"
+            android:visibility="@{safeUnbox(!loading) &amp;&amp; safeUnbox(!error) ? View.VISIBLE : View.GONE}"
+            android:weightSum="2">
+
+            <fragment
+                android:id="@+id/today_weather"
+                class="com.example.m_7el.training.country.WeatherInfoFragment"
+                layout="@layout/fragment_day_weather"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/boarder" />
+
+            <fragment
+                android:id="@+id/tomorrow_weather"
+                class="com.example.m_7el.training.country.WeatherInfoFragment"
+                layout="@layout/fragment_day_weather"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/boarder" />
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
