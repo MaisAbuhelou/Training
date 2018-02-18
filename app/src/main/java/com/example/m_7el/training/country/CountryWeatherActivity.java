@@ -2,6 +2,7 @@ package com.example.m_7el.training.country;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +22,7 @@ import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.net.clients.CountryApiClient;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,23 +35,28 @@ public class CountryWeatherActivity extends AppCompatActivity
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
-    private List<CountryInfo> mCountryInfo;
     private CountryListFragment mCountryListFragment;
-    private WeatherViewPagerAdapter mPagerAdapter;
+    private WeatherPagerAdapter mPagerAdapter;
     private ViewPager viewPager;
+    private List<CountryInfo> mCountryInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_weather);
-
         setToolbar();
-
         setNavigation();
+        viewPager = findViewById(R.id.viewpager);
+
         mCountryListFragment = (CountryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_country_list);
         mCountryListFragment.setCountrySelectionListener(this);
-        getCountriesInfo();
-
+        if (savedInstanceState != null) {
+            mCountryInfo = savedInstanceState.getParcelableArrayList("country");
+            mCountryListFragment.setRecyclerView(mCountryInfo);
+            setUpViewPager();
+        } else {
+            getCountriesInfo();
+        }
     }
 
     private void setToolbar() {
@@ -100,12 +107,8 @@ public class CountryWeatherActivity extends AppCompatActivity
             @Override
             public void onResponse(@NonNull Call<List<CountryInfo>> call, @NonNull Response<List<CountryInfo>> response) {
                 mCountryInfo = response.body();
-
                 mCountryListFragment.setRecyclerView(mCountryInfo);
-               viewPager = findViewById(R.id.viewpager);
-                 mPagerAdapter = new WeatherViewPagerAdapter(getSupportFragmentManager(), mCountryInfo);
-                viewPager.setAdapter(mPagerAdapter);
-
+                setUpViewPager();
             }
 
             @Override
@@ -115,4 +118,17 @@ public class CountryWeatherActivity extends AppCompatActivity
             }
         });
     }
+
+    private void setUpViewPager() {
+        mPagerAdapter = new WeatherPagerAdapter(getSupportFragmentManager(), mCountryInfo);
+        viewPager.setAdapter(mPagerAdapter);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList("country", (ArrayList<? extends Parcelable>) mCountryInfo);
+
+    }
+
 }

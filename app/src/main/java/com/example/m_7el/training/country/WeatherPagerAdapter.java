@@ -7,16 +7,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.m_7el.training.country.models.CountryInfo;
-
 import java.util.List;
 
 
-public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
+public class WeatherPagerAdapter extends FragmentPagerAdapter {
 
     private final List<CountryInfo> mCountryInfo;
 
 
-    WeatherViewPagerAdapter(FragmentManager manager, List<CountryInfo> countryInfo) {
+    WeatherPagerAdapter(FragmentManager manager, List<CountryInfo> countryInfo) {
         super(manager);
         mCountryInfo = countryInfo;
     }
@@ -39,3 +38,5 @@ public class WeatherViewPagerAdapter extends FragmentPagerAdapter {
     }
 
 }
+
+

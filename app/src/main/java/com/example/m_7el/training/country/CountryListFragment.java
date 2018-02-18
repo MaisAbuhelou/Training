@@ -44,24 +44,8 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
         countriesRecyclerView = binding.countryListRecyclerView;
         countriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         countriesRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-
         return view;
     }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            mCountryInfo = savedInstanceState.getParcelableArrayList("country");
-            if (mCountryInfo != null) {
-                setRecyclerView(mCountryInfo);
-                return;
-            }
-        }
-
-    }
-
 
     public void setCountrySelectionListener(CountrySelectListener mCountrySelectionListener) {
         this.mCountrySelectionListener = mCountrySelectionListener;
@@ -75,12 +59,6 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
         countriesRecyclerViewAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("country", (ArrayList<? extends Parcelable>) mCountryInfo);
-
-    }
 
     @Override
     public void onClick(View v) {

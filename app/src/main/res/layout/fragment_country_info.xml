@@ -110,12 +110,12 @@
             android:id="@+id/today_weather"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            class="com.example.m_7el.training.country.WeatherDayInfoFragment"
+            class="com.example.m_7el.training.country.WeatherInfoFragment"
 
             android:layout_weight="1" />
 
         <fragment
-            class="com.example.m_7el.training.country.WeatherDayInfoFragment"
+            class="com.example.m_7el.training.country.WeatherInfoFragment"
 
             layout="@layout/fragment_day_weather"
             android:id="@+id/tomorrow_weather"

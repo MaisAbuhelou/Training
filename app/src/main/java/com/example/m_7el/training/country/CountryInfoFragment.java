@@ -15,25 +15,18 @@ import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.di.MyApp;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.models.WeatherData;
-import com.example.m_7el.training.country.models.WeatherInfo;
-import com.example.m_7el.training.country.utils.DateUtil;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 import com.example.m_7el.training.net.clients.WeatherApiClient;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-;
-
 
 public class CountryInfoFragment extends Fragment {
     private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
@@ -48,8 +41,8 @@ public class CountryInfoFragment extends Fragment {
 
     @Inject
     PhotoManager photoManager;
-    private WeatherDayInfoFragment mTodayWeatherFragment;
-    private WeatherDayInfoFragment mTomorrowWeatherFragment;
+    private WeatherInfoFragment mTodayWeatherFragment;
+    private WeatherInfoFragment mTomorrowWeatherFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,18 +59,13 @@ public class CountryInfoFragment extends Fragment {
         mCountyPopulation = view.findViewById(R.id.population);
         mCountyCapital = view.findViewById(R.id.country_capital);
         mCountryImage = view.findViewById(R.id.country_image);
-        mTodayWeatherFragment = (WeatherDayInfoFragment) getChildFragmentManager().findFragmentById(R.id.today_weather);
-        mTomorrowWeatherFragment = (WeatherDayInfoFragment) getChildFragmentManager().findFragmentById(R.id.tomorrow_weather);
+        mTodayWeatherFragment = (WeatherInfoFragment) getChildFragmentManager().findFragmentById(R.id.today_weather);
+        mTomorrowWeatherFragment = (WeatherInfoFragment) getChildFragmentManager().findFragmentById(R.id.tomorrow_weather);
 
 
         ((MyApp) getActivity().getApplicationContext()).getMyComponent().inject(this);
-
-        if (getArguments() != null) {
+          if (getArguments() != null) {
             mCountryInfo = getArguments().getParcelable("mCountry");
-            setData(mCountryInfo);
-        }
-        if (savedInstanceState != null) {
-            mCountryInfo = savedInstanceState.getParcelable("country");
             setData(mCountryInfo);
         }
 
@@ -126,15 +114,6 @@ public class CountryInfoFragment extends Fragment {
             getWeather();
 
         }
-    }
-
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //Save the fragment's state here
-        outState.putParcelable("country", mCountryInfo);
-
     }
 
 }
