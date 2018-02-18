@@ -110,20 +110,20 @@
 
         <fragment
             android:id="@+id/today_weather"
+            class="com.example.m_7el.training.country.WeatherInfoFragment"
             layout="@layout/fragment_day_weather"
             android:layout_width="0dp"
-            android:background="@drawable/boarder"
             android:layout_height="match_parent"
-           class="com.example.m_7el.training.country.WeatherInfoFragment"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/boarder" />
 
         <fragment
             android:id="@+id/tomorrow_weather"
+            class="com.example.m_7el.training.country.WeatherInfoFragment"
             layout="@layout/fragment_day_weather"
-            android:background="@drawable/boarder"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-           class="com.example.m_7el.training.country.WeatherInfoFragment"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/boarder" />
     </LinearLayout>
 </RelativeLayout>

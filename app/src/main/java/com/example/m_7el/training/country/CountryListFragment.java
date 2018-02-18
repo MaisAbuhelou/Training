@@ -2,7 +2,6 @@ package com.example.m_7el.training.country;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,14 +17,11 @@ import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.SimpleDividerItemDecoration;
 import com.example.m_7el.training.databinding.FragmentCountryListBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class CountryListFragment extends Fragment implements View.OnClickListener {
-    private List<CountryInfo> mCountryInfo;
+public class CountryListFragment extends Fragment {
     private RecyclerView countriesRecyclerView;
     private CountrySelectListener mCountrySelectionListener;
-    private FragmentCountryListBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,10 +33,9 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        binding = DataBindingUtil.inflate(inflater,
+        FragmentCountryListBinding binding = DataBindingUtil.inflate(inflater,
                 R.layout.fragment_country_list, container, false);
         View view = binding.getRoot();
-        binding.setListener(this);
         countriesRecyclerView = binding.countryListRecyclerView;
         countriesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         countriesRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -52,17 +47,9 @@ public class CountryListFragment extends Fragment implements View.OnClickListene
     }
 
     void setRecyclerView(List<CountryInfo> countryInfo) {
-        mCountryInfo = countryInfo;
         CountriesRecyclerViewAdapter countriesRecyclerViewAdapter = new CountriesRecyclerViewAdapter(mCountrySelectionListener);
-        countriesRecyclerViewAdapter.setCountry(mCountryInfo);
+        countriesRecyclerViewAdapter.setCountry(countryInfo);
         countriesRecyclerView.setAdapter(countriesRecyclerViewAdapter);
         countriesRecyclerViewAdapter.notifyDataSetChanged();
     }
-
-
-    @Override
-    public void onClick(View v) {
-
-    }
-
 }

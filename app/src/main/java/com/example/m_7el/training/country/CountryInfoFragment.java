@@ -62,13 +62,11 @@ public class CountryInfoFragment extends Fragment {
         mTodayWeatherFragment = (WeatherInfoFragment) getChildFragmentManager().findFragmentById(R.id.today_weather);
         mTomorrowWeatherFragment = (WeatherInfoFragment) getChildFragmentManager().findFragmentById(R.id.tomorrow_weather);
 
-
         ((MyApp) getActivity().getApplicationContext()).getMyComponent().inject(this);
           if (getArguments() != null) {
             mCountryInfo = getArguments().getParcelable("mCountry");
             setData(mCountryInfo);
         }
-
         return view;
     }
 
@@ -89,7 +87,6 @@ public class CountryInfoFragment extends Fragment {
                 WeatherData mWeatherData = response.body();
                 mTodayWeatherFragment.setTodayWeather(mWeatherData);
                 mTomorrowWeatherFragment.setTomorrowWeather(mWeatherData);
-
             }
 
             @Override

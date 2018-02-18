@@ -7,6 +7,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
+        android:layout_marginLeft="16dp"
         android:text="@string/name"
         android:textColor="@android:color/black" />
 
@@ -111,12 +112,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             class="com.example.m_7el.training.country.WeatherInfoFragment"
-
             android:layout_weight="1" />
 
         <fragment
             class="com.example.m_7el.training.country.WeatherInfoFragment"
-
             layout="@layout/fragment_day_weather"
             android:id="@+id/tomorrow_weather"
             android:layout_width="0dp"

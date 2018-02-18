@@ -13,8 +13,6 @@ import java.util.List;
 public class WeatherPagerAdapter extends FragmentPagerAdapter {
 
     private final List<CountryInfo> mCountryInfo;
-
-
     WeatherPagerAdapter(FragmentManager manager, List<CountryInfo> countryInfo) {
         super(manager);
         mCountryInfo = countryInfo;
@@ -29,7 +27,6 @@ public class WeatherPagerAdapter extends FragmentPagerAdapter {
         args.putParcelable("mCountry",mCountryInfo.get(position));
         mCountryInfoFragment.setArguments(args);
         return mCountryInfoFragment;
-
     }
 
     @Override

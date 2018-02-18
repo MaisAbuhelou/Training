@@ -17,14 +17,13 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
 
     private RecyclerBinding binding;
     private ImageView mCountryImage;
-    private CountryInfo mCountry;
     private Context mContext;
     private String flag = "PS";
     @Inject
     PhotoManager photoManager;
 
 
-    public CountryViewHolder(View view, final CountriesRecyclerViewAdapter.CountrySelectListener countrySelectListener) {
+    CountryViewHolder(View view, final CountriesRecyclerViewAdapter.CountrySelectListener countrySelectListener) {
         super(view);
         mContext = view.getContext();
         binding = DataBindingUtil.bind(view);
@@ -39,12 +38,11 @@ public class CountryViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    public void bind(CountryInfo country) {
-        mCountry = country;
-        if (mCountry.getAltSpellings().size() != 0) {
-            flag = mCountry.getAltSpellings().get(0);
+    void bind(CountryInfo country) {
+        if (country.getAltSpellings().size() != 0) {
+            flag = country.getAltSpellings().get(0);
         }
         binding.setCountry(country);
-      photoManager.loadImage(mContext, mCountryImage, flag);
+        photoManager.loadImage(mContext, mCountryImage, flag);
     }
 }
