@@ -17,14 +17,14 @@ public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountryVi
     private CountrySelectListener mListener;
 
     public interface CountrySelectListener {
-        void onCountrySelected(CountryInfo countryInfo);
+        void onCountrySelected(int position);
     }
 
     public void setCountry(List<CountryInfo> country) {
         this.mCountries = country;
     }
 
-    public CountriesRecyclerViewAdapter(CountrySelectListener countrySelectListener) {
+    CountriesRecyclerViewAdapter(CountrySelectListener countrySelectListener) {
         mListener = countrySelectListener;
     }
 
@@ -42,8 +42,7 @@ public class CountriesRecyclerViewAdapter extends RecyclerView.Adapter<CountryVi
 
     @Override
     public int getItemCount() {
-
-        return mCountries==null ? 0 : mCountries.size();
+        return mCountries == null ? 0 : mCountries.size();
     }
 
 

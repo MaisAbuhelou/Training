@@ -1,19 +1,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.m_7el.training.country.CountryInfoFragment">
+    android:background="@drawable/boarder">
+
 
     <TextView
         android:id="@+id/textView2"
+        android:layout_marginLeft="16dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_below="@id/toolbar"
+        android:layout_marginTop="64dp"
         android:text="@string/name"
         android:textColor="@android:color/black" />
 
@@ -100,4 +97,34 @@
         android:layout_marginTop="13dp"
         android:contentDescription="@string/image"
         android:src="@mipmap/ic_launcher" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="64dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="48dp"
+        android:layout_toEndOf="@+id/country_name"
+        android:layout_toRightOf="@+id/country_name"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <fragment
+            android:id="@+id/today_weather"
+            class="com.example.m_7el.training.country.WeatherInfoFragment"
+            layout="@layout/fragment_day_weather"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/boarder" />
+
+        <fragment
+            android:id="@+id/tomorrow_weather"
+            class="com.example.m_7el.training.country.WeatherInfoFragment"
+            layout="@layout/fragment_day_weather"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/boarder" />
+    </LinearLayout>
 </RelativeLayout>

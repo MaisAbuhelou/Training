@@ -1,10 +1,12 @@
 package com.example.m_7el.training.country;
 
 import android.annotation.SuppressLint;
-import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -17,32 +19,43 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.models.CountryInfo;
+import com.example.m_7el.training.net.clients.CountryApiClient;
+import com.example.m_7el.training.net.clients.RetrofitInterface;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 
 public class CountryWeatherActivity extends AppCompatActivity
         implements CountriesRecyclerViewAdapter.CountrySelectListener {
 
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
-    private CountryInfoFragment mCountryInfoFragment;
-    private WeatherFragment mWeatherInfoFragment;
     private CountryListFragment mCountryListFragment;
-    private int orientation;
+    private ViewPager viewPager;
+    private List<CountryInfo> mCountryInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_country_weather);
         setToolbar();
-        orientation = this.getResources().getConfiguration().orientation;
-
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            setNavigation();
-        }
-
+        setNavigation();
+        viewPager = findViewById(R.id.viewpager);
         mCountryListFragment = (CountryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_country_list);
         mCountryListFragment.setCountrySelectionListener(this);
-        mCountryInfoFragment = (CountryInfoFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_countryInfo);
-        mWeatherInfoFragment = (WeatherFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_weather_info);
+        if (savedInstanceState == null)
+            getCountriesInfo();
+
+        if (savedInstanceState != null) {
+            mCountryInfo = savedInstanceState.getParcelableArrayList("country");
+            mCountryListFragment.setRecyclerView(mCountryInfo);
+            setUpViewPager();
+        }
     }
 
     private void setToolbar() {
@@ -79,16 +92,42 @@ public class CountryWeatherActivity extends AppCompatActivity
     }
 
     @Override
-    public void onCountrySelected(CountryInfo countryInfo) {
-        if (mCountryInfoFragment != null) {
-            mCountryInfoFragment.setCountry(countryInfo);
-        }
-        if (mWeatherInfoFragment != null) {
-            mWeatherInfoFragment.setCountry(countryInfo);
-        }
-        if (orientation == Configuration.ORIENTATION_PORTRAIT)
-            mDrawerLayout.closeDrawer(GravityCompat.START);
+    public void onCountrySelected(int position) {
+        viewPager.setCurrentItem(position);
+        mDrawerLayout.closeDrawer(GravityCompat.START);
+
     }
 
+    // get countries
+    private void getCountriesInfo() {
+
+        Call<List<CountryInfo>> call2 = CountryApiClient.getClient().create(RetrofitInterface.class).getCountyInfo();
+        call2.enqueue(new Callback<List<CountryInfo>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<CountryInfo>> call, @NonNull Response<List<CountryInfo>> response) {
+                mCountryInfo = response.body();
+                mCountryListFragment.setRecyclerView(mCountryInfo);
+                setUpViewPager();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<CountryInfo>> call, @NonNull Throwable t) {
+
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void setUpViewPager() {
+        WeatherPagerAdapter mPagerAdapter = new WeatherPagerAdapter(getSupportFragmentManager(), mCountryInfo);
+        viewPager.setAdapter(mPagerAdapter);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+        savedInstanceState.putParcelableArrayList("country", (ArrayList<? extends Parcelable>) mCountryInfo);
+
+    }
 
 }

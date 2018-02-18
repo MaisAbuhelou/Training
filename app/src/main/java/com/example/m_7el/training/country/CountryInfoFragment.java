@@ -12,14 +12,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.m_7el.training.R;
+import com.example.m_7el.training.country.di.MyApp;
 import com.example.m_7el.training.country.models.CountryInfo;
+import com.example.m_7el.training.country.models.WeatherData;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
+import com.example.m_7el.training.net.clients.RetrofitInterface;
+import com.example.m_7el.training.net.clients.WeatherApiClient;
+
+import java.util.Arrays;
 
 import javax.inject.Inject;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CountryInfoFragment extends Fragment {
+    private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
 
     private TextView mCountyName;
     private TextView mCountyRegion;
@@ -31,6 +41,8 @@ public class CountryInfoFragment extends Fragment {
 
     @Inject
     PhotoManager photoManager;
+    private WeatherInfoFragment mTodayWeatherFragment;
+    private WeatherInfoFragment mTomorrowWeatherFragment;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,13 +59,14 @@ public class CountryInfoFragment extends Fragment {
         mCountyPopulation = view.findViewById(R.id.population);
         mCountyCapital = view.findViewById(R.id.country_capital);
         mCountryImage = view.findViewById(R.id.country_image);
-        ((MyApp) getActivity().getApplicationContext()).getMyComponent().inject(this);
+        mTodayWeatherFragment = (WeatherInfoFragment) getChildFragmentManager().findFragmentById(R.id.today_weather);
+        mTomorrowWeatherFragment = (WeatherInfoFragment) getChildFragmentManager().findFragmentById(R.id.tomorrow_weather);
 
-        if (savedInstanceState != null) {
-            mCountryInfo = savedInstanceState.getParcelable("country");
+        ((MyApp) getActivity().getApplicationContext()).getMyComponent().inject(this);
+          if (getArguments() != null) {
+            mCountryInfo = getArguments().getParcelable("mCountry");
             setData(mCountryInfo);
         }
-
         return view;
     }
 
@@ -62,8 +75,30 @@ public class CountryInfoFragment extends Fragment {
         setData(mCountryInfo);
     }
 
+    private void getWeather() {
+        if (mCountryInfo.getLatlng().size() == 0) return;
+        Call<WeatherData> call2 = WeatherApiClient
+                .getClient()
+                .create(RetrofitInterface.class)
+                .getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
+        call2.enqueue(new Callback<WeatherData>() {
+            @Override
+            public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
+                WeatherData mWeatherData = response.body();
+                mTodayWeatherFragment.setTodayWeather(mWeatherData);
+                mTomorrowWeatherFragment.setTomorrowWeather(mWeatherData);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
+                LogMessages.getMessage(Arrays.toString(t.getStackTrace()));
+            }
+        });
+    }
+
     @SuppressLint("SetTextI18n")
     private void setData(CountryInfo countryInfo) {
+
         if (countryInfo != null) {
             mCountyName.setText(countryInfo.getName());
             mCountyRegion.setText(countryInfo.getRegion());
@@ -71,20 +106,11 @@ public class CountryInfoFragment extends Fragment {
             mCountyCapital.setText(countryInfo.getCapital());
             if (countryInfo.getAltSpellings().size() != 0) {
                 flag = countryInfo.getAltSpellings().get(0);
-
             }
             photoManager.loadImage(getActivity(), mCountryImage, flag);
-
+            getWeather();
 
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        //Save the fragment's state here
-        outState.putParcelable("country", mCountryInfo);
-
     }
 
 }
