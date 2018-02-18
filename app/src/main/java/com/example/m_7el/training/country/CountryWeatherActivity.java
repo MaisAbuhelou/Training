@@ -112,11 +112,10 @@ public class CountryWeatherActivity extends AppCompatActivity
         call2.enqueue(new Callback<List<CountryInfo>>() {
             @Override
             public void onResponse(@NonNull Call<List<CountryInfo>> call, @NonNull Response<List<CountryInfo>> response) {
-
+                binding.setLoading(false);
                 mCountryInfo = response.body();
                 mCountryListFragment.setRecyclerView(mCountryInfo);
                 setUpViewPager();
-                binding.setLoading(false);
 
             }
 

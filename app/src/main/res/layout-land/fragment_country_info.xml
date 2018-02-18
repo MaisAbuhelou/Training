@@ -140,8 +140,8 @@
             android:layout_marginLeft="64dp"
             android:layout_marginStart="64dp"
             android:layout_marginTop="48dp"
-            android:layout_toEndOf="@+id/country_capital"
-            android:layout_toRightOf="@+id/country_capital"
+            android:layout_toEndOf="@+id/country_name"
+            android:layout_toRightOf="@+id/country_name"
             android:orientation="horizontal"
             android:visibility="@{safeUnbox(!loading) &amp;&amp; safeUnbox(!error) ? View.VISIBLE : View.GONE}"
             android:weightSum="2">
