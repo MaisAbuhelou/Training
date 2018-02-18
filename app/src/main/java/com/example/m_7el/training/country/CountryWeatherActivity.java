@@ -19,13 +19,17 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.m_7el.training.R;
+import com.example.m_7el.training.country.di.MyApp;
 import com.example.m_7el.training.country.models.CountryInfo;
+import com.example.m_7el.training.country.models.WeatherInfo;
 import com.example.m_7el.training.databinding.ActivityCountryWeatherBinding;
 import com.example.m_7el.training.net.clients.CountryApiClient;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +45,8 @@ public class CountryWeatherActivity extends AppCompatActivity
     private ViewPager viewPager;
     private List<CountryInfo> mCountryInfo;
     private ActivityCountryWeatherBinding binding;
+    @Inject
+    ApiImp apiImp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class CountryWeatherActivity extends AppCompatActivity
         binding = DataBindingUtil.setContentView(this, R.layout.activity_country_weather);
         setToolbar();
         setNavigation();
+        ((MyApp) getApplicationContext()).getMyComponent().inject(this);
         binding.setListener(this);
         viewPager = binding.viewpager;
         mCountryListFragment = (CountryListFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_country_list);
@@ -108,22 +115,21 @@ public class CountryWeatherActivity extends AppCompatActivity
     private void getCountriesInfo() {
         binding.setLoading(true);
         binding.setError(false);
-        Call<List<CountryInfo>> call2 = CountryApiClient.getClient().create(RetrofitInterface.class).getCountyInfo();
-        call2.enqueue(new Callback<List<CountryInfo>>() {
+        apiImp.getCountryInfo(new ApiCallback<List<CountryInfo>, String>() {
             @Override
-            public void onResponse(@NonNull Call<List<CountryInfo>> call, @NonNull Response<List<CountryInfo>> response) {
+            public void onSuccess(List<CountryInfo> countryInfo) {
                 binding.setLoading(false);
-                mCountryInfo = response.body();
-                mCountryListFragment.setRecyclerView(mCountryInfo);
+                mCountryListFragment.setRecyclerView(countryInfo);
+                mCountryInfo=countryInfo;
                 setUpViewPager();
 
             }
 
             @Override
-            public void onFailure(@NonNull Call<List<CountryInfo>> call, @NonNull Throwable t) {
+            public void onError(String error) {
                 binding.setLoading(false);
                 binding.setError(true);
-                t.printStackTrace();
+
             }
         });
     }

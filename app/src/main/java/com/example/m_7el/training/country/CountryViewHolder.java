@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.example.m_7el.training.country.di.MyApp;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.utils.PhotoManager;
+import com.example.m_7el.training.country.utils.PhotoManagerImp;
 import com.example.m_7el.training.databinding.RecyclerBinding;
 
 import javax.inject.Inject;

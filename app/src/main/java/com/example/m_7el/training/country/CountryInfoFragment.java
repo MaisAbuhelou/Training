@@ -16,11 +16,15 @@ import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.di.MyApp;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.models.WeatherData;
+import com.example.m_7el.training.country.models.WeatherInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
+import com.example.m_7el.training.country.utils.PhotoManagerImp;
 import com.example.m_7el.training.databinding.FragmentCountryInfoBinding;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 import com.example.m_7el.training.net.clients.WeatherApiClient;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -41,6 +45,8 @@ public class CountryInfoFragment extends Fragment implements View.OnClickListene
 
     @Inject
     PhotoManager photoManager;
+    @Inject
+    ApiImp apiImp;
     private WeatherInfoFragment mTodayWeatherFragment;
     private WeatherInfoFragment mTomorrowWeatherFragment;
     private FragmentCountryInfoBinding binding;
@@ -81,6 +87,21 @@ public class CountryInfoFragment extends Fragment implements View.OnClickListene
     private void getWeather() {
         binding.setLoading(true);
         binding.setError(false);
+        apiImp.getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1),API_KEY, new ApiCallback<WeatherData, String>() {
+            @Override
+            public void onSuccess(WeatherData weatherData) {
+                mTodayWeatherFragment.setTodayWeather(weatherData);
+                mTomorrowWeatherFragment.setTomorrowWeather(weatherData);
+                binding.setLoading(false);
+
+            }
+
+            @Override
+            public void onError(String error) {
+                binding.setLoading(false);
+                binding.setError(true);
+            }
+        });
         if (mCountryInfo.getLatlng().size() == 0) return;
         Call<WeatherData> call2 = WeatherApiClient
                 .getClient()
@@ -90,16 +111,12 @@ public class CountryInfoFragment extends Fragment implements View.OnClickListene
             @Override
             public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
                 WeatherData mWeatherData = response.body();
-                mTodayWeatherFragment.setTodayWeather(mWeatherData);
-                mTomorrowWeatherFragment.setTomorrowWeather(mWeatherData);
-                binding.setLoading(false);
 
             }
 
             @Override
             public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
-                binding.setLoading(false);
-                binding.setError(true);
+
                 t.printStackTrace();
             }
         });
