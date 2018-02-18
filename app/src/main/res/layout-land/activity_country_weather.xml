@@ -29,19 +29,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <ProgressBar
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:visibility="@{safeUnbox(loading) &amp;&amp; safeUnbox(!error) ? View.VISIBLE : View.GONE}" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
 
-        <Button
-            android:id="@+id/refresh"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:background="@drawable/ic_refresh_black_24dp"
-            android:onClick="@{listener::onClick}"
-            android:visibility="@{safeUnbox(error) &amp;&amp; safeUnbox(!loading) ?  View.VISIBLE : View.GONE}" />
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="@{safeUnbox(loading) &amp;&amp; safeUnbox(!error) ? View.VISIBLE : View.GONE}" />
 
+            <Button
+                android:id="@+id/refresh"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/ic_refresh_black_24dp"
+                android:onClick="@{listener::onClick}"
+                android:visibility="@{safeUnbox(error) &amp;&amp; safeUnbox(!loading) ?  View.VISIBLE : View.GONE}" />
+        </LinearLayout>
 
         <include
             layout="@layout/content_fragment"
