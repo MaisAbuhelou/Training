@@ -2,6 +2,7 @@ package com.example.m_7el.training.country;
 
 
 import android.annotation.SuppressLint;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -17,10 +18,9 @@ import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.models.WeatherData;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
+import com.example.m_7el.training.databinding.FragmentCountryInfoBinding;
 import com.example.m_7el.training.net.clients.RetrofitInterface;
 import com.example.m_7el.training.net.clients.WeatherApiClient;
-
-import java.util.Arrays;
 
 import javax.inject.Inject;
 
@@ -28,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CountryInfoFragment extends Fragment {
+public class CountryInfoFragment extends Fragment implements View.OnClickListener {
     private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
 
     private TextView mCountyName;
@@ -43,6 +43,7 @@ public class CountryInfoFragment extends Fragment {
     PhotoManager photoManager;
     private WeatherInfoFragment mTodayWeatherFragment;
     private WeatherInfoFragment mTomorrowWeatherFragment;
+    private FragmentCountryInfoBinding binding;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,18 +53,20 @@ public class CountryInfoFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_country_info, container, false);
-
-        mCountyName = view.findViewById(R.id.country_name);
-        mCountyRegion = view.findViewById(R.id.country_region);
-        mCountyPopulation = view.findViewById(R.id.population);
-        mCountyCapital = view.findViewById(R.id.country_capital);
-        mCountryImage = view.findViewById(R.id.country_image);
+        binding = DataBindingUtil.inflate(inflater,
+                R.layout.fragment_country_info, container, false);
+        View view = binding.getRoot();
+        binding.setListener(this);
+        mCountyName = binding.countryName;
+        mCountyRegion = binding.countryRegion;
+        mCountyPopulation =binding.population;
+        mCountyCapital = binding.countryCapital;
+        mCountryImage =binding.countryImage;
         mTodayWeatherFragment = (WeatherInfoFragment) getChildFragmentManager().findFragmentById(R.id.today_weather);
         mTomorrowWeatherFragment = (WeatherInfoFragment) getChildFragmentManager().findFragmentById(R.id.tomorrow_weather);
 
         ((MyApp) getActivity().getApplicationContext()).getMyComponent().inject(this);
-          if (getArguments() != null) {
+        if (getArguments() != null) {
             mCountryInfo = getArguments().getParcelable("mCountry");
             setData(mCountryInfo);
         }
@@ -76,6 +79,8 @@ public class CountryInfoFragment extends Fragment {
     }
 
     private void getWeather() {
+        binding.setLoading(true);
+        binding.setError(false);
         if (mCountryInfo.getLatlng().size() == 0) return;
         Call<WeatherData> call2 = WeatherApiClient
                 .getClient()
@@ -87,11 +92,15 @@ public class CountryInfoFragment extends Fragment {
                 WeatherData mWeatherData = response.body();
                 mTodayWeatherFragment.setTodayWeather(mWeatherData);
                 mTomorrowWeatherFragment.setTomorrowWeather(mWeatherData);
+                binding.setLoading(false);
+
             }
 
             @Override
             public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
-                LogMessages.getMessage(Arrays.toString(t.getStackTrace()));
+                binding.setLoading(false);
+                binding.setError(true);
+                t.printStackTrace();
             }
         });
     }
@@ -113,4 +122,8 @@ public class CountryInfoFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        getWeather();
+    }
 }
