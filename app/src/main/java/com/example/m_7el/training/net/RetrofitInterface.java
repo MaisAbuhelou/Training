@@ -1,4 +1,4 @@
-package com.example.m_7el.training.net.clients;
+package com.example.m_7el.training.net;
 
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.models.WeatherData;
@@ -11,8 +11,6 @@ import retrofit2.http.Query;
 
 
 public interface RetrofitInterface {
-
-
     // get Country
     @GET("https://restcountries.eu/rest/v1/all")
     Call<List<CountryInfo>> getCountyInfo();

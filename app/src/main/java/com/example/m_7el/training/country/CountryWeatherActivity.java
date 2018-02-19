@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -21,19 +20,14 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.di.MyApp;
 import com.example.m_7el.training.country.models.CountryInfo;
-import com.example.m_7el.training.country.models.WeatherInfo;
 import com.example.m_7el.training.databinding.ActivityCountryWeatherBinding;
-import com.example.m_7el.training.net.clients.CountryApiClient;
-import com.example.m_7el.training.net.clients.RetrofitInterface;
+import com.example.m_7el.training.net.ApiCallback;
+import com.example.m_7el.training.net.country.CountryApis;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
 public class CountryWeatherActivity extends AppCompatActivity
@@ -46,7 +40,7 @@ public class CountryWeatherActivity extends AppCompatActivity
     private List<CountryInfo> mCountryInfo;
     private ActivityCountryWeatherBinding binding;
     @Inject
-    ApiImp apiImp;
+    CountryApis countryApiImp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,14 +109,13 @@ public class CountryWeatherActivity extends AppCompatActivity
     private void getCountriesInfo() {
         binding.setLoading(true);
         binding.setError(false);
-        apiImp.getCountryInfo(new ApiCallback<List<CountryInfo>, String>() {
+        countryApiImp.getCountryInfo(new ApiCallback<List<CountryInfo>, String>() {
             @Override
             public void onSuccess(List<CountryInfo> countryInfo) {
                 binding.setLoading(false);
                 mCountryListFragment.setRecyclerView(countryInfo);
                 mCountryInfo=countryInfo;
                 setUpViewPager();
-
             }
 
             @Override

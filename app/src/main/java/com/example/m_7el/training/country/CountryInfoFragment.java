@@ -16,21 +16,13 @@ import com.example.m_7el.training.R;
 import com.example.m_7el.training.country.di.MyApp;
 import com.example.m_7el.training.country.models.CountryInfo;
 import com.example.m_7el.training.country.models.WeatherData;
-import com.example.m_7el.training.country.models.WeatherInfo;
 import com.example.m_7el.training.country.utils.LogMessages;
 import com.example.m_7el.training.country.utils.PhotoManager;
-import com.example.m_7el.training.country.utils.PhotoManagerImp;
 import com.example.m_7el.training.databinding.FragmentCountryInfoBinding;
-import com.example.m_7el.training.net.clients.RetrofitInterface;
-import com.example.m_7el.training.net.clients.WeatherApiClient;
-
-import java.util.List;
+import com.example.m_7el.training.net.ApiCallback;
+import com.example.m_7el.training.net.weather.WeatherApis;
 
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CountryInfoFragment extends Fragment implements View.OnClickListener {
     private final static String API_KEY = "1867722b6af87e1d0388e10c5a94be34";
@@ -46,7 +38,8 @@ public class CountryInfoFragment extends Fragment implements View.OnClickListene
     @Inject
     PhotoManager photoManager;
     @Inject
-    ApiImp apiImp;
+    WeatherApis weatherApiImp;
+
     private WeatherInfoFragment mTodayWeatherFragment;
     private WeatherInfoFragment mTomorrowWeatherFragment;
     private FragmentCountryInfoBinding binding;
@@ -65,9 +58,9 @@ public class CountryInfoFragment extends Fragment implements View.OnClickListene
         binding.setListener(this);
         mCountyName = binding.countryName;
         mCountyRegion = binding.countryRegion;
-        mCountyPopulation =binding.population;
+        mCountyPopulation = binding.population;
         mCountyCapital = binding.countryCapital;
-        mCountryImage =binding.countryImage;
+        mCountryImage = binding.countryImage;
         mTodayWeatherFragment = (WeatherInfoFragment) getChildFragmentManager().findFragmentById(R.id.today_weather);
         mTomorrowWeatherFragment = (WeatherInfoFragment) getChildFragmentManager().findFragmentById(R.id.tomorrow_weather);
 
@@ -87,37 +80,18 @@ public class CountryInfoFragment extends Fragment implements View.OnClickListene
     private void getWeather() {
         binding.setLoading(true);
         binding.setError(false);
-        apiImp.getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1),API_KEY, new ApiCallback<WeatherData, String>() {
+        weatherApiImp.getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY, new ApiCallback<WeatherData, String>() {
             @Override
             public void onSuccess(WeatherData weatherData) {
                 mTodayWeatherFragment.setTodayWeather(weatherData);
                 mTomorrowWeatherFragment.setTomorrowWeather(weatherData);
                 binding.setLoading(false);
-
             }
 
             @Override
             public void onError(String error) {
                 binding.setLoading(false);
                 binding.setError(true);
-            }
-        });
-        if (mCountryInfo.getLatlng().size() == 0) return;
-        Call<WeatherData> call2 = WeatherApiClient
-                .getClient()
-                .create(RetrofitInterface.class)
-                .getWeatherInfo(mCountryInfo.getLatlng().get(0), mCountryInfo.getLatlng().get(1), API_KEY);
-        call2.enqueue(new Callback<WeatherData>() {
-            @Override
-            public void onResponse(@NonNull Call<WeatherData> call, @NonNull Response<WeatherData> response) {
-                WeatherData mWeatherData = response.body();
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<WeatherData> call, @NonNull Throwable t) {
-
-                t.printStackTrace();
             }
         });
     }
